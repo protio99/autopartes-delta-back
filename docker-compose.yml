@@ -1,19 +1,36 @@
-version: "3.3"
+# version: "3.3"
+# services:
+#   postgres:
+#     image: postgres:13
+#     environment:
+#       - POSTGRES_DB=autopartes_delta
+#       - POSTGRES_USER=user
+#       - POSTGRES_PASSWORD=admin123
+#     ports:
+#       - 5432:5432
+#     volumes:
+#       - ./postgres_data:/var/lib/postgresql/data
+#   pgadmin:
+#     image: dpage/pgadmin4
+#     environment:
+#       - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+#       - PGADMIN_DEFAULT_PASSWORD=root
+#     ports:
+#       - 5050:80
+
+version: '3.3'
 services:
-  postgres:
-    image: postgres:13
+  db:
+    image: mysql:5.7
+    restart: always
     environment:
-      - POSTGRES_DB=autopartes_delta
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=admin123
+      MYSQL_DATABASE: 'autopartes_delta'   
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'admin123'
+      MYSQL_ROOT_PASSWORD: 'admin123'
     ports:
-      - 5432:5432
+      - 3306:3306
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
-      - PGADMIN_DEFAULT_PASSWORD=root
-    ports:
-      - 5050:80
+      - ./my-db:/var/lib/mysql
+
+

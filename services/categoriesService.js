@@ -1,13 +1,15 @@
-//Faker es una libreria que ayuda a generar datos aleatorios para hacer pruebas, mientras conectamos con un BD real
-const dataFake = require('faker');
+
 //Boom es una libreria que ayuda a manejar los middleware HttpErrors de una forma mas sencilla
-const boom = require('@hapi/boom');
-const getConnection = require('./../librerias/postgres');
+// const boom = require('@hapi/boom');
+const sequelize = require('./../librerias/sequelize')
+
 
 class CategoriesService {
   constructor() {
     // this.categories = [];
     // this.generate();
+    
+ 
   }
 
   create(data) {
@@ -29,10 +31,19 @@ class CategoriesService {
   //   }
   // }
 
-  async find() {
-    const client = await getConnection();
-    const respuesta = await client.query('SELECT * FROM categories');
-    return respuesta.rows;
+   async find() {
+    
+    // return new Promise((resolve, reject)=>{
+    // const query = 'SELECT * FROM categories;';
+    // pool.query(query,(err, rows) => {
+    //   if (err) reject(err)
+    //   resolve(rows)    
+    // })
+    // })
+    const query = 'SELECT * FROM categories;';
+    const [data] = await sequelize.query(query);
+    return data;
+
   }
 
   // async findById(id) {
