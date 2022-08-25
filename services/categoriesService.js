@@ -1,80 +1,47 @@
 
 //Boom es una libreria que ayuda a manejar los middleware HttpErrors de una forma mas sencilla
-// const boom = require('@hapi/boom');
-const sequelize = require('./../librerias/sequelize')
+const boom = require('@hapi/boom');
+const {models} = require('./../librerias/sequelize')
+
 
 
 class CategoriesService {
   constructor() {
-    // this.categories = [];
-    // this.generate();
-    
- 
+  
   }
 
-  create(data) {
-    // const newCategory = {
-    //   id: dataFake.datatype.uuid(),
-    //   ...data,
-    // };
-    // this.categories.push(newCategory);
-    // return newCategory;
-    return data;
+  async create(data) {
+    const newCategorie = await models.Categories.create(data);
+    return newCategorie;
   }
 
-  // generate() {
-  //   for (let index = 0; index < 10; index++) {
-  //     this.categories.push({
-  //       id: dataFake.datatype.uuid(),
-  //       name: dataFake.commerce.productName(),
-  //     });
-  //   }
-  // }
 
    async find() {
-    
-    // return new Promise((resolve, reject)=>{
-    // const query = 'SELECT * FROM categories;';
-    // pool.query(query,(err, rows) => {
-    //   if (err) reject(err)
-    //   resolve(rows)    
-    // })
-    // })
-    const query = 'SELECT * FROM categories;';
-    const [data] = await sequelize.query(query);
-    return data;
+  
+    const rta = await models.Categories.findAll();
+    return rta;
 
   }
 
-  // async findById(id) {
-  //   const product = this.categories.find((category) => category.id == id);
-  //   if (!product) {
-  //     throw boom.notFound('Category not found');
-  //   }
-  //   return product;
-  // }
+  async findById(id) {
+    const category = await models.Categories.findByPk(id);
+    if(!category){
+      throw boom.notFound('category not found')
+    }
+    return category;
+  }
 
-  // async update(id, newData) {
-  //   const index = this.categories.findIndex((category) => category.id == id);
-  //   if (index === -1) {
-  //     throw boom.notFound('Category not found');
-  //   }
-  //   const category = this.categories[index];
-  //   this.categories[index] = {
-  //     ...category,
-  //     ...newData,
-  //   };
-  //   return this.categories[index];
-  // }
+  async update(id, newData) {
+    const category = await this.findById(id);
+    const rta = await category.update(newData);  
+    return rta;
+  }
 
-  // async delete(id) {
-  //   const index = this.categories.findIndex((category) => category.id == id);
-  //   if (index === -1) {
-  //     throw boom.notFound('Category not found');
-  //   }
-  //   this.categories.splice(index, 1);
-  //   return { id };
-  // }
+  async delete(id) {
+    const category = await this.findById(id);
+    await category.destroy();  
+    return {id};
+  }
 }
 
 module.exports = CategoriesService;
