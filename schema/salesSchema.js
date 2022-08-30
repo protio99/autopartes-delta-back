@@ -1,22 +1,34 @@
 const Joi = require('joi');
 
-const id = Joi.number().integer();
-const name = Joi.string().min(3).max(50);
+const id = Joi.number().integer().positive();
+const idClient = Joi.number().integer().positive();
+const saleDate = Joi.date().format('YYYY-MM-DD').utc();
+const statusSale = Joi.string().min(3).max(50);
+const statusPayment = Joi.string().min(3).max(50);
+const totalPurchase = Joi.number().positive();
 
-const createCategorySchema = Joi.object({
-  name: name.required(),
+const createSaleSchema = Joi.object({
+  idClient: idClient.required(),
+  saleDate: saleDate.required(),
+  statusSale: statusSale.required(),
+  statusPayment: statusPayment.required(),
+  totalPurchase: totalPurchase.required(),
 });
 
-const updateCategorySchema = Joi.object({
-  name: name,
+const updateSaleSchema = Joi.object({
+  idClient: idClient,
+  saleDate: saleDate,
+  statusSale: statusSale,
+  statusPayment: statusPayment,
+  totalPurchase: totalPurchase,
 });
 
-const getCategorySchema = Joi.object({
+const getSaleSchema = Joi.object({
   id: id.required(),
 });
 
 module.exports = {
-  createCategorySchema,
-  updateCategorySchema,
-  getCategorySchema,
+  createSaleSchema,
+  updateSaleSchema,
+  getSaleSchema,
 };

@@ -12,12 +12,13 @@ const rolesSchema = {
     },
     name: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         unique: false,
     },
     creationDate: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.DATEONLY,
+        defaultValue: DataTypes.DATEONLY,
         unique: false,
         field: 'creation_date'
     },
@@ -25,7 +26,7 @@ const rolesSchema = {
         allowNull: false,
         type: DataTypes.BOOLEAN,
         unique: false,
-        defaultValue: false,
+        defaultValue: true,
     }
 }
 

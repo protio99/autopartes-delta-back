@@ -17,7 +17,8 @@ const salesSchema = {
     },
     saleDate: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.DATEONLY,
+        defaultValue: DataTypes.DATEONLY,
         unique: false,
         fiel: 'sale_date',
     },
@@ -25,13 +26,13 @@ const salesSchema = {
         allowNull: false,
         type: DataTypes.STRING,
         unique: false,
-        fiel: 'satus_sale',
+        fiel: 'status_sale',
     },
     statusPayment: {
         allowNull: false,
         type: DataTypes.STRING,
         unique: false,
-        fiel: 'satus_payment',
+        fiel: 'status_payment',
     },
     totalPurchase: {
       allowNull: false,

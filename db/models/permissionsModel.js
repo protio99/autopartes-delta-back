@@ -18,7 +18,7 @@ const permissionsSchema = {
     },
     name: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         unique: false,
     }
 }

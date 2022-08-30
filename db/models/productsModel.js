@@ -41,7 +41,7 @@ const productsSchema = {
         
     },
     amount: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.INTEGER,
         unique: false,
         

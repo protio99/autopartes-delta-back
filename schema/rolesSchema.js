@@ -1,22 +1,26 @@
 const Joi = require('joi');
 
-const id = Joi.number().integer();
+const id = Joi.number().integer().positive();
 const name = Joi.string().min(3).max(50);
+const creationDate = Joi.date().format('YYYY-MM-DD').utc();
+const status = Joi.boolean();
 
-const createCategorySchema = Joi.object({
+const createRoleSchema = Joi.object({
   name: name.required(),
+  status: status.required(),
 });
 
-const updateCategorySchema = Joi.object({
+const updateRoleSchema = Joi.object({
   name: name,
+  status: status,
 });
 
-const getCategorySchema = Joi.object({
+const getRoleSchema = Joi.object({
   id: id.required(),
 });
 
 module.exports = {
-  createCategorySchema,
-  updateCategorySchema,
-  getCategorySchema,
+  createRoleSchema,
+  updateRoleSchema,
+  getRoleSchema,
 };

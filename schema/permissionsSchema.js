@@ -1,22 +1,26 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer();
+const idModule = Joi.number().integer();
 const name = Joi.string().min(3).max(50);
 
-const createCategorySchema = Joi.object({
+const createPermissionSchema = Joi.object({
   name: name.required(),
+  idModule: idModule.required(),
+
 });
 
-const updateCategorySchema = Joi.object({
+const updatePermissionSchema = Joi.object({
   name: name,
+  idModule: idModule
 });
 
-const getCategorySchema = Joi.object({
+const getPermissionSchema = Joi.object({
   id: id.required(),
 });
 
 module.exports = {
-  createCategorySchema,
-  updateCategorySchema,
-  getCategorySchema,
+  createPermissionSchema,
+  updatePermissionSchema,
+  getPermissionSchema,
 };

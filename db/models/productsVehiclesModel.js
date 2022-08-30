@@ -28,7 +28,7 @@ const productsVehiclesSchema = {
     }
 }
 
-class ProductsVehichles extends Model{
+class ProductsVehicles extends Model{
     static associate(){
         //associate
     }
@@ -37,7 +37,7 @@ class ProductsVehichles extends Model{
         return({
             sequelize,
             tableName: PRODUCTS_VEHICLES_TABLE,
-            modelName: 'ProductsVehichles',
+            modelName: 'ProductsVehicles',
             timestamps: false
 
 
@@ -46,4 +46,4 @@ class ProductsVehichles extends Model{
     }
 }
 
-module.exports = {PRODUCTS_VEHICLES_TABLE, productsVehiclesSchema, ProductsVehichles}
+module.exports = {PRODUCTS_VEHICLES_TABLE, productsVehiclesSchema, ProductsVehicles}

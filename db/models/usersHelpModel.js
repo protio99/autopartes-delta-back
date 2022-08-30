@@ -1,9 +1,9 @@
 const {Model, DataTypes} = require('sequelize');
 
-const USER_HELP_TABLE = 'user_help';
+const USERS_HELP_TABLE = 'users_help';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const userHelpSchema = {
+const usersHelpSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
@@ -25,7 +25,7 @@ const userHelpSchema = {
 
 }
 
-class UserHelp extends Model{
+class UsersHelp extends Model{
     static associate(){
         //associate
     }
@@ -33,8 +33,8 @@ class UserHelp extends Model{
     static config(sequelize){
         return({
             sequelize,
-            tableName: USER_HELP_TABLE,
-            modelName: 'UserHelp',
+            tableName: USERS_HELP_TABLE,
+            modelName: 'UsersHelp',
             timestamps: false
 
 
@@ -43,4 +43,4 @@ class UserHelp extends Model{
     }
 }
 
-module.exports = {USER_HELP_TABLE, userHelpSchema, UserHelp}
+module.exports = {USERS_HELP_TABLE, usersHelpSchema, UsersHelp}
