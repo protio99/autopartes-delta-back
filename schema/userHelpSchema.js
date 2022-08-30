@@ -11,8 +11,8 @@ const createUserHelpSchema = Joi.object({
 });
 
 const updateUserHelpSchema = Joi.object({
-  idModule: idModule.require(),
-  videoURL: videoURL.required(),
+  idModule,
+  videoURL
 });
 
 const getUserHelpSchema = Joi.object({
