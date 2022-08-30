@@ -1,9 +1,9 @@
 const {Model, DataTypes} = require('sequelize');
 
-const CATEGORIES_TABLE = 'categories';
+const BRANDS_TABLE = 'categories';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const categoriesSchema = {
+const brandsSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,17 +12,12 @@ const categoriesSchema = {
     },
     name: {
         allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
-    },
-    campo_prueba_migracion: {
-        allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         unique: true,
     }
 }
 
-class Categories extends Model{
+class Brands extends Model{
     static associate(){
         //associate
     }
@@ -30,8 +25,8 @@ class Categories extends Model{
     static config(sequelize){
         return({
             sequelize,
-            tableName: CATEGORIES_TABLE,
-            modelName: 'Categories',
+            tableName: BRANDS_TABLE,
+            modelName: 'Brands',
             timestamps: false
 
 
@@ -40,4 +35,4 @@ class Categories extends Model{
     }
 }
 
-module.exports = {CATEGORIES_TABLE, categoriesSchema, Categories}
+module.exports = {BRANDS_TABLE, brandsSchema, Brands}
