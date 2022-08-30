@@ -1,28 +1,31 @@
-const {Model, DataTypes, Sequelize} = require('sequelize');
+const {Model, DataTypes} = require('sequelize');
 
-const CATEGORIES_TABLE = 'categories';
+const USER_HELP_TABLE = 'user_help';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const categoriesSchema = {
+const userHelpSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    name: {
+      idModule: {
         allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
+        type: DataTypes.INTEGER,
+        unique: false,
+        fiel: 'id_module',
     },
-    campo_prueba_migracion: {
+      videoURL: {
         allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
+        unique: false,
+        fiel: 'video_url',
+        type: DataTypes.STRING
     }
+
 }
 
-class Categories extends Model{
+class UserHelp extends Model{
     static associate(){
         //associate
     }
@@ -30,8 +33,8 @@ class Categories extends Model{
     static config(sequelize){
         return({
             sequelize,
-            tableName: CATEGORIES_TABLE,
-            modelName: 'Categories',
+            tableName: USER_HELP_TABLE,
+            modelName: 'UserHelp',
             timestamps: false
 
 
@@ -40,4 +43,4 @@ class Categories extends Model{
     }
 }
 
-module.exports = {CATEGORIES_TABLE, categoriesSchema, Categories}
+module.exports = {USER_HELP_TABLE, userHelpSchema, UserHelp}

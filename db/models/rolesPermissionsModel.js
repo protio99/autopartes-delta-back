@@ -1,28 +1,30 @@
 const {Model, DataTypes} = require('sequelize');
 
-const CATEGORIES_TABLE = 'categories';
+const ROLES_PERMISSIONS_TABLE = 'roles_permisions';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const categoriesSchema = {
+const rolesPermissionsSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    name: {
+    idRol: {
         allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_rol'
     },
-    campo_prueba_migracion: {
+    idPermissions: {
         allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_permissions'
     }
 }
 
-class Categories extends Model{
+class RolesPermissions extends Model{
     static associate(){
         //associate
     }
@@ -30,8 +32,8 @@ class Categories extends Model{
     static config(sequelize){
         return({
             sequelize,
-            tableName: CATEGORIES_TABLE,
-            modelName: 'Categories',
+            tableName: ROLES_PERMISSIONS_TABLE,
+            modelName: 'RolesPermissions',
             timestamps: false
 
 
@@ -40,4 +42,4 @@ class Categories extends Model{
     }
 }
 
-module.exports = {CATEGORIES_TABLE, categoriesSchema, Categories}
+module.exports = {ROLES_PERMISSIONS_TABLE, rolesPermissionsSchema, RolesPermissions}

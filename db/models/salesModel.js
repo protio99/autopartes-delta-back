@@ -1,28 +1,48 @@
-const {Model, DataTypes, Sequelize} = require('sequelize');
+const {Model, DataTypes} = require('sequelize');
 
-const CATEGORIES_TABLE = 'categories';
+const SALES_TABLE = 'sales';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const categoriesSchema = {
+const salesSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    name: {
+    idClient: {
         allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
+        type: DataTypes.INTEGER,
+        unique: false,
     },
-    campo_prueba_migracion: {
+    saleDate: {
         allowNull: false,
         type: DataTypes.STRING,
-        unique: true,
-    }
+        unique: false,
+        fiel: 'sale_date',
+    },
+    statusSale: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+        fiel: 'satus_sale',
+    },
+    statusPayment: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+        fiel: 'satus_payment',
+    },
+    totalPurchase: {
+      allowNull: false,
+      type: DataTypes.FLOAT,
+      unique: false,
+      fiel: 'total_purchase',
+  }
+
 }
 
-class Categories extends Model{
+class Sales extends Model{
     static associate(){
         //associate
     }
@@ -30,8 +50,8 @@ class Categories extends Model{
     static config(sequelize){
         return({
             sequelize,
-            tableName: CATEGORIES_TABLE,
-            modelName: 'Categories',
+            tableName: SALES_TABLE,
+            modelName: 'Sales',
             timestamps: false
 
 
@@ -40,4 +60,4 @@ class Categories extends Model{
     }
 }
 
-module.exports = {CATEGORIES_TABLE, categoriesSchema, Categories}
+module.exports = {SALES_TABLE, salesSchema, Sales}

@@ -1,28 +1,55 @@
-const {Model, DataTypes, Sequelize} = require('sequelize');
+const {Model, DataTypes} = require('sequelize');
 
-const CATEGORIES_TABLE = 'categories';
+const PROVIDERS_TABLE = 'providers';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const categoriesSchema = {
+const providersSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    name: {
+    nit: {
         allowNull: false,
         type: DataTypes.STRING,
         unique: true,
     },
-    campo_prueba_migracion: {
+    companyName: {
         allowNull: false,
         type: DataTypes.STRING,
-        unique: true,
+        unique: false,
+        field: 'company_name'
+    },
+    contactName: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+        field:'contact_name'
+    },
+    telephone: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+    },
+    adress: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+    },
+    email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+    },
+    country: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
     }
 }
 
-class Categories extends Model{
+class Providers extends Model{
     static associate(){
         //associate
     }
@@ -30,8 +57,8 @@ class Categories extends Model{
     static config(sequelize){
         return({
             sequelize,
-            tableName: CATEGORIES_TABLE,
-            modelName: 'Categories',
+            tableName: PROVIDERS_TABLE,
+            modelName: 'Providers',
             timestamps: false
 
 
@@ -40,4 +67,4 @@ class Categories extends Model{
     }
 }
 
-module.exports = {CATEGORIES_TABLE, categoriesSchema, Categories}
+module.exports = {PROVIDERS_TABLE, providersSchema, Providers}

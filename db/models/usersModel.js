@@ -1,28 +1,54 @@
-const {Model, DataTypes, Sequelize} = require('sequelize');
+const {Model, DataTypes} = require('sequelize');
 
-const CATEGORIES_TABLE = 'categories';
+const USERS_TABLE = 'users';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const categoriesSchema = {
+const usersSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    name: {
+    idRol: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_rol'
+    },
+    email: {
         allowNull: false,
         type: DataTypes.STRING,
         unique: true,
     },
-    campo_prueba_migracion: {
+    password: {
         allowNull: false,
         type: DataTypes.STRING,
-        unique: true,
+        unique: false,
+    },
+    status: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+    },
+    name: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+    },
+    lastname: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+    },
+    dateTime: {
+        allowNull: false,
+        type: DataTypes.DATEONLY,
+        unique: false,
     }
 }
 
-class Categories extends Model{
+class Users extends Model{
     static associate(){
         //associate
     }
@@ -30,8 +56,8 @@ class Categories extends Model{
     static config(sequelize){
         return({
             sequelize,
-            tableName: CATEGORIES_TABLE,
-            modelName: 'Categories',
+            tableName: USERS_TABLE,
+            modelName: 'Users',
             timestamps: false
 
 
@@ -40,4 +66,4 @@ class Categories extends Model{
     }
 }
 
-module.exports = {CATEGORIES_TABLE, categoriesSchema, Categories}
+module.exports = {USERS_TABLE, usersSchema, Users}
