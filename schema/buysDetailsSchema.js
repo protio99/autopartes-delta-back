@@ -1,27 +1,24 @@
 const Joi = require('joi');
 
-const id = Joi.number().integer();
-const idSale = Joi.number().integer();
-const idProduct = Joi.number().integer();
+const id = Joi.number().integer().positive();
+const idSale = Joi.number().integer().positive();
+const idProduct = Joi.number().integer().positive();
 
-const amount= Joi.string().min(1).max(50);
-const unitPrice= Joi.number().float();
-const  iva= Joi.number().float();
-const otherTaxes= Joi.number().float();
+const amount= Joi.number().integer().positive();
+const unitPrice= Joi.number().positive();
+const  iva= Joi.number().positive();
+const otherTaxes= Joi.number().positive();
 
 
 const createBuyDetailSchema = Joi.object({
-  name: name.required(),
   idSale: idSale.required(),
   idProduct: idProduct.required(),
   amount: amount.required(),
   unitPrice: unitPrice.required(),
   iva:iva.required(),
-  otherTaxes: otherTaxes.required()
 });
 
 const updateBuyDetailSchema = Joi.object({
-  name,
   idSale,
   idProduct,
   amount,

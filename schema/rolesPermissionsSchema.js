@@ -1,22 +1,26 @@
 const Joi = require('joi');
 
-const id = Joi.number().integer();
-const name = Joi.string().min(3).max(50);
+const id = Joi.number().integer().positive();
+const idRole = Joi.number().integer().positive();
+const idPermission = Joi.number().integer().positive();
 
-const createCategorySchema = Joi.object({
-  name: name.required(),
+const createRolePermissionSchema = Joi.object({
+  idRole: idRole.required(),
+  idPermission: idPermission.required(),
+
 });
 
-const updateCategorySchema = Joi.object({
-  name: name,
+const updateRolePermissionSchema = Joi.object({
+  idRole,
+  idPermission,
 });
 
-const getCategorySchema = Joi.object({
+const getRolePermissionchema = Joi.object({
   id: id.required(),
 });
 
 module.exports = {
-  createCategorySchema,
-  updateCategorySchema,
-  getCategorySchema,
+  createRolePermissionSchema,
+  updateRolePermissionSchema,
+  getRolePermissionSchema,
 };

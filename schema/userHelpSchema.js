@@ -1,22 +1,26 @@
 const Joi = require('joi');
 
-const id = Joi.number().integer();
-const name = Joi.string().min(3).max(50);
+const id = Joi.number().integer().positive();
+const idModule = Joi.number().integer().positive();
+const videoURL = Joi.string().min(1).max(200);
 
-const createCategorySchema = Joi.object({
-  name: name.required(),
+
+const createUserHelpSchema = Joi.object({
+  idModule: idModule.require(),
+  videoURL: videoURL.required(),
 });
 
-const updateCategorySchema = Joi.object({
-  name: name,
+const updateUserHelpSchema = Joi.object({
+  idModule: idModule.require(),
+  videoURL: videoURL.required(),
 });
 
-const getCategorySchema = Joi.object({
+const getUserHelpSchema = Joi.object({
   id: id.required(),
 });
 
 module.exports = {
-  createCategorySchema,
-  updateCategorySchema,
-  getCategorySchema,
+  createUserHelpSchema,
+  updateUserHelpSchema,
+  getUserHelpSchema,
 };

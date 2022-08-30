@@ -1,22 +1,36 @@
 const Joi = require('joi');
 
-const id = Joi.number().integer();
-const name = Joi.string().min(3).max(50);
+const id = Joi.number().integer().positive();
+const idSale = Joi.number().integer().positive();
+const idProduct = Joi.number().integer().positive();
+const amount= Joi.number().integer().positive();
+const price= Joi.number().positive();
+const iva= Joi.number().positive();
+const otherTaxes= Joi.number().positive();
 
-const createCategorySchema = Joi.object({
-  name: name.required(),
+
+const createProductSalesSchema = Joi.object({
+  idSale: idSale.required(),
+  idProduct: idProduct.required(),
+  amount: amount.required(),
+  price: price.require()
 });
 
-const updateCategorySchema = Joi.object({
-  name: name,
+const updateProductSalesSchema = Joi.object({
+  idSale,
+  idProduct,
+  amount,
+  price,
+  iva,
+  otherTaxes,
 });
 
-const getCategorySchema = Joi.object({
+const getProductSalesSchema = Joi.object({
   id: id.required(),
 });
 
 module.exports = {
-  createCategorySchema,
-  updateCategorySchema,
-  getCategorySchema,
+  createProductSalesSchema,
+  updateProductSalesSchema,
+  getProductSalesSchema,
 };

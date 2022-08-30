@@ -1,41 +1,41 @@
 const Joi = require('joi');
 
-const id = Joi.number().integer();
-const idSale = Joi.number().integer();
-const idProduct = Joi.number().integer();
+const id = Joi.number().integer().positive();
+const idProvider = Joi.number().integer().positive();
+const date = Joi.date().format('YYYY-MM-DD');
 
-const amount= Joi.string().min(1).max(50);
-const unitPrice= Joi.number().float();
-const  iva= Joi.number().float();
-const otherTaxes= Joi.number().float();
+const invoiceNumber= Joi.string().min(0).max(40);
+const totalBuy= Joi.number().positive();
+const  totalIva= Joi.number().positive();
+const otherTaxes= Joi.number().positive();
+const totalValue= Joi.number().positive();
+const status= Joi.Boolean();
 
 
-const createDetailSchema = Joi.object({
-  name: name.required(),
-  idSale: idSale.required(),
-  idProduct: idProduct.required(),
-  amount: amount.required(),
-  unitPrice: unitPrice.required(),
-  iva:iva.required(),
-  otherTaxes: otherTaxes.required()
+const createBuySchema = Joi.object({
+  idProvider: idProvider.required(),
+  date : date.required(),
+  invoiceNumber: invoiceNumber.required(),
+
 });
 
-const updateCategorySchema = Joi.object({
-  name,
-  idSale,
-  idProduct,
-  amount,
-  unitPrice,
-  iva,
-  otherTaxes
+const updateBuySchema = Joi.object({
+ idProvider,
+ date,
+ invoiceNumber,
+ totalBuy,
+ totalIva,
+ otherTaxes,
+ totalValue,
+ status
 });
 
-const getCategorySchema = Joi.object({
+const getBuySchema = Joi.object({
   id: id.required(),
 });
 
 module.exports = {
-  createCategorySchema,
-  updateCategorySchema,
-  getCategorySchema,
+  createBuySchema,
+  updateBuySchema,
+  getBuySchema,
 };

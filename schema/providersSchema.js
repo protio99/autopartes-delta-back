@@ -1,22 +1,41 @@
 const Joi = require('joi');
 
-const id = Joi.number().integer();
-const name = Joi.string().min(3).max(50);
+const id = Joi.number().integer().positive();
+const nit = Joi.number().integer().positive();
+const companyName = Joi.string().min(3).max(100);
+const contactName = Joi.string().min(3).max(100);
+const telephone = Joi.string().min(3).max(50);
+const address = Joi.string().min(3).max(100);
+const email = Joi.string().min(3).max(100);
+const country = Joi.string().min(3).max(50);
 
-const createCategorySchema = Joi.object({
-  name: name.required(),
+const createProviderSchema = Joi.object({
+  nit: nit.required(),
+  companyName: companyName.required(),
+  contactName: contactName.required(),
+  telephone: telephone.required(),
+  address: address.required(),
+  email: email.required(),
+  country: country.required(),
+
 });
 
-const updateCategorySchema = Joi.object({
-  name: name,
+const updateProviderSchema = Joi.object({
+  nit,
+  companyName,
+  contactName,
+  telephone,
+  address,
+  email,
+  country
 });
 
-const getCategorySchema = Joi.object({
+const getProviderSchema = Joi.object({
   id: id.required(),
 });
 
 module.exports = {
-  createCategorySchema,
-  updateCategorySchema,
-  getCategorySchema,
+  createProviderSchema,
+  updateProviderSchema,
+  getProviderSchema,
 };
