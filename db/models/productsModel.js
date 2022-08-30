@@ -1,28 +1,78 @@
-const {Model, DataTypes, Sequelize} = require('sequelize');
+const {Model, DataTypes} = require('sequelize');
 
-const CATEGORIES_TABLE = 'categories';
+const PRODUCTS_TABLE = 'products';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const categoriesSchema = {
+const productsSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
+    idCategory: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_category'
+    },
+    idBrand: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_brand'
+    },
+    idVehicle: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_vehicle'
+    },
+    photo: {
+        allowNull: false,
+        type: DataTypes.STRING(200),
+        unique: false,
+        
+    },
     name: {
         allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
+        type: DataTypes.STRING(50),
+        unique: false,
+        
     },
-    campo_prueba_migracion: {
+    amount: {
         allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
+        type: DataTypes.INTEGER,
+        unique: false,
+        
+    },
+    price: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+        
+    },
+    description: {
+        allowNull: false,
+        type: DataTypes.STRING(500),
+        unique: false,
+      
+    },
+    state: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+    
+    },
+    iva: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+        
     }
 }
 
-class Categories extends Model{
+class Products extends Model{
     static associate(){
         //associate
     }
@@ -30,8 +80,8 @@ class Categories extends Model{
     static config(sequelize){
         return({
             sequelize,
-            tableName: CATEGORIES_TABLE,
-            modelName: 'Categories',
+            tableName: PRODUCTS_TABLE,
+            modelName: 'Products',
             timestamps: false
 
 
@@ -40,4 +90,4 @@ class Categories extends Model{
     }
 }
 
-module.exports = {CATEGORIES_TABLE, categoriesSchema, Categories}
+module.exports = {PRODUCTS_TABLE, productsSchema, Products}
