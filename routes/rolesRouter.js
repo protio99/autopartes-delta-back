@@ -1,28 +1,28 @@
 const express = require('express');
-const UsersService = require('../services/usersService');
+const RolesService = require('../services/rolesService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  createUserSchema,
-  updateUserSchema,
-  getUserSchema,
-} = require('../schema/userSchema');
+  createRoleSchema,
+  updateRoleSchema,
+  getRoleSchema,
+} = require('../schema/roleSchema');
 const router = express.Router();
 
-const service = new UsersService();
+const service = new RolesService();
 
 router.get('/', async (req, res) => {
-  const users = await service.find();
-  res.json(users);
+  const roles = await service.find();
+  res.json(roles);
 });
 
 router.get(
   '/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getRoleSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.findById(id);
-      res.json(user);
+      const role = await service.findById(id);
+      res.json(role);
     } catch (error) {
       next(error);
     }
@@ -31,12 +31,12 @@ router.get(
 
 router.post(
   '/create',
-  validatorHandler(createUserSchema, 'body'),
+  validatorHandler(createRoleSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      const newRole = await service.create(body);
+      res.status(201).json(newRole);
       
     } catch (error) {
         next(error);
@@ -46,14 +46,14 @@ router.post(
 
 router.patch(
   '/update/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+  validatorHandler(getRoleSchema, 'params'),
+  validatorHandler(updateRoleSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const user = await service.update(id, body);
-      res.json(user);
+      const role = await service.update(id, body);
+      res.json(role);
     } catch (error) {
       next(error);
     }

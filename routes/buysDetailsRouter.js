@@ -1,28 +1,28 @@
 const express = require('express');
-const UsersService = require('../services/usersService');
+const BuysDetailsService = require('../services/buysDetailsService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  createUserSchema,
-  updateUserSchema,
-  getUserSchema,
-} = require('../schema/userSchema');
+  createBuyDetailsSchema,
+  updateBuyDetailsSchema,
+  getBuyDetailsSchema,
+} = require('../schema/buyDetailsSchema');
 const router = express.Router();
 
-const service = new UsersService();
+const service = new BuysDetailsService();
 
 router.get('/', async (req, res) => {
-  const users = await service.find();
-  res.json(users);
+  const buysDetails = await service.find();
+  res.json(buysDetails);
 });
 
 router.get(
   '/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getBuyDetailsSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.findById(id);
-      res.json(user);
+      const buyDetails = await service.findById(id);
+      res.json(buyDetails);
     } catch (error) {
       next(error);
     }
@@ -31,12 +31,12 @@ router.get(
 
 router.post(
   '/create',
-  validatorHandler(createUserSchema, 'body'),
+  validatorHandler(createBuyDetailsSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      const newBuyDetails = await service.create(body);
+      res.status(201).json(newBuyDetails);
       
     } catch (error) {
         next(error);
@@ -46,14 +46,14 @@ router.post(
 
 router.patch(
   '/update/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+  validatorHandler(getBuyDetailsSchema, 'params'),
+  validatorHandler(updateBuyDetailsSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const user = await service.update(id, body);
-      res.json(user);
+      const buyDetails = await service.update(id, body);
+      res.json(buyDetails);
     } catch (error) {
       next(error);
     }

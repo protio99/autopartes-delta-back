@@ -1,53 +1,73 @@
 const express = require('express');
+const ProductsService = require('../services/productsService');
+const validatorHandler = require('../middlewares/validatorHandler');
+const {
+  createProductSchema,
+  updateProductSchema,
+  getProductSchema,
+} = require('../schema/productSchema');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.send('Products');
+const service = new ProductsService();
+
+router.get('/', async (req, res) => {
+  const products = await service.find();
+  res.json(products);
 });
 
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-  if (id === '999') {
-    res.status(404).json({
-      status: 'Product not found, keep trying',
-    });
-  } else {
-    res.status(200).json({
-      id,
-      name: 'Product name',
-      description: 'Some description',
-      price: 20000,
-    });
+router.get(
+  '/:id',
+  validatorHandler(getProductSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const product = await service.findById(id);
+      res.json(product);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.post('/create', (req, res) => {
-  const body = req.body;
+router.post(
+  '/create',
+  validatorHandler(createProductSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newProduct = await service.create(body);
+      res.status(201).json(newProduct);
+      
+    } catch (error) {
+        next(error);
+    }
+  }
+);
 
-  res.status(201).json({
-    message: 'Product create',
-    data: body,
-  });
-});
+router.patch(
+  '/update/:id',
+  validatorHandler(getProductSchema, 'params'),
+  validatorHandler(updateProductSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const product = await service.update(id, body);
+      res.json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
-router.patch('/update/:id', (req, res) => {
-  const id = req.params;
-  const body = req.body;
-
-  res.json({
-    message: 'Product updated',
-    data: body,
-    id,
-  });
-});
-
-router.delete('/delete/:id', (req, res) => {
-  const id = req.params;
-
-  res.json({
-    message: 'Product deleted',
-    id,
-  });
+router.delete('/delete/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const respuesta = await service.delete(id);
+    res.json(respuesta);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;

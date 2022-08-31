@@ -1,28 +1,28 @@
 const express = require('express');
-const UsersService = require('../services/usersService');
+const ProductsVehiclesService = require('../services/productsVehiclesService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  createUserSchema,
-  updateUserSchema,
-  getUserSchema,
-} = require('../schema/userSchema');
+  createProductVehicleSchema,
+  updateProductVehicleSchema,
+  getProductVehicleSchema,
+} = require('../schema/productVehicleSchema');
 const router = express.Router();
 
-const service = new UsersService();
+const service = new ProductsVehiclesService();
 
 router.get('/', async (req, res) => {
-  const users = await service.find();
-  res.json(users);
+  const productsVehicles = await service.find();
+  res.json(productsVehicles);
 });
 
 router.get(
   '/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getProductVehicleSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.findById(id);
-      res.json(user);
+      const productVehicle = await service.findById(id);
+      res.json(productVehicle);
     } catch (error) {
       next(error);
     }
@@ -31,12 +31,12 @@ router.get(
 
 router.post(
   '/create',
-  validatorHandler(createUserSchema, 'body'),
+  validatorHandler(createProductVehicleSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      const newProductVehicle = await service.create(body);
+      res.status(201).json(newProductVehicle);
       
     } catch (error) {
         next(error);
@@ -46,14 +46,14 @@ router.post(
 
 router.patch(
   '/update/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+  validatorHandler(getProductVehicleSchema, 'params'),
+  validatorHandler(updateProductVehicleSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const user = await service.update(id, body);
-      res.json(user);
+      const productVehicle = await service.update(id, body);
+      res.json(productVehicle);
     } catch (error) {
       next(error);
     }

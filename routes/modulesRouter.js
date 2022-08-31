@@ -1,28 +1,28 @@
 const express = require('express');
-const UsersService = require('../services/usersService');
+const ModulesService = require('../services/modulesService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  createUserSchema,
-  updateUserSchema,
-  getUserSchema,
-} = require('../schema/userSchema');
+  createModuleSchema,
+  updateModuleSchema,
+  getModuleSchema,
+} = require('../schema/moduleSchema');
 const router = express.Router();
 
-const service = new UsersService();
+const service = new ModulesService();
 
 router.get('/', async (req, res) => {
-  const users = await service.find();
-  res.json(users);
+  const modules = await service.find();
+  res.json(modules);
 });
 
 router.get(
   '/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getModuleSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.findById(id);
-      res.json(user);
+      const module = await service.findById(id);
+      res.json(module);
     } catch (error) {
       next(error);
     }
@@ -31,12 +31,12 @@ router.get(
 
 router.post(
   '/create',
-  validatorHandler(createUserSchema, 'body'),
+  validatorHandler(createModuleSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      const newModule = await service.create(body);
+      res.status(201).json(newModule);
       
     } catch (error) {
         next(error);
@@ -46,14 +46,14 @@ router.post(
 
 router.patch(
   '/update/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+  validatorHandler(getModuleSchema, 'params'),
+  validatorHandler(updateModuleSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const user = await service.update(id, body);
-      res.json(user);
+      const module = await service.update(id, body);
+      res.json(module);
     } catch (error) {
       next(error);
     }

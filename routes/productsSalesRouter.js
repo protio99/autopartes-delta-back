@@ -1,28 +1,28 @@
 const express = require('express');
-const UsersService = require('../services/usersService');
+const ProductsSalesService = require('../services/productsSalesService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  createUserSchema,
-  updateUserSchema,
-  getUserSchema,
-} = require('../schema/userSchema');
+  createProductSaleSchema,
+  updateProductSaleSchema,
+  getProductSaleSchema,
+} = require('../schema/productSaleSchema');
 const router = express.Router();
 
-const service = new UsersService();
+const service = new ProductsSalesService();
 
 router.get('/', async (req, res) => {
-  const users = await service.find();
-  res.json(users);
+  const productsSales = await service.find();
+  res.json(productsSales);
 });
 
 router.get(
   '/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getProductSaleSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.findById(id);
-      res.json(user);
+      const productSale = await service.findById(id);
+      res.json(productSale);
     } catch (error) {
       next(error);
     }
@@ -31,12 +31,12 @@ router.get(
 
 router.post(
   '/create',
-  validatorHandler(createUserSchema, 'body'),
+  validatorHandler(createProductSaleSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      const newProductSale = await service.create(body);
+      res.status(201).json(newProductSale);
       
     } catch (error) {
         next(error);
@@ -46,14 +46,14 @@ router.post(
 
 router.patch(
   '/update/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+  validatorHandler(getProductSaleSchema, 'params'),
+  validatorHandler(updateProductSaleSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const user = await service.update(id, body);
-      res.json(user);
+      const productSale = await service.update(id, body);
+      res.json(productSale);
     } catch (error) {
       next(error);
     }

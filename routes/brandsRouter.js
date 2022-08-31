@@ -1,28 +1,28 @@
 const express = require('express');
-const UsersService = require('../services/usersService');
+const BrandsService = require('../services/brandsService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  createUserSchema,
-  updateUserSchema,
-  getUserSchema,
-} = require('../schema/userSchema');
+  createBrandSchema,
+  updateBrandSchema,
+  getBrandSchema,
+} = require('../schema/brandSchema');
 const router = express.Router();
 
-const service = new UsersService();
+const service = new BrandsService();
 
 router.get('/', async (req, res) => {
-  const users = await service.find();
-  res.json(users);
+  const categories = await service.find();
+  res.json(categories);
 });
 
 router.get(
   '/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getBrandSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.findById(id);
-      res.json(user);
+      const Brand = await service.findById(id);
+      res.json(Brand);
     } catch (error) {
       next(error);
     }
@@ -31,12 +31,12 @@ router.get(
 
 router.post(
   '/create',
-  validatorHandler(createUserSchema, 'body'),
+  validatorHandler(createBrandSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      const newBrand = await service.create(body);
+      res.status(201).json(newBrand);
       
     } catch (error) {
         next(error);
@@ -46,14 +46,14 @@ router.post(
 
 router.patch(
   '/update/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+  validatorHandler(getBrandSchema, 'params'),
+  validatorHandler(updateBrandSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const user = await service.update(id, body);
-      res.json(user);
+      const Brand = await service.update(id, body);
+      res.json(Brand);
     } catch (error) {
       next(error);
     }

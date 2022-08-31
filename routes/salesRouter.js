@@ -1,28 +1,28 @@
 const express = require('express');
-const UsersService = require('../services/usersService');
+const SalesService = require('../services/salesService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  createUserSchema,
-  updateUserSchema,
-  getUserSchema,
-} = require('../schema/userSchema');
+  createSaleSchema,
+  updateSaleSchema,
+  getSaleSchema,
+} = require('../schema/saleSchema');
 const router = express.Router();
 
-const service = new UsersService();
+const service = new SalesService();
 
 router.get('/', async (req, res) => {
-  const users = await service.find();
-  res.json(users);
+  const sales = await service.find();
+  res.json(sales);
 });
 
 router.get(
   '/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getSaleSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.findById(id);
-      res.json(user);
+      const sale = await service.findById(id);
+      res.json(sale);
     } catch (error) {
       next(error);
     }
@@ -31,12 +31,12 @@ router.get(
 
 router.post(
   '/create',
-  validatorHandler(createUserSchema, 'body'),
+  validatorHandler(createSaleSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      const newSale = await service.create(body);
+      res.status(201).json(newSale);
       
     } catch (error) {
         next(error);
@@ -46,14 +46,14 @@ router.post(
 
 router.patch(
   '/update/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+  validatorHandler(getSaleSchema, 'params'),
+  validatorHandler(updateSaleSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const user = await service.update(id, body);
-      res.json(user);
+      const sale = await service.update(id, body);
+      res.json(sale);
     } catch (error) {
       next(error);
     }

@@ -1,28 +1,28 @@
 const express = require('express');
-const UsersService = require('../services/usersService');
+const ClientsService = require('../services/clientsService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  createUserSchema,
-  updateUserSchema,
-  getUserSchema,
-} = require('../schema/userSchema');
+  createClientSchema,
+  updateClientSchema,
+  getClientSchema,
+} = require('../schema/clientSchema');
 const router = express.Router();
 
-const service = new UsersService();
+const service = new ClientsService();
 
 router.get('/', async (req, res) => {
-  const users = await service.find();
-  res.json(users);
+  const clients = await service.find();
+  res.json(clients);
 });
 
 router.get(
   '/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getClientSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.findById(id);
-      res.json(user);
+      const client = await service.findById(id);
+      res.json(client);
     } catch (error) {
       next(error);
     }
@@ -31,12 +31,12 @@ router.get(
 
 router.post(
   '/create',
-  validatorHandler(createUserSchema, 'body'),
+  validatorHandler(createClientSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      const newClient = await service.create(body);
+      res.status(201).json(newClient);
       
     } catch (error) {
         next(error);
@@ -46,14 +46,14 @@ router.post(
 
 router.patch(
   '/update/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+  validatorHandler(getClientSchema, 'params'),
+  validatorHandler(updateClientSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const user = await service.update(id, body);
-      res.json(user);
+      const client = await service.update(id, body);
+      res.json(client);
     } catch (error) {
       next(error);
     }
