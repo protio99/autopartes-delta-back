@@ -8,7 +8,7 @@ const idBrand = Joi.number().integer().positive();
 const createProductsVehiclesSchema = Joi.object({
   name: name.required(),
   model: model.required(),
-  idMarca : idMarca.required(),
+  idMarca: idBrand.required(),
 });
 
 const updateProductsVehiclesSchema = Joi.object({

@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const id = Joi.number().integer();
-const idUser = Joi.string().integer();
+const idUser = Joi.number().integer();
 const name = Joi.string().min(2).max(100);
 const lastname = Joi.string().min(2).max(200);
 const documentType = Joi.string().min(2).max(100);

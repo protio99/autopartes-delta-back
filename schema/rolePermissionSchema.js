@@ -15,7 +15,7 @@ const updateRolePermissionSchema = Joi.object({
   idPermission,
 });
 
-const getRolePermissionchema = Joi.object({
+const getRolePermissionSchema = Joi.object({
   id: id.required(),
 });
 

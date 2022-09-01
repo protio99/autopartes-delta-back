@@ -13,7 +13,7 @@ const createProductSalesSchema = Joi.object({
   idSale: idSale.required(),
   idProduct: idProduct.required(),
   amount: amount.required(),
-  price: price.require()
+  price: price.required()
 });
 
 const updateProductSalesSchema = Joi.object({

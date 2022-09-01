@@ -1,7 +1,8 @@
 const {ValidationError} = require('sequelize')
 
+
 function logErrors(error, req, res, next) {
-  console.error(error);
+   console.error(error);
   next(error);
 }
 
@@ -10,10 +11,12 @@ function errorsHandler(error, req, res, next) {
     message: error.message,
     stack: error.stack,
   });
+
 }
 
 function boomErrorHandler(error, req, res, next) {
   if (error.isBoom) {
+    
     const { output } = error;
     res.status(output.statusCode).json(output.payload);
   }
@@ -21,13 +24,13 @@ function boomErrorHandler(error, req, res, next) {
 }
 
 function ormErrorHandler(error, req, res, next) {
-  if (error instanceof ValidationError) {
+   if (error instanceof ValidationError) {
     res.status(409).json({
       statusCode: 409,
       message: error.name
     });
-    next(error);
   }
+  next(error);
   
 }
 

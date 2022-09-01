@@ -6,13 +6,13 @@ const videoURL = Joi.string().min(1).max(200);
 
 
 const createUserHelpSchema = Joi.object({
-  idModule: idModule.require(),
+  idModule: idModule.required(),
   videoURL: videoURL.required(),
 });
 
 const updateUserHelpSchema = Joi.object({
-  idModule,
-  videoURL
+  idModule: idModule,
+  videoURL: videoURL
 });
 
 const getUserHelpSchema = Joi.object({

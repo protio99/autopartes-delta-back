@@ -2,10 +2,10 @@ const express = require('express');
 const BuysDetailsService = require('../services/buysDetailsService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  createBuyDetailsSchema,
-  updateBuyDetailsSchema,
-  getBuyDetailsSchema,
-} = require('../schema/buyDetailsSchema');
+  createBuyDetailSchema,
+  updateBuyDetailSchema,
+  getBuyDetailSchema,
+} = require('../schema/buyDetailSchema');
 const router = express.Router();
 
 const service = new BuysDetailsService();
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 
 router.get(
   '/:id',
-  validatorHandler(getBuyDetailsSchema, 'params'),
+  validatorHandler(getBuyDetailSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -31,7 +31,7 @@ router.get(
 
 router.post(
   '/create',
-  validatorHandler(createBuyDetailsSchema, 'body'),
+  validatorHandler(createBuyDetailSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
@@ -46,8 +46,8 @@ router.post(
 
 router.patch(
   '/update/:id',
-  validatorHandler(getBuyDetailsSchema, 'params'),
-  validatorHandler(updateBuyDetailsSchema, 'body'),
+  validatorHandler(getBuyDetailSchema, 'params'),
+  validatorHandler(updateBuyDetailSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

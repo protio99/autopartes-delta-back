@@ -25,6 +25,7 @@ router.get(
       res.json(category);
     } catch (error) {
       next(error);
+      
     }
   }
 );

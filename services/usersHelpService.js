@@ -11,20 +11,20 @@ class UserHelpsService {
   }
 
   async create(data) {
-    const newUserHelp = await models.UserHelps.create(data);
+    const newUserHelp = await models.UsersHelp.create(data);
     return newUserHelp;
   }
 
 
    async find() {
   
-    const rta = await models.UserHelps.findAll();
+    const rta = await models.UsersHelp.findAll();
     return rta;
 
   }
 
   async findById(id) {
-    const userHelp = await models.UserHelps.findByPk(id);
+    const userHelp = await models.UsersHelp.findByPk(id);
     if(!userHelp){
       throw boom.notFound('user help not found')
     }

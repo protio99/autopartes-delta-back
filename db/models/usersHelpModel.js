@@ -1,4 +1,5 @@
 const {Model, DataTypes} = require('sequelize');
+const {MODULES_TABLE} = require('./modulesModel')
 
 const USERS_HELP_TABLE = 'users_help';
 
@@ -13,21 +14,26 @@ const usersHelpSchema = {
       idModule: {
         allowNull: false,
         type: DataTypes.INTEGER,
-        unique: false,
-        fiel: 'id_module',
+        field: 'id_module',
+        references: {
+            model: MODULES_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
     },
       videoURL: {
         allowNull: false,
         unique: false,
-        fiel: 'video_url',
+        field: 'video_url',
         type: DataTypes.STRING
     }
 
 }
 
 class UsersHelp extends Model{
-    static associate(){
-        //associate
+    static associate(models){
+        this.belongsTo(models.Modules, {as:'modules'})
     }
 
     static config(sequelize){

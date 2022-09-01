@@ -1,4 +1,5 @@
-const Joi = require('joi');
+const Joi = require('joi')
+    .extend(require('@joi/date'));
 
 const id = Joi.number().integer().positive();
 const idClient = Joi.number().integer().positive();

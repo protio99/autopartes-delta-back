@@ -1,15 +1,16 @@
-const Joi = require('joi');
+const Joi = require('joi')
+    .extend(require('@joi/date'));
 
 const id = Joi.number().integer().positive();
 const idProvider = Joi.number().integer().positive();
-const date = Joi.date().format('YYYY-MM-DD');
+const date = Joi.date().format('YYYY-MM-DD').utc();
 
 const invoiceNumber= Joi.string().min(0).max(40);
 const totalBuy= Joi.number().positive();
 const  totalIva= Joi.number().positive();
 const otherTaxes= Joi.number().positive();
 const totalValue= Joi.number().positive();
-const status= Joi.Boolean();
+const status= Joi.boolean();
 
 
 const createBuySchema = Joi.object({

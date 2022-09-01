@@ -40,6 +40,14 @@ function setupModels(sequelize) {
     UsersHelp.init(usersHelpSchema, UsersHelp.config(sequelize));
     Users.init(usersSchema, Users.config(sequelize));
     Vehicles.init(vehiclesSchema, Vehicles.config(sequelize));
+
+
+    //Asociaciones de llaves foraneas
+
+    UsersHelp.associate(sequelize.models);
+
+
+
     
 }
 

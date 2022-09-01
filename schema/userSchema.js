@@ -1,11 +1,12 @@
-const Joi = require('joi');
+const Joi = require('joi')
+    .extend(require('@joi/date'));
 
 const id = Joi.number().integer().positive();
 const idRole = Joi.number().integer().positive();
 
 const email = Joi.string().min(3).max(50);
 const password = Joi.string().min(3).max(100);
-const status = Joi.Boolean();
+const status = Joi.boolean();
 const name = Joi.string().min(3).max(30);
 const lastname = Joi.string().min(3).max(30);
 const registrationDate= Joi.date().format('YYYY-MM-DD').utc();
@@ -16,12 +17,11 @@ const registrationDate= Joi.date().format('YYYY-MM-DD').utc();
 
 
 const createUserSchema = Joi.object({
-  email: email.require(),
-  password: password.require(),
   email: email.required(),
-  name: name.require(),
-  lastname: lastname.require(),
-  registrationDate: registrationDate.require()
+  password: password.required(),
+  name: name.required(),
+  lastname: lastname.required(),
+  registrationDate: registrationDate.required()
 });
 
 const updateUserSchema = Joi.object({

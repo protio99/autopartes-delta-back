@@ -14,11 +14,6 @@ const categoriesSchema = {
         allowNull: false,
         type: DataTypes.STRING,
         unique: true,
-    },
-    campo_prueba_migracion: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
     }
 }
 
