@@ -1,6 +1,6 @@
 const {Model, DataTypes} = require('sequelize');
 
-const BRANDS_TABLE = 'categories';
+const BRANDS_TABLE = 'brands';
 
 //DEFINE LA ESTRUCTURA DE LA BD
 const brandsSchema = {
@@ -18,8 +18,11 @@ const brandsSchema = {
 }
 
 class Brands extends Model{
-    static associate(){
-        //associate
+    static associate(models){
+        this.hasMany(models.Vehicles, {
+            as: 'vehicles_brands',
+            foreignKey : 'idBrand'
+        })
     }
 
     static config(sequelize){

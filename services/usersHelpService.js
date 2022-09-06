@@ -17,8 +17,9 @@ class UserHelpsService {
 
 
    async find() {
-  
-    const rta = await models.UsersHelp.findAll();
+    const rta = await models.UsersHelp.findAll({
+      include: ['modules']
+    });
     return rta;
 
   }

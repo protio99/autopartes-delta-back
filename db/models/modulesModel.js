@@ -12,7 +12,7 @@ const modulesSchema = {
     },
     name: {
         allowNull: false,
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(50),
         unique: true,
     },
     description: {
@@ -23,8 +23,11 @@ const modulesSchema = {
 }
 
 class Modules extends Model{
-    static associate(){
-        //associate
+    static associate(models){
+        this.hasOne(models.UsersHelp, {
+            as: 'users_help',
+            foreignKey:'idModule'
+        })
     }
 
     static config(sequelize){

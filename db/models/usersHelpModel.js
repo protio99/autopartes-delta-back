@@ -14,13 +14,14 @@ const usersHelpSchema = {
       idModule: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        unique: true,
         field: 'id_module',
         references: {
             model: MODULES_TABLE,
             key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        onDelete: 'CASCADE'
     },
       videoURL: {
         allowNull: false,
@@ -33,7 +34,9 @@ const usersHelpSchema = {
 
 class UsersHelp extends Model{
     static associate(models){
-        this.belongsTo(models.Modules, {as:'modules'})
+        this.belongsTo(models.Modules, {
+            foreignKey: 'id',
+            as:'modules'});
     }
 
     static config(sequelize){

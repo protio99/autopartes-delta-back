@@ -1,7 +1,7 @@
-const {Model, DataTypes, Sequelize} = require('sequelize');
+const {Model, DataTypes} = require('sequelize');
 
 const VEHICLES_TABLE = 'vehicles';
-
+const {BRANDS_TABLE} = require('./../models/brandsModel')
 //DEFINE LA ESTRUCTURA DE LA BD
 const vehiclesSchema = {
     id: {
@@ -15,17 +15,34 @@ const vehiclesSchema = {
         type: DataTypes.STRING,
         unique: false,
     },
+    model: {
+        allowNull: true,
+        type: DataTypes.STRING,
+        unique: false,
+    },
     idBrand: {
         allowNull: false,
         type: DataTypes.INTEGER,
         unique: false,
-        field: 'id_brand'
+        field: 'id_brand',
+        references: {
+            model: BRANDS_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     }
 }
 
 class Vehicles extends Model{
-    static associate(){
-        //associate
+    static associate(models){
+        this.hasMany(models.Products, {
+            as: 'products_vehicles',
+            foreignKey : 'idVehicle'
+        })
+        this.belongsTo(models.Brands, {
+            as:'brands_vehicles',
+            foreignKey: 'id'});
     }
 
     static config(sequelize){

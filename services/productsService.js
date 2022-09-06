@@ -18,7 +18,9 @@ class ProductsService {
 
    async find() {
   
-    const rta = await models.Products.findAll();
+    const rta = await models.Products.findAll({
+      include: ['products_categories', 'products_brands', 'products_vehicles']
+    });
     return rta;
 
   }

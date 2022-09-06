@@ -45,10 +45,12 @@ function setupModels(sequelize) {
     //Asociaciones de llaves foraneas
 
     UsersHelp.associate(sequelize.models);
-
-
-
-    
+    Modules.associate(sequelize.models);
+    Categories.associate(sequelize.models);
+    Vehicles.associate(sequelize.models);
+    Brands.associate(sequelize.models);
+    Products.associate(sequelize.models);
+   
 }
 
 module.exports = setupModels;

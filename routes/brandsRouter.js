@@ -11,8 +11,8 @@ const router = express.Router();
 const service = new BrandsService();
 
 router.get('/', async (req, res) => {
-  const categories = await service.find();
-  res.json(categories);
+  const brands = await service.find();
+  res.json(brands);
 });
 
 router.get(

@@ -18,8 +18,11 @@ const categoriesSchema = {
 }
 
 class Categories extends Model{
-    static associate(){
-        //associate
+    static associate(models){
+        this.hasMany(models.Products, {
+            as: 'products_categories',
+            foreignKey : 'idCategory'
+        })
     }
 
     static config(sequelize){
