@@ -1,9 +1,15 @@
 'use strict';
-const {VEHICLES_TABLE, vehiclesSchema} = require('./../models/vehiclesModel')
+const {DataTypes} = require('sequelize');
+const {VEHICLES_TABLE} = require('./../models/vehiclesModel')
 
 module.exports = {
   async up (queryInterface) {
-    await queryInterface.addColumn(VEHICLES_TABLE, 'model', vehiclesSchema.model)
+    await queryInterface.addColumn(VEHICLES_TABLE, 'model', {model: {
+      allowNull: true,
+      type: DataTypes.STRING,
+      unique: false,
+  }
+})
   },
 
   async down (queryInterface) {

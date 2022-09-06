@@ -1,6 +1,5 @@
 const {Model, DataTypes} = require('sequelize');
 const {CATEGORIES_TABLE} = require('./categoriesModel')
-const {BRANDS_TABLE} = require('./../models/brandsModel')
 const {VEHICLES_TABLE} = require('./../models/vehiclesModel')
 
 const PRODUCTS_TABLE = 'products';
