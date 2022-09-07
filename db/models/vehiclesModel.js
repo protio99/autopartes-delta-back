@@ -37,7 +37,7 @@ const vehiclesSchema = {
 class Vehicles extends Model{
     static associate(models){
         this.hasMany(models.Products, {
-            as: 'products_vehicles',
+            as: 'products',
             foreignKey : 'idVehicle'
         })
         this.belongsTo(models.Brands, {

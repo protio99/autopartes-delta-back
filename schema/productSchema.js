@@ -14,6 +14,8 @@ const iva = Joi.number().positive();
 const createProductSchema = Joi.object({
   idCategory: idCategory.required(),
   idVehicle: idVehicle.required(),
+  description: description.required(),
+  state: state.required(),
   photo: photo.required(),
   name: name.required(),
   amount: amount.required(),

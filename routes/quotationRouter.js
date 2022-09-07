@@ -1,14 +1,16 @@
 const express = require('express');
-const OrdersService = require('../services/ordersService');
+const QuotationsService = require('../services/quotationsService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  createOrderSchema,
-  updateOrderSchema,
-  getOrderSchema,
-} = require('../schema/orderSchema');
+  createQuotationSchema,
+  updateQuotationSchema,
+  getQuotationSchema,
+  addProductQuotationSchema
+
+} = require('../schema/quotationSchema');
 const router = express.Router();
 
-const service = new OrdersService();
+const service = new QuotationsService();
 
 router.get('/', async (req, res) => {
   const orders = await service.find();
@@ -17,7 +19,7 @@ router.get('/', async (req, res) => {
 
 router.get(
   '/:id',
-  validatorHandler(getOrderSchema, 'params'),
+  validatorHandler(getQuotationSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -31,7 +33,7 @@ router.get(
 
 router.post(
   '/create',
-  validatorHandler(createOrderSchema, 'body'),
+  validatorHandler(createQuotationSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
@@ -44,10 +46,11 @@ router.post(
   }
 );
 
+
 router.patch(
   '/update/:id',
-  validatorHandler(getOrderSchema, 'params'),
-  validatorHandler(updateOrderSchema, 'body'),
+  validatorHandler(getQuotationSchema, 'params'),
+  validatorHandler(updateQuotationSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -69,5 +72,20 @@ router.delete('/delete/:id', async (req, res, next) => {
     next(error);
   }
 });
+
+router.post(
+  '/add-product',
+  validatorHandler(addProductQuotationSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newProduct = await service.addProduct(body);
+      res.status(201).json(newProduct);
+      
+    } catch (error) {
+        next(error);
+    }
+  }
+);
 
 module.exports = router;

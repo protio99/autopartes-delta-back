@@ -1,4 +1,4 @@
-const {Model, DataTypes} = require('sequelize');
+const {Model, DataTypes, Sequelize} = require('sequelize');
 
 const USERS_TABLE = 'users';
 
@@ -41,16 +41,21 @@ const usersSchema = {
         type: DataTypes.STRING,
         unique: false,
     },
-    dateTime: {
+    createdAt: {
         allowNull: false,
         type: DataTypes.DATEONLY,
+        defaultValue: Sequelize.NOW,
+        field: 'created_at',
         unique: false,
     }
 }
 
 class Users extends Model{
-    static associate(){
-        //associate
+    static associate(model){
+        this.hasMany(model.Quotation, {
+            as: 'quotation',
+            foreignKey: 'idUser'
+        })
     }
 
     static config(sequelize){

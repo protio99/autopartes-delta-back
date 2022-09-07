@@ -1,4 +1,4 @@
-const {Model, DataTypes} = require('sequelize');
+const {Model, DataTypes, Sequelize} = require('sequelize');
 
 const ROLES_TABLE = 'roles';
 
@@ -15,12 +15,12 @@ const rolesSchema = {
         type: DataTypes.STRING(50),
         unique: false,
     },
-    creationDate: {
+    createdAt: {
         allowNull: false,
         type: DataTypes.DATEONLY,
-        defaultValue: DataTypes.DATEONLY,
+        defaultValue: Sequelize.NOW,
         unique: false,
-        field: 'creation_date'
+        field: 'created_at'
     },
     status: {
         allowNull: false,

@@ -18,7 +18,9 @@ class VehiclesService {
 
    async find() {
   
-    const rta = await models.Vehicles.findAll();
+    const rta = await models.Vehicles.findAll({
+      include: ['brands_vehicles']
+    });
     return rta;
 
   }

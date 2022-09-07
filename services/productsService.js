@@ -19,7 +19,10 @@ class ProductsService {
    async find() {
   
     const rta = await models.Products.findAll({
-      include: ['products_categories', 'products_brands', 'products_vehicles']
+      include: [ {
+        association: 'vehicle',
+        include: ['brands_vehicles']
+      }, 'category']
     });
     return rta;
 
