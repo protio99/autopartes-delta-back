@@ -2,6 +2,7 @@
 //Boom es una libreria que ayuda a manejar los middleware HttpErrors de una forma mas sencilla
 const boom = require('@hapi/boom');
 const {models} = require('../librerias/sequelize')
+const { Op } = require('sequelize');
 
 
 
@@ -16,14 +17,32 @@ class ProductsService {
   }
 
 
-   async find() {
-  
-    const rta = await models.Products.findAll({
+   async find(query) {
+    const options = {
       include: [ {
         association: 'vehicle',
         include: ['brands_vehicles']
-      }, 'category']
-    });
+      }, 'category'],
+      where: {},
+    };
+    const {limit, offset, price, priceMin, priceMax} = query;
+    
+    if (limit && offset) {
+      options.limit = limit;
+      options.offset = offset;
+    }
+    if (price) {
+      options.where.price = price;
+      
+    }
+    if (priceMin && priceMax) {
+      options.where.price = {
+        [Op.between]: [priceMin,priceMax]
+      }
+      
+    }
+
+    const rta = await models.Products.findAll(options);
     return rta;
 
   }

@@ -17,6 +17,7 @@ const salesRouter = require('./salesRouter.js');
 const usersHelpRouter = require('./usersHelpRouter');
 const usersRouter = require('./usersRouter.js');
 const vehiclesRouter = require('./vehiclesRouter.js');
+const authRouter = require('./authRouter');
 
 function routerApi(app) {
 
@@ -39,6 +40,7 @@ function routerApi(app) {
   app.use('/usersHelp', usersHelpRouter);
   app.use('/users', usersRouter);
   app.use('/vehicles', vehiclesRouter);
+  app.use('/auth', authRouter);
 }
 
 module.exports = routerApi;

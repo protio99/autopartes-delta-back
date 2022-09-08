@@ -2,6 +2,7 @@
 //Boom es una libreria que ayuda a manejar los middleware HttpErrors de una forma mas sencilla
 const boom = require('@hapi/boom');
 const {models} = require('../librerias/sequelize')
+const bcrypt = require('bcrypt');
 
 
 
@@ -11,17 +12,30 @@ class UsersService {
   }
 
   async create(data) {
-    const newUser = await models.Users.create(data);
+    const hash = await bcrypt.hash(data.password,10);
+    const newUser = await models.Users.create({
+      ...data,
+      password:hash
+    });
+    delete newUser.dataValues.password;
     return newUser;
   }
 
 
-   async find() {
+  async find() {
   
     const rta = await models.Users.findAll();
     return rta;
 
   }
+  async findByEmail(email) {
+ 
+   const rta = await models.Users.findOne({
+    where: { email }
+   });
+   return rta;
+
+ }
 
   async findById(id) {
     const user = await models.Users.findByPk(id);

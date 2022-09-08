@@ -1,6 +1,8 @@
 const express = require('express');
+const passport = require('passport');
 const CategoriesService = require('../services/categoriesService');
 const validatorHandler = require('./../middlewares/validatorHandler');
+const {checkRoles} = require('./../middlewares/authHandler')
 const {
   createCategorySchema,
   updateCategorySchema,
@@ -32,6 +34,8 @@ router.get(
 
 router.post(
   '/create',
+  passport.authenticate('jwt',{session: false}),
+  checkRoles(1,2),
   validatorHandler(createCategorySchema, 'body'),
   async (req, res, next) => {
     try {
