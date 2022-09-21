@@ -31,8 +31,11 @@ const rolesSchema = {
 }
 
 class Roles extends Model{
-    static associate(){
-        //associate
+    static associate(models){
+        this.hasMany(models.RolesPermissions,{
+            as: 'roles_permissions',
+            foreignKey: 'idPermissions'
+        })
     }
 
     static config(sequelize){

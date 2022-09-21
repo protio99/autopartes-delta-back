@@ -12,8 +12,8 @@ const state = Joi.boolean();
 const iva = Joi.number().positive();
 const limit = Joi.number().integer();
 const offset = Joi.number().integer();
-const priceMin = Joi.number().positive();
-const priceMax = Joi.number().positive();
+// const priceMin = Joi.number().positive();
+// const priceMax = Joi.number().positive();
 
 
 
@@ -22,12 +22,12 @@ const createProductSchema = Joi.object({
   idCategory: idCategory.required(),
   idVehicle: idVehicle.required(),
   description: description.required(),
-  state: state.required(),
-  photo: photo.required(),
+  state,
+  photo,
   name: name.required(),
-  amount: amount.required(),
-  price: price.required(),
-  iva: iva.required(),
+  amount,
+  price,
+  iva
   
  
   
@@ -49,11 +49,11 @@ const queryProductSchema = Joi.object({
   limit,
   offset,
   price,
-  priceMin,
-  priceMax: priceMax.when('priceMin',{
-    is: Joi.number().positive(),
-    then: priceMax.required()
-  })
+  // priceMin,
+  // priceMax: priceMax.when('priceMin',{
+  //   is: Joi.number().positive(),
+  //   then: priceMax.required()
+  // })
 });
 
 

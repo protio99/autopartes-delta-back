@@ -31,11 +31,8 @@ router.get(
     }
   }
 );
-
 router.post(
   '/create',
-  passport.authenticate('jwt',{session: false}),
-  checkRoles(1,2),
   validatorHandler(createCategorySchema, 'body'),
   async (req, res, next) => {
     try {
@@ -48,6 +45,22 @@ router.post(
     }
   }
 );
+// router.post(
+//   '/create',
+//   passport.authenticate('jwt',{session: false}),
+//   checkRoles(1,2),
+//   validatorHandler(createCategorySchema, 'body'),
+//   async (req, res, next) => {
+//     try {
+//       const body = req.body;
+//       const newCategory = await service.create(body);
+//       res.status(201).json(newCategory);
+      
+//     } catch (error) {
+//         next(error);
+//     }
+//   }
+// );
 
 router.patch(
   '/update/:id',

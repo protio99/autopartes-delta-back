@@ -37,9 +37,9 @@ const productsSchema = {
         onDelete: 'CASCADE'
     },
     photo: {
-        allowNull: false,
         type: DataTypes.STRING(200),
         unique: false,
+        defaultValue: "enlace no proporcionado",
         
     },
     name: {
@@ -49,15 +49,15 @@ const productsSchema = {
         
     },
     amount: {
-        allowNull: true,
         type: DataTypes.INTEGER,
         unique: false,
+        defaultValue: 0,
         
     },
     price: {
-        allowNull: false,
         type: DataTypes.FLOAT,
         unique: false,
+        defaultValue: 0,
         
     },
     description: {
@@ -67,15 +67,16 @@ const productsSchema = {
       
     },
     state: {
-        allowNull: false,
         type: DataTypes.BOOLEAN,
         unique: false,
+        defaultValue: 0,
     
     },
     iva: {
-        allowNull: false,
         type: DataTypes.FLOAT,
         unique: false,
+        defaultValue: 0,
+    
         
     }
 }

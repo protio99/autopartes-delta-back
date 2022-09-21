@@ -27,6 +27,10 @@ class Modules extends Model{
         this.hasOne(models.UsersHelp, {
             as: 'users_help',
             foreignKey:'idModule'
+        });
+        this.hasMany(models.Permissions, {
+            as: 'permissions',
+            foreignKey: 'idModule'
         })
     }
 

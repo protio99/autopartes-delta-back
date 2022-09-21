@@ -1,4 +1,7 @@
 const {Model, DataTypes} = require('sequelize');
+const {ROLES_TABLE} = require('./../models/rolesModel');
+const {PERMISSIONS_TABLE} = require('./../models/permissionsModel');
+
 
 const ROLES_PERMISSIONS_TABLE = 'roles_permisions';
 
@@ -14,19 +17,36 @@ const rolesPermissionsSchema = {
         allowNull: false,
         type: DataTypes.INTEGER,
         unique: false,
-        field: 'id_rol'
+        field: 'id_rol',
+        references: {
+            model: ROLES_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     idPermissions: {
         allowNull: false,
         type: DataTypes.INTEGER,
         unique: false,
-        field: 'id_permissions'
+        field: 'id_permissions',
+        references: {
+            model: PERMISSIONS_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     }
 }
 
 class RolesPermissions extends Model{
-    static associate(){
-        //associate
+    static associate(models){
+        this.belongsTo(models.Permissions, {
+            as:'permissions',
+            foreignKey: 'idPermissions'});
+        this.belongsTo(models.Roles, {
+            as:'roles',
+            foreignKey: 'idRol'})
     }
 
     static config(sequelize){

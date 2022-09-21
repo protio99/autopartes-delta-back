@@ -6,11 +6,25 @@ const {
   boomErrorHandler,
   ormErrorHandler
 } = require('./middlewares/errorHandler');
+const cors = require('cors');
 const {checkApiKey} = require('./middlewares/authHandler');
 const app = express();
-const port = 3000;
+const port = 5000;
 app.use(express.json());
 require('./utils/auth');
+
+const whitelist = ['http://localhost:3000'];
+const options = {
+  origin: (origin, callback) =>{
+    if(whitelist.includes(origin)){
+      callback(null, true);
+    }else{
+      callback(new Error('No tienes acceso'))
+    }
+  }
+}
+
+app.use(cors(options));
 
 app.get('/',checkApiKey ,(req, res) => {
   res.send('Hello world');
@@ -21,7 +35,7 @@ app.post('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log('Connected to port 3000');
+  console.log('Connected to port 5000');
 });
 
 
