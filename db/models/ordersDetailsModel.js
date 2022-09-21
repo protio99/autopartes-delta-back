@@ -2,21 +2,21 @@ const {Model, DataTypes} = require('sequelize');
 const { PRODUCTS_TABLE } = require('./productsModel');
 const { SALES_TABLE } = require('./salesModel');
 
-const SALES_DETAILS_TABLE = 'sales_details';
+const ORDERS_DETAILS_TABLE = 'orders_details';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const salesDetailsSchema = {
+const ordersDetailsSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    idSale: {
+    idOrder: {
         allowNull: false,
         type: DataTypes.INTEGER,
         unique: true,
-        field: 'id_sale',
+        field: 'id_order',
         references: {
             model: SALES_TABLE,
             key: 'id'
@@ -59,11 +59,11 @@ const salesDetailsSchema = {
     }
 }
 
-class SalesDetails extends Model{
+class OrdersDetails extends Model{
     static associate(models){
-        this.belongsTo(models.Sales, {
-            as: 'sales',
-            foreignKey: 'idSale',
+        this.belongsTo(models.Orders, {
+            as: 'orders',
+            foreignKey: 'idOrder',
           });
           this.belongsTo(models.Products, {
             as: 'products',
@@ -74,8 +74,8 @@ class SalesDetails extends Model{
     static config(sequelize){
         return({
             sequelize,
-            tableName: SALES_DETAILS_TABLE,
-            modelName: 'SalesDetails',
+            tableName: ORDERS_DETAILS_TABLE,
+            modelName: 'OrdersDetails',
             timestamps: false
 
 
@@ -84,4 +84,4 @@ class SalesDetails extends Model{
     }
 }
 
-module.exports = {SALES_DETAILS_TABLE, salesDetailsSchema, SalesDetails}
+module.exports = {ORDERS_DETAILS_TABLE, ordersDetailsSchema, OrdersDetails}

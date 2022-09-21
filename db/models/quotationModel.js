@@ -23,18 +23,32 @@ const quotationSchema = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     },
-    total:{
-        type: DataTypes.VIRTUAL,
-        get(){
-            if (this.products.length > 0) {
-                return this.products.reduce((total, product) =>{
-                    return total + (product.price * product.ProductsQuotations.amount)
-                },0)
-            }
-            return 0;
+    quotationDate: {
+        allowNull: false,
+        type: DataTypes.DATEONLY,
+        defaultValue: DataTypes.DATEONLY,
+        unique: false,
+        fiel: 'quotation_date',
+      },
 
-        }
-    }
+      total: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+       
+      },
+    // total:{
+    //     type: DataTypes.VIRTUAL,
+    //     get(){
+    //         if (this.products.length > 0) {
+    //             return this.products.reduce((total, product) =>{
+    //                 return total + (product.price * product.ProductsQuotations.amount)
+    //             },0)
+    //         }
+    //         return 0;
+
+    //     }
+    // }
 }
 
 class Quotation extends Model{
@@ -42,12 +56,12 @@ class Quotation extends Model{
         this.belongsTo(models.Users, {
             as:'user',
             foreignKey: 'idUser'});
-        this.belongsToMany(models.Products, {
-            as: 'products',
-            through: models.ProductsQuotations,
-            foreignKey: 'idQuotation',
-            otherKey: 'idProduct'
-        })
+        // this.belongsToMany(models.Products, {
+        //     as: 'products',
+        //     through: models.ProductsQuotations,
+        //     foreignKey: 'idQuotation',
+        //     otherKey: 'idProduct'
+        // })
     }
 
     static config(sequelize){

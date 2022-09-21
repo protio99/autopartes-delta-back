@@ -1,10 +1,10 @@
 const { Model, DataTypes } = require('sequelize');
 const { CLIENTS_TABLE } = require('./clientsModel');
 
-const SALES_TABLE = 'sales';
+const ORDERS_TABLE = 'orders';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const salesSchema = {
+const ordersSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -49,26 +49,26 @@ const salesSchema = {
   },
 };
 
-class Sales extends Model {
+class Orders extends Model {
   static associate(models) {
     this.belongsTo(models.Clients, {
       foreignKey: 'idClient',
       as: 'clients',
     });
-    this.hasMany(models.SalesDetails, {
-      as: 'buy_detail',
-      foreignKey: 'idSale',
+    this.hasMany(models.OrdersDetails, {
+      as: 'order_detail',
+      foreignKey: 'idOrder',
     });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: SALES_TABLE,
-      modelName: 'Sales',
+      tableName: ORDERS_TABLE,
+      modelName: 'Orders',
       timestamps: false,
     };
   }
 }
 
-module.exports = { SALES_TABLE, salesSchema, Sales };
+module.exports = { ORDERS_TABLE, ordersSchema, Orders };

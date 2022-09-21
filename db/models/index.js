@@ -5,13 +5,12 @@ const {Brands, brandsSchema} = require('./brandsModel');
 const {BuysDetails, buysDetailsSchema} = require('./buysDetailsModel');
 const {Buys, buysSchema} = require('./buysModel');
 const {Clients, clientsSchema} = require('./clientsModel');
-const {ProductsQuotations, productsQuotationsSchema} = require('./productsQuotationsModel');
+const {QuotationsDetails, quotationsDetailsSchema} = require('./quotationsDetailsModel');
 const {Modules, modulesSchema} = require('./modulesModel');
 const {Quotation,quotationSchema } = require('./quotationModel');
 const {Permissions, permissionsSchema} = require('./permissionsModel');
 const {Products, productsSchema} = require('./productsModel');
 const {SalesDetails, salesDetailsSchema} = require('./salesDetailsModel');
-const {ProductsVehicles, productsVehiclesSchema} = require('./productsVehiclesModel');
 const {Providers, providersSchema} = require('./providersModel');
 const {RolesPermissions, rolesPermissionsSchema} = require('./rolesPermissionsModel');
 const {Roles, rolesSchema} = require('./rolesModel');
@@ -19,6 +18,8 @@ const {Sales, salesSchema} = require('./salesModel');
 const {UsersHelp, usersHelpSchema} = require('./usersHelpModel');
 const {Users, usersSchema} = require('./usersModel');
 const {Vehicles, vehiclesSchema} = require('./vehiclesModel');
+const {Orders, ordersSchema} = require('./ordersModel');
+const {OrdersDetails, ordersDetailsSchema} = require('./ordersDetailsModel');
 
 function setupModels(sequelize) {
     Categories.init(categoriesSchema, Categories.config(sequelize));
@@ -26,13 +27,12 @@ function setupModels(sequelize) {
     BuysDetails.init(buysDetailsSchema, BuysDetails.config(sequelize));
     Buys.init(buysSchema, Buys.config(sequelize));
     Clients.init(clientsSchema, Clients.config(sequelize));
-    ProductsQuotations.init(productsQuotationsSchema, ProductsQuotations.config(sequelize));
+    QuotationsDetails.init(quotationsDetailsSchema, QuotationsDetails.config(sequelize));
     Modules.init(modulesSchema, Modules.config(sequelize));
     Quotation.init(quotationSchema, Quotation.config(sequelize));
     Permissions.init(permissionsSchema, Permissions.config(sequelize));
     Products.init(productsSchema, Products.config(sequelize));
     SalesDetails.init(salesDetailsSchema, SalesDetails.config(sequelize));
-    ProductsVehicles.init(productsVehiclesSchema, ProductsVehicles.config(sequelize));
     Providers.init(providersSchema, Providers.config(sequelize));
     RolesPermissions.init(rolesPermissionsSchema, RolesPermissions.config(sequelize));
     Roles.init(rolesSchema, Roles.config(sequelize));
@@ -40,6 +40,8 @@ function setupModels(sequelize) {
     UsersHelp.init(usersHelpSchema, UsersHelp.config(sequelize));
     Users.init(usersSchema, Users.config(sequelize));
     Vehicles.init(vehiclesSchema, Vehicles.config(sequelize));
+    Orders.init(ordersSchema, Orders.config(sequelize));
+    OrdersDetails.init(ordersDetailsSchema, OrdersDetails.config(sequelize));
 
 
     //Asociaciones de llaves foraneas
@@ -50,7 +52,19 @@ function setupModels(sequelize) {
     Vehicles.associate(sequelize.models);
     Brands.associate(sequelize.models);
     Products.associate(sequelize.models);
+    Buys.associate(sequelize.models);
+    BuysDetails.associate(sequelize.models)
+    Clients.associate(sequelize.models)
+    Orders.associate(sequelize.models)
+    OrdersDetails.associate(sequelize.models)
+    Permissions.associate(sequelize.models)
+    Providers.associate(sequelize.models)
     Quotation.associate(sequelize.models)
+    QuotationsDetails.associate(sequelize.models)
+    Roles.associate(sequelize.models)
+    Sales.associate(sequelize.models)
+    SalesDetails.associate(sequelize.models)
+    Users.associate(sequelize.models)
    
 }
 
