@@ -7,6 +7,11 @@ const {ROLES_PERMISSIONS_TABLE} = require('./../models/rolesPermissionsModel');
 const {USERS_TABLE} = require('./../models/usersModel');
 const {CLIENTS_TABLE} = require('./../models/clientsModel');
 const {SALES_TABLE} = require('./../models/salesModel');
+const { PROVIDERS_TABLE } = require('../models/providersModel');
+const { BUYS_TABLE } = require('../models/buysModel');
+const { BUYS_DETAILS_TABLE } = require('../models/buysDetailsModel');
+const { PRODUCTS_TABLE } = require('../models/productsModel');
+const { SALES_DETAILS_TABLE } = require('../models/salesDetailsModel');
 
 
 module.exports = {
@@ -236,6 +241,214 @@ await queryInterface.createTable(SALES_TABLE,{
       fiel: 'total_purchase',
     },
   });
+  await queryInterface.createTable(PROVIDERS_TABLE, {
+    id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+    },
+    nit: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: true,
+    },
+    companyName: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+        field: 'company_name'
+    },
+    contactName: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+        field:'contact_name'
+    },
+    telephone: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+    },
+    adress: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+    },
+    email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+    },
+    country: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+    }
+});
+await queryInterface.createTable(BUYS_TABLE, {
+    id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+    },
+    idProvider: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_provider',
+        references: {
+            model: PROVIDERS_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    },
+    date: {
+        allowNull: false,
+        type: DataTypes.DATEONLY,
+        field: 'date_purchase',
+        unique: false,
+        defaultValue: DataTypes.NOW
+    },
+    invoiceNumber: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+    },
+    totalPurchase: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+    },
+    totalIva: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+    },
+    totalOtherTaxes: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+    },
+    total: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+    },
+    status: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+        defaultValue: false
+    }
+});
+await queryInterface.createTable(BUYS_DETAILS_TABLE,{
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+    },
+    idBuy: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      unique: false,
+      field: 'id_buy',
+      references: {
+        model: BUYS_TABLE,
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
+    idProduct: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      unique: false,
+      field: 'id_product',
+      references: {
+        model: PRODUCTS_TABLE,
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
+    amount: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      unique: false,
+    },
+    price: {
+      allowNull: false,
+      type: DataTypes.FLOAT,
+      unique: false,
+    },
+    iva: {
+      allowNull: false,
+      type: DataTypes.FLOAT,
+      unique: false,
+    },
+    othersTaxes: {
+      allowNull: false,
+      type: DataTypes.FLOAT,
+      unique: false,
+    },
+  });
+  await queryInterface.createTable(SALES_DETAILS_TABLE,{
+    id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+    },
+    idSale: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: true,
+        field: 'id_sale',
+        references: {
+            model: SALES_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    },
+    idProduct: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_product',
+        references: {
+            model: PRODUCTS_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    },
+    amount: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+    },
+    price: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+    },
+    iva: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+    },
+    otherTaxes: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+        field: 'other_taxes'
+    }
+});
   },
 
   async down (queryInterface ) {
@@ -244,6 +457,10 @@ await queryInterface.createTable(SALES_TABLE,{
     await queryInterface.dropTable(ROLES_TABLE)
     await queryInterface.dropTable(CLIENTS_TABLE)
     await queryInterface.dropTable(SALES_TABLE)
+    await queryInterface.dropTable(PROVIDERS_TABLE)
+    await queryInterface.dropTable(BUYS_TABLE)
+    await queryInterface.dropTable(BUYS_DETAILS_TABLE)
+    await queryInterface.dropTable(SALES_DETAILS_TABLE)
 
 
   }

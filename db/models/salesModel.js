@@ -55,6 +55,10 @@ class Sales extends Model {
       foreignKey: 'id',
       as: 'clients',
     });
+    this.hasMany(models.SalesDetails, {
+      as: 'buy_detail',
+      foreignKey: 'idSale',
+    });
   }
 
   static config(sequelize) {

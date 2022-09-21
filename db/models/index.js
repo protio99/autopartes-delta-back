@@ -10,7 +10,7 @@ const {Modules, modulesSchema} = require('./modulesModel');
 const {Quotation,quotationSchema } = require('./quotationModel');
 const {Permissions, permissionsSchema} = require('./permissionsModel');
 const {Products, productsSchema} = require('./productsModel');
-const {ProductsSales, productsSalesSchema} = require('./productsSalesModel');
+const {SalesDetails, salesDetailsSchema} = require('./salesDetailsModel');
 const {ProductsVehicles, productsVehiclesSchema} = require('./productsVehiclesModel');
 const {Providers, providersSchema} = require('./providersModel');
 const {RolesPermissions, rolesPermissionsSchema} = require('./rolesPermissionsModel');
@@ -31,7 +31,7 @@ function setupModels(sequelize) {
     Quotation.init(quotationSchema, Quotation.config(sequelize));
     Permissions.init(permissionsSchema, Permissions.config(sequelize));
     Products.init(productsSchema, Products.config(sequelize));
-    ProductsSales.init(productsSalesSchema, ProductsSales.config(sequelize));
+    SalesDetails.init(salesDetailsSchema, SalesDetails.config(sequelize));
     ProductsVehicles.init(productsVehiclesSchema, ProductsVehicles.config(sequelize));
     Providers.init(providersSchema, Providers.config(sequelize));
     RolesPermissions.init(rolesPermissionsSchema, RolesPermissions.config(sequelize));

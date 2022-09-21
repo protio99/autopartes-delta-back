@@ -1,9 +1,11 @@
 const {Model, DataTypes} = require('sequelize');
+const { PRODUCTS_TABLE } = require('./productsModel');
+const { SALES_TABLE } = require('./salesModel');
 
-const PRODUCTS_SALES_TABLE = 'products_sales';
+const SALES_DETAILS_TABLE = 'products_sales';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const productsSalesSchema = {
+const salesDetailsSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,13 +16,25 @@ const productsSalesSchema = {
         allowNull: false,
         type: DataTypes.INTEGER,
         unique: true,
-        field: 'id_sale'
+        field: 'id_sale',
+        references: {
+            model: SALES_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     idProduct: {
         allowNull: false,
         type: DataTypes.INTEGER,
         unique: false,
-        field: 'id_product'
+        field: 'id_product',
+        references: {
+            model: PRODUCTS_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     amount: {
         allowNull: false,
@@ -45,16 +59,23 @@ const productsSalesSchema = {
     }
 }
 
-class ProductsSales extends Model{
-    static associate(){
-        //associate
+class SalesDetails extends Model{
+    static associate(models){
+        this.belongsTo(models.Sales, {
+            as: 'sales',
+            foreignKey: 'idSale',
+          });
+          this.belongsTo(models.Products, {
+            as: 'products',
+            foreignKey: 'idProduct',
+          });
     }
 
     static config(sequelize){
         return({
             sequelize,
-            tableName: PRODUCTS_SALES_TABLE,
-            modelName: 'ProductsSales',
+            tableName: SALES_DETAILS_TABLE,
+            modelName: 'SalesDetails',
             timestamps: false
 
 
@@ -63,4 +84,4 @@ class ProductsSales extends Model{
     }
 }
 
-module.exports = {PRODUCTS_SALES_TABLE, productsSalesSchema, ProductsSales}
+module.exports = {SALES_DETAILS_TABLE, salesDetailsSchema, SalesDetails}

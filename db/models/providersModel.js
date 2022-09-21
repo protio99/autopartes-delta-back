@@ -50,8 +50,11 @@ const providersSchema = {
 }
 
 class Providers extends Model{
-    static associate(){
-        //associate
+    static associate(models){
+        this.hasMany(models.Buys, {
+            as: 'buys',
+            foreignKey : 'idProvider'
+        })
     }
 
     static config(sequelize){
