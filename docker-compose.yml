@@ -24,7 +24,6 @@ services:
     image: mysql:5 
     environment:
       - MYSQL_DATABASE=autopartes_delta   
-      - MYSQL_USER=root
       - MYSQL_PORT=3306
       - MYSQL_ROOT_PASSWORD=admin123
     ports:
