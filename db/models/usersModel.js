@@ -63,7 +63,7 @@ class Users extends Model {
       foreignKey: 'idUser',
     });
     this.belongsTo(model.Roles, {
-      as: 'roles',
+      as: 'roles_users',
       foreignKey: 'idRol',
     });
     this.hasOne(model.Clients, {

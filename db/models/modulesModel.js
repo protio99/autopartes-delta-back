@@ -29,7 +29,7 @@ class Modules extends Model{
             foreignKey:'idModule'
         });
         this.hasMany(models.Permissions, {
-            as: 'permissions',
+            as: 'permissions_modules',
             foreignKey: 'idModule'
         })
     }

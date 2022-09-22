@@ -32,17 +32,10 @@ const rolesSchema = {
 
 class Roles extends Model {
   static associate(models) {
-    // this.hasMany(models.RolesPermissions, {
-    //   as: 'roles_permissions',
-    //   foreignKey: 'idPermissions',
-    // });
-<<<<<<< HEAD
     this.hasMany(models.Users, {
-      as: 'users',
+      as: 'users_roles',
       foreignKey: 'idRol',
     });
-=======
->>>>>>> 6a3c4a4fa9331cbf6d0fcb249a50af5e061b4130
     this.belongsToMany(models.Permissions, {
       as: 'roles_permissions',
       through: models.RolesPermissions,

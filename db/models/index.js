@@ -48,6 +48,7 @@ function setupModels(sequelize) {
 
     UsersHelp.associate(sequelize.models);
     Modules.associate(sequelize.models);
+    Permissions.associate(sequelize.models)
     Categories.associate(sequelize.models);
     Vehicles.associate(sequelize.models);
     Brands.associate(sequelize.models);
@@ -57,7 +58,6 @@ function setupModels(sequelize) {
     Clients.associate(sequelize.models)
     Orders.associate(sequelize.models)
     OrdersDetails.associate(sequelize.models)
-    Permissions.associate(sequelize.models)
     Providers.associate(sequelize.models)
     Quotation.associate(sequelize.models)
     QuotationsDetails.associate(sequelize.models)

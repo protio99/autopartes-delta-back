@@ -32,7 +32,7 @@ const permissionsSchema = {
 class Permissions extends Model{
     static associate(models){
         this.belongsTo(models.Modules, {
-            as:'modules',
+            as:'modules_permissions',
             foreignKey: 'idModule'});
     }
 

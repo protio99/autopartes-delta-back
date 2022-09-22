@@ -21,6 +21,47 @@ const { QUOTATION_TABLE } = require('../models/quotationModel');
 
 module.exports = {
   async up(queryInterface) {
+    await queryInterface.createTable(ROLES_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING(50),
+        unique: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATEONLY,
+        defaultValue: Sequelize.NOW,
+        unique: false,
+        field: 'created_at',
+      },
+      status: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+        defaultValue: true,
+      },
+    });
+
+    await queryInterface.changeColumn(USERS_TABLE, 'idRol', {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      unique: false,
+      field: 'id_rol',
+      references: {
+        model: ROLES_TABLE,
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
+
+
     await queryInterface.createTable(PERMISSIONS_TABLE, {
       id: {
         allowNull: false,
@@ -78,46 +119,8 @@ module.exports = {
         onDelete: 'CASCADE',
       },
     });
-    await queryInterface.createTable(ROLES_TABLE, {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
-      name: {
-        allowNull: false,
-        type: DataTypes.STRING(50),
-        unique: false,
-      },
-      createdAt: {
-        allowNull: false,
-        type: DataTypes.DATEONLY,
-        defaultValue: Sequelize.NOW,
-        unique: false,
-        field: 'created_at',
-      },
-      status: {
-        allowNull: false,
-        type: DataTypes.BOOLEAN,
-        unique: false,
-        defaultValue: true,
-      },
-    });
-
-    await queryInterface.changeColumn(USERS_TABLE, 'idRol', {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      unique: false,
-      field: 'id_rol',
-      references: {
-        model: ROLES_TABLE,
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
-    });
-
+    
+    
     await queryInterface.createTable(CLIENTS_TABLE, {
       id: {
         allowNull: false,
@@ -603,9 +606,9 @@ module.exports = {
   },
 
   async down(queryInterface) {
+    await queryInterface.dropTable(ROLES_TABLE);
     await queryInterface.dropTable(PERMISSIONS_TABLE);
     await queryInterface.dropTable(ROLES_PERMISSIONS_TABLE);
-    await queryInterface.dropTable(ROLES_TABLE);
     await queryInterface.dropTable(CLIENTS_TABLE);
     await queryInterface.dropTable(SALES_TABLE);
     await queryInterface.dropTable(PROVIDERS_TABLE);
