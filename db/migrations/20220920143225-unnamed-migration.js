@@ -16,9 +16,7 @@ const { PRODUCTS_TABLE } = require('../models/productsModel');
 const { SALES_DETAILS_TABLE } = require('../models/salesDetailsModel');
 const { ORDERS_TABLE } = require('../models/ordersModel');
 const { ORDERS_DETAILS_TABLE } = require('../models/ordersDetailsModel');
-const {
-  QUOTATIONS_DETAILS_TABLE,
-} = require('../models/quotationsDetailsModel');
+const {QUOTATIONS_DETAILS_TABLE} = require('../models/quotationsDetailsModel');
 const { QUOTATION_TABLE } = require('../models/quotationModel');
 
 module.exports = {
