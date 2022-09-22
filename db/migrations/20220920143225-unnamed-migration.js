@@ -1,7 +1,7 @@
 'use strict';
 const { PERMISSIONS_TABLE } = require('./../models/permissionsModel');
 const { DataTypes, Sequelize } = require('sequelize');
-const MODULES_TABLE = require('../models/modulesModel');
+const {MODULES_TABLE} = require('../models/modulesModel');
 const { ROLES_TABLE } = require('./../models/rolesModel');
 const {
   ROLES_PERMISSIONS_TABLE,
