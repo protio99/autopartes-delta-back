@@ -16,11 +16,113 @@ const { PRODUCTS_TABLE } = require('../models/productsModel');
 const { SALES_DETAILS_TABLE } = require('../models/salesDetailsModel');
 const { ORDERS_TABLE } = require('../models/ordersModel');
 const { ORDERS_DETAILS_TABLE } = require('../models/ordersDetailsModel');
-const {QUOTATIONS_DETAILS_TABLE} = require('../models/quotationsDetailsModel');
+const {
+  QUOTATIONS_DETAILS_TABLE,
+} = require('../models/quotationsDetailsModel');
 const { QUOTATION_TABLE } = require('../models/quotationModel');
+const { CATEGORIES_TABLE } = require('./../models/categoriesModel');
+const { VEHICLES_TABLE } = require('./../models/vehiclesModel');
+const { BRANDS_TABLE } = require('./../models/brandsModel');
+const { USERS_HELP_TABLE } = require('./../models/usersHelpModel');
 
 module.exports = {
   async up(queryInterface) {
+    await queryInterface.createTable(CATEGORIES_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: true,
+      },
+    });
+    await queryInterface.createTable(BRANDS_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING(50),
+        unique: true,
+      },
+    });
+    await queryInterface.createTable(MODULES_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING(50),
+        unique: true,
+      },
+      description: {
+        allowNull: false,
+        type: DataTypes.STRING(500),
+        unique: false,
+      },
+    });
+    await queryInterface.createTable(USERS_HELP_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      idModule: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: true,
+        field: 'id_module',
+        references: {
+          model: MODULES_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      videoURL: {
+        allowNull: false,
+        unique: false,
+        field: 'video_url',
+        type: DataTypes.STRING,
+      },
+    });
+    
+    await queryInterface.createTable(PERMISSIONS_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      idModule: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_module',
+        references: {
+          model: MODULES_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING(50),
+        unique: false,
+      },
+    });
     await queryInterface.createTable(ROLES_TABLE, {
       id: {
         allowNull: false,
@@ -45,46 +147,6 @@ module.exports = {
         type: DataTypes.BOOLEAN,
         unique: false,
         defaultValue: true,
-      },
-    });
-
-    await queryInterface.changeColumn(USERS_TABLE, 'idRol', {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      unique: false,
-      field: 'id_rol',
-      references: {
-        model: ROLES_TABLE,
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
-    });
-
-
-    await queryInterface.createTable(PERMISSIONS_TABLE, {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
-      idModule: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        unique: false,
-        field: 'id_module',
-        references: {
-          model: MODULES_TABLE,
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-      name: {
-        allowNull: false,
-        type: DataTypes.STRING(50),
-        unique: false,
       },
     });
     await queryInterface.createTable(ROLES_PERMISSIONS_TABLE, {
@@ -119,8 +181,204 @@ module.exports = {
         onDelete: 'CASCADE',
       },
     });
+    await queryInterface.createTable(VEHICLES_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+      },
+      model: {
+        allowNull: true,
+        type: DataTypes.STRING,
+        unique: false,
+      },
+      idBrand: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_brand',
+        references: {
+          model: BRANDS_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+    });
+    await queryInterface.createTable(PRODUCTS_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      idCategory: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_category',
+        references: {
+          model: CATEGORIES_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+
+      idVehicle: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_vehicle',
+        references: {
+          model: CATEGORIES_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+
+      photo: {
+        allowNull: false,
+        type: DataTypes.STRING(200),
+        unique: false,
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING(50),
+        unique: false,
+      },
+      amount: {
+        allowNull: true,
+        type: DataTypes.INTEGER,
+        unique: false,
+      },
+      price: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+      },
+      description: {
+        allowNull: false,
+        type: DataTypes.STRING(500),
+        unique: false,
+      },
+      state: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+      },
+      iva: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+      },
+    });
+    await queryInterface.createTable(PROVIDERS_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      nit: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: true,
+      },
+      companyName: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+        field: 'company_name',
+      },
+      contactName: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+        field: 'contact_name',
+      },
+      telephone: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+      },
+      adress: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+      },
+      email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+      },
+      country: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+      },
+    });
     
-    
+    await queryInterface.createTable(USERS_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      idRol: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_rol',
+        references: {
+          model: ROLES_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: true,
+      },
+      password: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+      },
+      status: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+      },
+      lastname: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATEONLY,
+        defaultValue: Sequelize.NOW,
+        field: 'created_at',
+        unique: false,
+      },
+    });   
+
     await queryInterface.createTable(CLIENTS_TABLE, {
       id: {
         allowNull: false,
@@ -246,51 +504,7 @@ module.exports = {
         fiel: 'total_purchase',
       },
     });
-    await queryInterface.createTable(PROVIDERS_TABLE, {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
-      nit: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
-      },
-      companyName: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        unique: false,
-        field: 'company_name',
-      },
-      contactName: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        unique: false,
-        field: 'contact_name',
-      },
-      telephone: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        unique: false,
-      },
-      adress: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        unique: false,
-      },
-      email: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        unique: false,
-      },
-      country: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        unique: false,
-      },
-    });
+   
     await queryInterface.createTable(BUYS_TABLE, {
       id: {
         allowNull: false,
@@ -551,6 +765,41 @@ module.exports = {
         field: 'other_taxes',
       },
     });
+   
+
+    await queryInterface.createTable(QUOTATION_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      idUser: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_user',
+        references: {
+          model: USERS_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      quotationDate: {
+        allowNull: false,
+        type: DataTypes.DATEONLY,
+        defaultValue: DataTypes.DATEONLY,
+        unique: false,
+        fiel: 'quotation_date',
+      },
+
+      total: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        unique: false,
+      },
+    });
     await queryInterface.createTable(QUOTATIONS_DETAILS_TABLE, {
       id: {
         allowNull: false,
@@ -587,36 +836,30 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
     });
-    await queryInterface.addColumn(QUOTATION_TABLE, 'total', {
-      total: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        unique: false,
-      },
-    });
-    await queryInterface.addColumn(QUOTATION_TABLE, 'quotationDate', {
-      quotationDate: {
-        allowNull: false,
-        type: DataTypes.DATEONLY,
-        defaultValue: DataTypes.DATEONLY,
-        unique: false,
-        fiel: 'quotation_date',
-      },
-    });
+    
+    
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable(ROLES_TABLE);
+    await queryInterface.dropTable(CATEGORIES_TABLE);
+    await queryInterface.dropTable(BRANDS_TABLE);
+    await queryInterface.dropTable(MODULES_TABLE);
+    await queryInterface.dropTable(USERS_HELP_TABLE);
     await queryInterface.dropTable(PERMISSIONS_TABLE);
+    await queryInterface.dropTable(ROLES_TABLE);
     await queryInterface.dropTable(ROLES_PERMISSIONS_TABLE);
+    await queryInterface.dropTable(VEHICLES_TABLE);
+    await queryInterface.dropTable(PRODUCTS_TABLE);
+    await queryInterface.dropTable(PROVIDERS_TABLE);
+    await queryInterface.dropTable(USERS_TABLE);
     await queryInterface.dropTable(CLIENTS_TABLE);
     await queryInterface.dropTable(SALES_TABLE);
-    await queryInterface.dropTable(PROVIDERS_TABLE);
     await queryInterface.dropTable(BUYS_TABLE);
     await queryInterface.dropTable(BUYS_DETAILS_TABLE);
     await queryInterface.dropTable(SALES_DETAILS_TABLE);
     await queryInterface.dropTable(ORDERS_TABLE);
     await queryInterface.dropTable(ORDERS_DETAILS_TABLE);
+    await queryInterface.dropTable(QUOTATION_TABLE);
     await queryInterface.dropTable(QUOTATIONS_DETAILS_TABLE);
   },
 };
