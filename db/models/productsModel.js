@@ -1,15 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
 const { CATEGORIES_TABLE } = require('./categoriesModel');
-const { VEHICLES_TABLE } = require('./../models/vehiclesModel');
 
 const PRODUCTS_TABLE = 'products';
 //DEFINE LA ESTRUCTURA DE LA BD
 const productsSchema = {
   id: {
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER,
+    unique: true,
+    type: DataTypes.STRING(25),
   },
   idCategory: {
     allowNull: false,
@@ -18,19 +17,6 @@ const productsSchema = {
     field: 'id_category',
     references: {
       model: CATEGORIES_TABLE,
-      key: 'id',
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-  },
-
-  idVehicle: {
-    allowNull: false,
-    type: DataTypes.INTEGER,
-    unique: false,
-    field: 'id_vehicle',
-    references: {
-      model: VEHICLES_TABLE,
       key: 'id',
     },
     onUpdate: 'CASCADE',
@@ -80,9 +66,11 @@ class Products extends Model {
       foreignKey: 'idCategory',
     });
 
-    this.belongsTo(models.Vehicles, {
-      as: 'vehicle',
-      foreignKey: 'idVehicle',
+    this.belongsToMany(models.Vehicles, {
+      as: 'products_vehicles',
+      through: models.ProductsVehicles,
+      foreignKey: 'idProduct',
+      otherKey: 'idVehicle',
     });
     this.hasMany(models.SalesDetails, {
       as: 'sale_detail',

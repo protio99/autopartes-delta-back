@@ -21,7 +21,7 @@ class Brands extends Model{
     static associate(models){
         this.hasMany(models.Vehicles, {
             as: 'vehicles_brands',
-            foreignKey : 'idBrand'
+            foreignKey : 'id_brand'
         })
     }
 

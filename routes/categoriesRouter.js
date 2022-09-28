@@ -62,7 +62,7 @@ router.post(
 //   }
 // );
 
-router.patch(
+router.put(
   '/update/:id',
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'),

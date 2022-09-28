@@ -36,13 +36,9 @@ const vehiclesSchema = {
 
 class Vehicles extends Model{
     static associate(models){
-        this.hasMany(models.Products, {
-            as: 'products',
-            foreignKey : 'idVehicle'
-        })
         this.belongsTo(models.Brands, {
             as:'brands_vehicles',
-            foreignKey: 'id'});
+            foreignKey: 'id_brand'});
     }
 
     static config(sequelize){

@@ -25,8 +25,8 @@ const buysDetailsSchema = {
     onDelete: 'CASCADE',
   },
   idProduct: {
+    type: DataTypes.STRING(25),
     allowNull: false,
-    type: DataTypes.INTEGER,
     unique: false,
     field: 'id_product',
     references: {

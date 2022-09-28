@@ -1,7 +1,7 @@
 'use strict';
 const { PERMISSIONS_TABLE } = require('./../models/permissionsModel');
 const { DataTypes, Sequelize } = require('sequelize');
-const {MODULES_TABLE} = require('../models/modulesModel');
+const { MODULES_TABLE } = require('../models/modulesModel');
 const { ROLES_TABLE } = require('./../models/rolesModel');
 const {
   ROLES_PERMISSIONS_TABLE,
@@ -24,6 +24,7 @@ const { CATEGORIES_TABLE } = require('./../models/categoriesModel');
 const { VEHICLES_TABLE } = require('./../models/vehiclesModel');
 const { BRANDS_TABLE } = require('./../models/brandsModel');
 const { USERS_HELP_TABLE } = require('./../models/usersHelpModel');
+const { PRODUCTS_VEHICLES_TABLE } = require('../models/productsVehiclesModel');
 
 module.exports = {
   async up(queryInterface) {
@@ -97,7 +98,7 @@ module.exports = {
         type: DataTypes.STRING,
       },
     });
-    
+
     await queryInterface.createTable(PERMISSIONS_TABLE, {
       id: {
         allowNull: false,
@@ -214,9 +215,9 @@ module.exports = {
     await queryInterface.createTable(PRODUCTS_TABLE, {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        unique: true,
+        type: DataTypes.STRING(25),
       },
       idCategory: {
         allowNull: false,
@@ -230,20 +231,6 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-
-      idVehicle: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        unique: false,
-        field: 'id_vehicle',
-        references: {
-          model: CATEGORIES_TABLE,
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-
       photo: {
         allowNull: false,
         type: DataTypes.STRING(200),
@@ -278,6 +265,38 @@ module.exports = {
         allowNull: false,
         type: DataTypes.FLOAT,
         unique: false,
+      },
+    });
+    await queryInterface.createTable(PRODUCTS_VEHICLES_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      idProduct: {
+        type: DataTypes.STRING(25),
+        allowNull: false,
+        unique: false,
+        field: 'id_product',
+        references: {
+          model: PRODUCTS_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      idVehicle: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_vehicle',
+        references: {
+          model: VEHICLES_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
     });
     await queryInterface.createTable(PROVIDERS_TABLE, {
@@ -325,7 +344,7 @@ module.exports = {
         unique: false,
       },
     });
-    
+
     await queryInterface.createTable(USERS_TABLE, {
       id: {
         allowNull: false,
@@ -377,7 +396,7 @@ module.exports = {
         field: 'created_at',
         unique: false,
       },
-    });   
+    });
 
     await queryInterface.createTable(CLIENTS_TABLE, {
       id: {
@@ -504,7 +523,7 @@ module.exports = {
         fiel: 'total_purchase',
       },
     });
-   
+
     await queryInterface.createTable(BUYS_TABLE, {
       id: {
         allowNull: false,
@@ -583,8 +602,8 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       idProduct: {
+        type: DataTypes.STRING(25),
         allowNull: false,
-        type: DataTypes.INTEGER,
         unique: false,
         field: 'id_product',
         references: {
@@ -636,7 +655,7 @@ module.exports = {
       },
       idProduct: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(25),
         unique: false,
         field: 'id_product',
         references: {
@@ -732,8 +751,8 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       idProduct: {
+        type: DataTypes.STRING(25),
         allowNull: false,
-        type: DataTypes.INTEGER,
         unique: false,
         field: 'id_product',
         references: {
@@ -765,7 +784,6 @@ module.exports = {
         field: 'other_taxes',
       },
     });
-   
 
     await queryInterface.createTable(QUOTATION_TABLE, {
       id: {
@@ -809,7 +827,8 @@ module.exports = {
       },
       idProduct: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(25),
+        unique: false,
         field: 'id_product',
         references: {
           model: PRODUCTS_TABLE,
@@ -836,8 +855,6 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
     });
-    
-    
   },
 
   async down(queryInterface) {
