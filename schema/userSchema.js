@@ -3,7 +3,6 @@ const Joi = require('joi')
 
 const id = Joi.number().integer().positive();
 const idRol = Joi.number().integer().positive();
-
 const email = Joi.string().email();
 const password = Joi.string().min(3).max(100);
 const status = Joi.boolean();
@@ -15,9 +14,8 @@ const createUserSchema = Joi.object({
   password: password.required(),
   name: name.required(),
   lastname: lastname.required(),
-  idRol: idRol.required(),
+  idRol : idRol.required(),
   status: status.required(),
-
 });
 
 const updateUserSchema = Joi.object({

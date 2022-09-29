@@ -12,10 +12,10 @@ const department = Joi.string().min(3).max(100);
 const city = Joi.string().min(3).max(100);
 const neightboorhood = Joi.string().min(3).max(100);
 const address = Joi.string().min(3).max(200);
-const indications = Joi.string().min(3).max(500);
+const indications = Joi.string().min(0).max(500);
 
 const createClientSchema = Joi.object({
-  idUser: idUser.required(),
+  idUser,
   name: name.required(),
   lastname: lastname.required(),
   documentType: documentType.required(),
@@ -27,7 +27,7 @@ const createClientSchema = Joi.object({
   city: city.required(),
   neightboorhood: neightboorhood.required(),
   address: address.required(),
-  
+  indications
 });
 
 const updateClientSchema = Joi.object({
