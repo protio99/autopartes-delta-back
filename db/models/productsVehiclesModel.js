@@ -45,7 +45,7 @@ class ProductsVehicles extends Model {
       foreignKey: 'id_product',
     });
     this.belongsTo(models.Vehicles, {
-      as: 'vehiculos',
+      as: 'vehicles',
       foreignKey: 'id_vehicle',
     });
   }

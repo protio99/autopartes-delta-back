@@ -54,7 +54,21 @@ class ProductsService {
     return rta;
 
   }
+  async findVehiclesOfAProduct(productId) {
+    const options = {
+        include: ['vehicles'],
+        where: {
+          idProduct: productId},
+      };
+    const vehiclesOfAProduct = await models.Products.findAll(options);
+    return vehiclesOfAProduct;
 
+  }
+  async findAllVehiclesOfAProduct() {
+    const vehiclesOfAProduct = await models.ProductsVehicles.findAll();
+    return vehiclesOfAProduct;
+
+  }
   async findById(id) {
     const product = await models.Products.findByPk(id,
       {

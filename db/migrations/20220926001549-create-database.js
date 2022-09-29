@@ -554,21 +554,24 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING,
         unique: false,
+        field: 'invoice_number',
       },
       totalPurchase: {
         allowNull: false,
         type: DataTypes.FLOAT,
         unique: false,
+        field: 'total_purchase',
       },
       totalIva: {
         allowNull: false,
         type: DataTypes.FLOAT,
         unique: false,
+        field: 'total_iva',
+    
       },
       totalOtherTaxes: {
-        allowNull: false,
         type: DataTypes.FLOAT,
-        unique: false,
+        field: 'total_other_taxes',
       },
       total: {
         allowNull: false,
@@ -579,58 +582,13 @@ module.exports = {
         allowNull: false,
         type: DataTypes.BOOLEAN,
         unique: false,
-        defaultValue: false,
+        defaultValue: true,
       },
-    });
-    await queryInterface.createTable(BUYS_DETAILS_TABLE, {
-      id: {
+      createdAt: {
         allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
-      idBuy: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        unique: false,
-        field: 'id_buy',
-        references: {
-          model: BUYS_TABLE,
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-      idProduct: {
-        type: DataTypes.STRING(25),
-        allowNull: false,
-        unique: false,
-        field: 'id_product',
-        references: {
-          model: PRODUCTS_TABLE,
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-      amount: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        unique: false,
-      },
-      price: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        unique: false,
-      },
-      iva: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        unique: false,
-      },
-      othersTaxes: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
+        type: DataTypes.DATEONLY,
+        defaultValue: Sequelize.NOW,
+        field: 'created_at',
         unique: false,
       },
     });

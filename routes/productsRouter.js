@@ -6,7 +6,8 @@ const {
   updateProductSchema,
   getProductSchema,
   queryProductSchema,
-  addVehicleToProductSchema
+  addVehicleToProductSchema,
+  getVehicleOfAProductSchema
 } = require('../schema/productSchema');
 const router = express.Router();
 
@@ -23,6 +24,30 @@ validatorHandler(queryProductSchema, 'query'),
     next(error)
   }
 });
+router.get('/find-vehicles-of-a-product',
+ async (req, res, next) => {
+  try {
+    const products = await service.findAllVehiclesOfAProduct(req.query);
+    res.json(products);
+    
+  } catch (error) {
+    next(error)
+  }
+});
+
+router.get(
+  '/find-vehicles-of-a-product/:idProduct',
+  validatorHandler(getVehicleOfAProductSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idProduct } = req.params;
+      const product = await service.findVehiclesOfAProduct(idProduct);
+      res.json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.get(
   '/:id',

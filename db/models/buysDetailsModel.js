@@ -52,7 +52,7 @@ const buysDetailsSchema = {
     unique: false,
   },
   othersTaxes: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.FLOAT,
     unique: false,
   },

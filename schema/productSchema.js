@@ -39,6 +39,11 @@ const updateProductSchema = Joi.object({
 const getProductSchema = Joi.object({
   id: id.required(),
 });
+
+const getVehicleOfAProductSchema = Joi.object({
+  idProduct: idProduct.required(),
+});
+
 const queryProductSchema = Joi.object({
   limit,
   offset,
@@ -60,5 +65,6 @@ module.exports = {
   updateProductSchema,
   getProductSchema,
   queryProductSchema,
-  addVehicleToProductSchema
+  addVehicleToProductSchema,
+  getVehicleOfAProductSchema
 };
