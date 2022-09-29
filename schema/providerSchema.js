@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer().positive();
-const nit = Joi.number().integer().positive();
+const nit = Joi.string().min(3).max(100);
 const companyName = Joi.string().min(3).max(100);
 const contactName = Joi.string().min(3).max(100);
 const telephone = Joi.string().min(3).max(50);

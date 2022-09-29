@@ -8,7 +8,7 @@ const quotationRouter = require('./quotationRouter');
 const permissionsRouter = require('./permissionsRouter.js');
 const productsRouter = require('./productsRouter.js');
 const productsSalesRouter = require('./productsSalesRouter.js');
-const productsVehiclesRouter = require('./productsVehiclesRouter.js');
+// const productsVehiclesRouter = require('./productsVehiclesRouter.js');
 const providersRouter = require('./providersRouter.js');
 const rolesPermissionsRouter = require('./rolesPermissionsRouter.js');
 const rolesRouter = require('./rolesRouter.js');
@@ -30,7 +30,7 @@ function routerApi(app) {
   app.use('/permissions', permissionsRouter);
   app.use('/products', productsRouter);
   app.use('/productsSales', productsSalesRouter);
-  app.use('/productsVehicles', productsVehiclesRouter);
+  // app.use('/productsVehicles', productsVehiclesRouter);
   app.use('/providers', providersRouter);
   app.use('/rolesPermissions', rolesPermissionsRouter);
   app.use('/roles', rolesRouter);

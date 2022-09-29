@@ -5,7 +5,9 @@ const {
   createProductSchema,
   updateProductSchema,
   getProductSchema,
-  queryProductSchema
+  queryProductSchema,
+  addVehicleToProductSchema,
+  getVehicleOfAProductSchema
 } = require('../schema/productSchema');
 const router = express.Router();
 
@@ -22,6 +24,30 @@ validatorHandler(queryProductSchema, 'query'),
     next(error)
   }
 });
+router.get('/find-vehicles-of-a-product',
+ async (req, res, next) => {
+  try {
+    const products = await service.findAllVehiclesOfAProduct(req.query);
+    res.json(products);
+    
+  } catch (error) {
+    next(error)
+  }
+});
+
+router.get(
+  '/find-vehicles-of-a-product/:idProduct',
+  validatorHandler(getVehicleOfAProductSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idProduct } = req.params;
+      const product = await service.findVehiclesOfAProduct(idProduct);
+      res.json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.get(
   '/:id',
@@ -45,6 +71,21 @@ router.post(
       const body = req.body;
       const newProduct = await service.create(body);
       res.status(201).json(newProduct);
+      
+    } catch (error) {
+        next(error);
+    }
+  }
+);
+
+router.post(
+  '/add-vehicle-to-product',
+  validatorHandler(addVehicleToProductSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newVehicleToProduct = await service.addVehicleToProduct(body);
+      res.status(201).json(newVehicleToProduct);
       
     } catch (error) {
         next(error);

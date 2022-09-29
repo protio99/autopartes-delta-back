@@ -20,6 +20,7 @@ class VehiclesService {
   
     const rta = await models.Vehicles.findAll({
       include: ['brands_vehicles']
+
     });
     return rta;
 

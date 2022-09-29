@@ -1,10 +1,11 @@
 const { Model, DataTypes } = require('sequelize');
-const { PRODUCTS_TABLE } = require('./productsModel');
-const { QUOTATION_TABLE } = require('./quotationModel');
-const QUOTATIONS_DETAILS_TABLE = 'quotations_details';
+const { VEHICLES_TABLE } = require('./vehiclesModel');
+const { PRODUCTS_TABLE } = require('./vehiclesModel');
+
+const PRODUCTS_VEHICLES_TABLE = 'products_vehicles';
 
 //DEFINE LA ESTRUCTURA DE LA BD
-const quotationsDetailsSchema = {
+const productsVehiclesSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -12,8 +13,9 @@ const quotationsDetailsSchema = {
     type: DataTypes.INTEGER,
   },
   idProduct: {
-    allowNull: false, 
     type: DataTypes.STRING(25),
+    allowNull: false,
+    unique: false,
     field: 'id_product',
     references: {
       model: PRODUCTS_TABLE,
@@ -22,49 +24,44 @@ const quotationsDetailsSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   },
-  idQuotation: {
+  idVehicle: {
     allowNull: false,
     type: DataTypes.INTEGER,
     unique: false,
-    field: 'id_quotation',
+    field: 'id_vehicle',
     references: {
-      model: QUOTATION_TABLE,
+      model: VEHICLES_TABLE,
       key: 'id',
     },
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   },
-
-  amount: {
-    allowNull: false,
-    type: DataTypes.INTEGER,
-  },
 };
 
-class QuotationsDetails extends Model {
+class ProductsVehicles extends Model {
   static associate(models) {
     this.belongsTo(models.Products, {
       as: 'products',
-      foreignKey: 'idProduct',
+      foreignKey: 'id_product',
     });
-    this.belongsTo(models.Quotation, {
-      as: 'quotation',
-      foreignKey: 'idQuotation',
+    this.belongsTo(models.Vehicles, {
+      as: 'vehicles',
+      foreignKey: 'id_vehicle',
     });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: QUOTATIONS_DETAILS_TABLE,
-      modelName: 'QuotationsDetails',
+      tableName: PRODUCTS_VEHICLES_TABLE,
+      modelName: 'ProductsVehicles',
       timestamps: false,
     };
   }
 }
 
 module.exports = {
-  QUOTATIONS_DETAILS_TABLE,
-  quotationsDetailsSchema,
-  QuotationsDetails,
+  PRODUCTS_VEHICLES_TABLE,
+  productsVehiclesSchema,
+  ProductsVehicles,
 };

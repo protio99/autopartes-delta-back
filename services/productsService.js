@@ -15,16 +15,24 @@ class ProductsService {
     const newProduct = await models.Products.create(data);
     return newProduct;
   }
+  async addVehicleToProduct(data) {
+    const newVehicleToProduct = await models.ProductsVehicles.create(data);
+    return newVehicleToProduct;
+  }
 
 
    async find(query) {
+    // const options = {
+    //   include: [ {
+    //     association: 'vehicle',
+    //     include: ['brands_vehicles']
+    //   }, 'category'],
+    //   where: {},
+    // };
     const options = {
-      include: [ {
-        association: 'vehicle',
-        include: ['brands_vehicles']
-      }, 'category'],
-      where: {},
-    };
+        include: ['category'],
+        where: {},
+      };
     const {limit, offset, price, priceMin, priceMax} = query;
     
     if (limit && offset) {
@@ -46,9 +54,27 @@ class ProductsService {
     return rta;
 
   }
+  async findVehiclesOfAProduct(productId) {
+    const options = {
+        include: ['vehicles'],
+        where: {
+          idProduct: productId},
+      };
+    const vehiclesOfAProduct = await models.Products.findAll(options);
+    return vehiclesOfAProduct;
 
+  }
+  async findAllVehiclesOfAProduct() {
+    const vehiclesOfAProduct = await models.ProductsVehicles.findAll();
+    return vehiclesOfAProduct;
+
+  }
   async findById(id) {
-    const product = await models.Products.findByPk(id);
+    const product = await models.Products.findByPk(id,
+      {
+        include: ['products_vehicles']
+      }
+      );
     if(!product){
       throw boom.notFound('product not found')
     }

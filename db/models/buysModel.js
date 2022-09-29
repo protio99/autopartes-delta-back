@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, Sequelize } = require('sequelize');
 const { PROVIDERS_TABLE } = require('./providersModel');
 
 const BUYS_TABLE = 'buys';
@@ -34,21 +34,24 @@ const buysSchema = {
     allowNull: false,
     type: DataTypes.STRING,
     unique: false,
+    field: 'invoice_number',
   },
   totalPurchase: {
     allowNull: false,
     type: DataTypes.FLOAT,
     unique: false,
+    field: 'total_purchase',
   },
   totalIva: {
     allowNull: false,
     type: DataTypes.FLOAT,
     unique: false,
+    field: 'total_iva',
+
   },
   totalOtherTaxes: {
-    allowNull: false,
     type: DataTypes.FLOAT,
-    unique: false,
+    field: 'total_other_taxes',
   },
   total: {
     allowNull: false,
@@ -59,7 +62,14 @@ const buysSchema = {
     allowNull: false,
     type: DataTypes.BOOLEAN,
     unique: false,
-    defaultValue: false,
+    defaultValue: true,
+  },
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATEONLY,
+    defaultValue: Sequelize.NOW,
+    field: 'created_at',
+    unique: false,
   },
 };
 

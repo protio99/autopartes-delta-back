@@ -20,6 +20,7 @@ const {Users, usersSchema} = require('./usersModel');
 const {Vehicles, vehiclesSchema} = require('./vehiclesModel');
 const {Orders, ordersSchema} = require('./ordersModel');
 const {OrdersDetails, ordersDetailsSchema} = require('./ordersDetailsModel');
+const {ProductsVehicles, productsVehiclesSchema} = require('./productsVehiclesModel');
 
 function setupModels(sequelize) {
     Categories.init(categoriesSchema, Categories.config(sequelize));
@@ -42,6 +43,7 @@ function setupModels(sequelize) {
     Vehicles.init(vehiclesSchema, Vehicles.config(sequelize));
     Orders.init(ordersSchema, Orders.config(sequelize));
     OrdersDetails.init(ordersDetailsSchema, OrdersDetails.config(sequelize));
+    ProductsVehicles.init(productsVehiclesSchema, ProductsVehicles.config(sequelize));
 
 
     //Asociaciones de llaves foraneas

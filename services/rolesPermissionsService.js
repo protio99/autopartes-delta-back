@@ -11,8 +11,8 @@ class RolesPermissionsService {
   }
 
   async create(data) {
-    const newCategorie = await models.RolesPermissions.create(data);
-    return newCategorie;
+    const rolePermission = await models.RolesPermissions.create(data);
+    return rolePermission;
   }
 
 

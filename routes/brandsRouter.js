@@ -44,7 +44,7 @@ router.post(
   }
 );
 
-router.patch(
+router.put(
   '/update/:id',
   validatorHandler(getBrandSchema, 'params'),
   validatorHandler(updateBrandSchema, 'body'),
