@@ -67,6 +67,7 @@ function setupModels(sequelize) {
     Sales.associate(sequelize.models)
     SalesDetails.associate(sequelize.models)
     Users.associate(sequelize.models)
+    ProductsVehicles.associate(sequelize.models)
    
 }
 

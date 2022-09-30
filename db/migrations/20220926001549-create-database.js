@@ -532,7 +532,7 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
       idProvider: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.INTEGER,
         unique: false,
         field: 'id_provider',
@@ -543,17 +543,17 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      date: {
+      datePurchase: {
         allowNull: false,
         type: DataTypes.DATEONLY,
         field: 'date_purchase',
         unique: false,
-        defaultValue: DataTypes.NOW,
+        
       },
       invoiceNumber: {
         allowNull: false,
         type: DataTypes.STRING,
-        unique: false,
+        unique: true,
         field: 'invoice_number',
       },
       totalPurchase: {
@@ -562,27 +562,56 @@ module.exports = {
         unique: false,
         field: 'total_purchase',
       },
+      shippingPrice: {
+        allowNull: true,
+        type: DataTypes.FLOAT,
+        field: 'shipping_price',
+      },
+       ivaPercentage: {
+        allowNull: true,
+        type: DataTypes.FLOAT,
+        unique: false,
+        field: 'iva_percentage',
+    
+      },
       totalIva: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.FLOAT,
         unique: false,
         field: 'total_iva',
     
       },
+      otherTaxesPercentage: {
+        allowNull: true,
+        type: DataTypes.FLOAT,
+        field: 'other_taxes_percentage',
+      },
       totalOtherTaxes: {
+        allowNull: true,
         type: DataTypes.FLOAT,
         field: 'total_other_taxes',
       },
-      total: {
-        allowNull: false,
+      discountsPercentage: {
+        allowNull: true,
         type: DataTypes.FLOAT,
-        unique: false,
+        field: 'discounts_percentage',
+      },
+      totalDiscounts: {
+        allowNull: true,
+        type: DataTypes.FLOAT,
+        field: 'total_discounts',
       },
       status: {
         allowNull: false,
         type: DataTypes.BOOLEAN,
         unique: false,
         defaultValue: true,
+      },
+      invoiceUrl: {
+        allowNull: true,
+        type: DataTypes.STRING,
+        unique: false,
+        field: 'invoice_url',
       },
       createdAt: {
         allowNull: false,
@@ -591,6 +620,79 @@ module.exports = {
         field: 'created_at',
         unique: false,
       },
+    });
+    await queryInterface.createTable(BUYS_DETAILS_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      idBuy: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        field: 'id_buy',
+        references: {
+          model: BUYS_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      idProduct: {
+        type: DataTypes.STRING(25),
+        allowNull: false,
+        unique: false,
+        field: 'id_product',
+        references: {
+          model: PRODUCTS_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      amount: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      netPrice: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        field: 'net_price',
+      },
+      shippingPrice: {
+        allowNull: true,
+        type: DataTypes.FLOAT,
+        field: 'shipping_price',
+      },
+      discountsPercentage: {
+        allowNull: true,
+        type: DataTypes.FLOAT,
+        field: 'discounts_percentage',
+      },
+      ivaPercentage: {
+        allowNull: true,
+        type: DataTypes.FLOAT,
+        field: 'iva_percentage',
+    
+      },
+      otherTaxesPercentage: {
+        allowNull: true,
+        type: DataTypes.FLOAT,
+        field: 'other_taxes_percentage',
+      },
+      profitPercentage: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        field: 'profit_percentage',
+      },
+      salePrice: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        field: 'sale_price',
+      }
+    
     });
     await queryInterface.createTable(SALES_DETAILS_TABLE, {
       id: {

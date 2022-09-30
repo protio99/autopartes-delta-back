@@ -12,7 +12,7 @@ const buysSchema = {
     type: DataTypes.INTEGER,
   },
   idProvider: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.INTEGER,
     unique: false,
     field: 'id_provider',
@@ -23,17 +23,17 @@ const buysSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   },
-  date: {
+  datePurchase: {
     allowNull: false,
     type: DataTypes.DATEONLY,
     field: 'date_purchase',
     unique: false,
-    defaultValue: DataTypes.NOW,
+    
   },
   invoiceNumber: {
     allowNull: false,
     type: DataTypes.STRING,
-    unique: false,
+    unique: true,
     field: 'invoice_number',
   },
   totalPurchase: {
@@ -42,27 +42,56 @@ const buysSchema = {
     unique: false,
     field: 'total_purchase',
   },
+  shippingPrice: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    field: 'shipping_price',
+  },
+   ivaPercentage: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    unique: false,
+    field: 'iva_percentage',
+
+  },
   totalIva: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.FLOAT,
     unique: false,
     field: 'total_iva',
 
   },
+  otherTaxesPercentage: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    field: 'other_taxes_percentage',
+  },
   totalOtherTaxes: {
+    allowNull: true,
     type: DataTypes.FLOAT,
     field: 'total_other_taxes',
   },
-  total: {
-    allowNull: false,
+  discountsPercentage: {
+    allowNull: true,
     type: DataTypes.FLOAT,
-    unique: false,
+    field: 'discounts_percentage',
+  },
+  totalDiscounts: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    field: 'total_discounts',
   },
   status: {
     allowNull: false,
     type: DataTypes.BOOLEAN,
     unique: false,
     defaultValue: true,
+  },
+  invoiceUrl: {
+    allowNull: true,
+    type: DataTypes.STRING,
+    unique: false,
+    field: 'invoice_url',
   },
   createdAt: {
     allowNull: false,

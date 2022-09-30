@@ -39,23 +39,44 @@ const buysDetailsSchema = {
   amount: {
     allowNull: false,
     type: DataTypes.INTEGER,
-    unique: false,
   },
-  price: {
+  netPrice: {
     allowNull: false,
     type: DataTypes.FLOAT,
-    unique: false,
+    field: 'net_price',
   },
-  iva: {
-    allowNull: false,
-    type: DataTypes.FLOAT,
-    unique: false,
-  },
-  othersTaxes: {
+  shippingPrice: {
     allowNull: true,
     type: DataTypes.FLOAT,
-    unique: false,
+    field: 'shipping_price',
   },
+  discountsPercentage: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    field: 'discounts_percentage',
+  },
+  ivaPercentage: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    field: 'iva_percentage',
+
+  },
+  otherTaxesPercentage: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    field: 'other_taxes_percentage',
+  },
+  profitPercentage: {
+    allowNull: false,
+    type: DataTypes.FLOAT,
+    field: 'profit_percentage',
+  },
+  salePrice: {
+    allowNull: false,
+    type: DataTypes.FLOAT,
+    field: 'sale_price',
+  }
+
 };
 
 class BuysDetails extends Model {
