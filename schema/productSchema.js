@@ -3,11 +3,11 @@ const id = Joi.string().min(1).max(25);
 const idCategory = Joi.number().integer().positive();
 const photo = Joi.string().min(3).max(200);
 const name = Joi.string().min(3).max(50);
-const amount = Joi.number().positive();
-const price = Joi.number().positive();
+const amount = Joi.number();
+const price = Joi.number();
 const description = Joi.string().min(3).max(500);
 const state = Joi.boolean();
-const iva = Joi.number().positive();
+const iva = Joi.number();
 const limit = Joi.number().integer();
 const idVehicle = Joi.number().integer().positive();
 const idProduct = Joi.string().min(1).max(25);
@@ -30,10 +30,13 @@ const createProductSchema = Joi.object({
 
 const updateProductSchema = Joi.object({
   idCategory: idCategory,
-  photo: photo,
-  name: name,
   description: description,
   state: state,
+  photo: photo,
+  name: name,
+  amount,
+  price,
+  iva
 });
 
 const getProductSchema = Joi.object({
@@ -43,7 +46,10 @@ const getProductSchema = Joi.object({
 const getVehicleOfAProductSchema = Joi.object({
   idProduct: idProduct.required(),
 });
-
+const updateVehiclesOfProduct = Joi.object({
+  idProduct: idProduct.required(),
+  
+})
 const queryProductSchema = Joi.object({
   limit,
   offset,
@@ -66,5 +72,6 @@ module.exports = {
   getProductSchema,
   queryProductSchema,
   addVehicleToProductSchema,
-  getVehicleOfAProductSchema
+  getVehicleOfAProductSchema,
+  updateVehiclesOfProduct
 };

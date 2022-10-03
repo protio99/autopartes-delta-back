@@ -93,7 +93,7 @@ router.post(
   }
 );
 
-router.patch(
+router.put(
   '/update/:id',
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
@@ -102,6 +102,21 @@ router.patch(
       const { id } = req.params;
       const body = req.body;
       const product = await service.update(id, body);
+      res.json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.put(
+  '/update-vehicles-of-products/:idProduct',
+  validatorHandler(getVehicleOfAProductSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idProduct } = req.params;
+      const body = req.body;
+      const product = await service.updateVehiclesOfProduct(idProduct, body);
       res.json(product);
     } catch (error) {
       next(error);
@@ -118,5 +133,6 @@ router.delete('/delete/:id', async (req, res, next) => {
     next(error);
   }
 });
+
 
 module.exports = router;
