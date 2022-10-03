@@ -7,9 +7,8 @@ const BUYS_TABLE = 'buys';
 const buysSchema = {
   id: {
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING(30),
   },
   idProvider: {
     allowNull: true,
@@ -29,12 +28,6 @@ const buysSchema = {
     field: 'date_purchase',
     unique: false,
     
-  },
-  invoiceNumber: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    unique: true,
-    field: 'invoice_number',
   },
   totalPurchase: {
     allowNull: false,
@@ -60,16 +53,6 @@ const buysSchema = {
     unique: false,
     field: 'total_iva',
 
-  },
-  otherTaxesPercentage: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    field: 'other_taxes_percentage',
-  },
-  totalOtherTaxes: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    field: 'total_other_taxes',
   },
   discountsPercentage: {
     allowNull: true,

@@ -14,7 +14,7 @@ const buysDetailsSchema = {
   },
   idBuy: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING(30),
     unique: false,
     field: 'id_buy',
     references: {
@@ -60,11 +60,6 @@ const buysDetailsSchema = {
     type: DataTypes.FLOAT,
     field: 'iva_percentage',
 
-  },
-  otherTaxesPercentage: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    field: 'other_taxes_percentage',
   },
   profitPercentage: {
     allowNull: false,

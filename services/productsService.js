@@ -56,10 +56,10 @@ class ProductsService {
   }
   async findVehiclesOfAProduct(productId) {
     const options = {
-        include: [{
-        association: 'vehicles',
-        include: ['brands_vehicles']
-      }],
+      include: [ {
+            association: 'vehicles',
+            include: ['brands_vehicles']
+          }],
         where: {
           idProduct: productId},
       };
@@ -68,7 +68,7 @@ class ProductsService {
 
   }
   async findAllVehiclesOfAProduct() {
-    const vehiclesOfAProduct = await models.ProductsVehicles.findAll();
+    const vehiclesOfAProduct = await models.ProductsVehicles.findAll({include:['vehicles']});
     return vehiclesOfAProduct;
 
   }

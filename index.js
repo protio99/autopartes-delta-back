@@ -7,11 +7,11 @@ const {
   ormErrorHandler
 } = require('./middlewares/errorHandler');
 const cors = require('cors');
-const {checkApiKey} = require('./middlewares/authHandler');
+
 const app = express();
 const port = 5000;
 app.use(express.json());
-require('./utils/auth');
+// require('./utils/auth');
 
 const whitelist = ['http://localhost:3000'];
 const options = {
@@ -26,7 +26,7 @@ const options = {
 
 app.use(cors(options));
 
-app.get('/',checkApiKey ,(req, res) => {
+app.get('/' ,(req, res) => {
   res.send('Hello world');
 });
 

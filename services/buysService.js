@@ -14,6 +14,11 @@ class BuysService {
     const newBuy = await models.Buys.create(data);
     return newBuy;
   }
+  
+  async asocciateProducts(data) {
+    const newProducts = await models.BuysDetails.create(data);
+    return newProducts;
+  }
 
 
    async find() {
