@@ -28,10 +28,7 @@ const createClientSchema = Joi.object({
   neightboorhood: neightboorhood.required(),
   address: address.required(),
   indications
-<<<<<<< HEAD
   
-=======
->>>>>>> a9957aa048cec5d2f7ca806a6e6c2a7266abaa22
 });
 
 const updateClientSchema = Joi.object({
