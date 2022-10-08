@@ -17,7 +17,6 @@ const createUserSchema = Joi.object({
   lastname: lastname.required(),
   idRol: idRol.required(),
   status: status.required(),
-
 });
 
 const updateUserSchema = Joi.object({

@@ -27,6 +27,7 @@ const createClientSchema = Joi.object({
   city: city.required(),
   neightboorhood: neightboorhood.required(),
   address: address.required(),
+  indications
   
 });
 

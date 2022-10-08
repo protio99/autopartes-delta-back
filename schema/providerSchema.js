@@ -1,11 +1,11 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer().positive();
-const nit = Joi.number().integer().positive();
+const nit =Joi.string().min(0).max(100);
 const companyName = Joi.string().min(3).max(100);
 const contactName = Joi.string().min(3).max(100);
 const telephone = Joi.string().min(3).max(50);
-const address = Joi.string().min(3).max(100);
+const adress = Joi.string().min(3).max(100);
 const email = Joi.string().min(3).max(100);
 const country = Joi.string().min(3).max(50);
 
@@ -14,7 +14,7 @@ const createProviderSchema = Joi.object({
   companyName: companyName.required(),
   contactName: contactName.required(),
   telephone: telephone.required(),
-  address: address.required(),
+  adress: adress.required(),
   email: email.required(),
   country: country.required(),
 
@@ -25,7 +25,7 @@ const updateProviderSchema = Joi.object({
   companyName,
   contactName,
   telephone,
-  address,
+  adress,
   email,
   country
 });
