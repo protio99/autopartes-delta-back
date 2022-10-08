@@ -5,6 +5,7 @@ const {
   createBuySchema,
   updateBuySchema,
   getBuySchema,
+  buyDetails
 } = require('../schema/buySchema');
 const router = express.Router();
 
@@ -36,6 +37,20 @@ router.post(
     try {
       const body = req.body;
       const newBuy = await service.create(body);
+      res.status(201).json(newBuy);
+      
+    } catch (error) {
+        next(error);
+    }
+  }
+);
+router.post(
+  '/assoiate-products-to-purchasse',
+  validatorHandler(buyDetails, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newBuy = await service.asocciateProducts(body);
       res.status(201).json(newBuy);
       
     } catch (error) {

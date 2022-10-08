@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, Sequelize } = require('sequelize');
 const { PROVIDERS_TABLE } = require('./providersModel');
 
 const BUYS_TABLE = 'buys';
@@ -7,12 +7,11 @@ const BUYS_TABLE = 'buys';
 const buysSchema = {
   id: {
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING(30),
   },
   idProvider: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.INTEGER,
     unique: false,
     field: 'id_provider',
@@ -23,43 +22,66 @@ const buysSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   },
-  date: {
+  datePurchase: {
     allowNull: false,
     type: DataTypes.DATEONLY,
     field: 'date_purchase',
     unique: false,
-    defaultValue: DataTypes.NOW,
-  },
-  invoiceNumber: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    unique: false,
+    
   },
   totalPurchase: {
     allowNull: false,
     type: DataTypes.FLOAT,
     unique: false,
+    field: 'total_purchase',
+  },
+  shippingPrice: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    field: 'shipping_price',
+  },
+   ivaPercentage: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    unique: false,
+    field: 'iva_percentage',
+
   },
   totalIva: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.FLOAT,
     unique: false,
+    field: 'total_iva',
+
   },
-  totalOtherTaxes: {
-    allowNull: false,
+  discountsPercentage: {
+    allowNull: true,
     type: DataTypes.FLOAT,
-    unique: false,
+    field: 'discounts_percentage',
   },
-  total: {
-    allowNull: false,
+  totalDiscounts: {
+    allowNull: true,
     type: DataTypes.FLOAT,
-    unique: false,
+    field: 'total_discounts',
   },
   status: {
     allowNull: false,
     type: DataTypes.BOOLEAN,
     unique: false,
-    defaultValue: false,
+    defaultValue: true,
+  },
+  invoiceUrl: {
+    allowNull: true,
+    type: DataTypes.STRING,
+    unique: false,
+    field: 'invoice_url',
+  },
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATEONLY,
+    defaultValue: Sequelize.NOW,
+    field: 'created_at',
+    unique: false,
   },
 };
 

@@ -80,7 +80,7 @@ const clientsSchema = {
     unique: false,
   },
   indications: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING(500),
     unique: false,
   },

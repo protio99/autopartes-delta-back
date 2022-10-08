@@ -66,12 +66,12 @@ class Products extends Model {
       foreignKey: 'idCategory',
     });
 
-    this.belongsToMany(models.Vehicles, {
-      as: 'products_vehicles',
-      through: models.ProductsVehicles,
-      foreignKey: 'idProduct',
-      otherKey: 'idVehicle',
-    });
+    // this.belongsToMany(models.Vehicles, {
+    //   as: 'products_vehicles',
+    //   through: models.ProductsVehicles,
+    //   foreignKey: 'idProduct',
+    //   otherKey: 'idVehicle',
+    // });
     this.hasMany(models.SalesDetails, {
       as: 'sale_detail',
       foreignKey: 'idProduct',
@@ -88,6 +88,11 @@ class Products extends Model {
       as: 'orders_detail',
       foreignKey: 'idProduct',
     });
+    this.hasMany(models.ProductsVehicles, {
+      as: 'products_vehicles',
+      foreignKey: 'idProduct',
+    });
+    
   }
 
   static config(sequelize) {

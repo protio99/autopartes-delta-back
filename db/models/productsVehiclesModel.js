@@ -42,11 +42,11 @@ class ProductsVehicles extends Model {
   static associate(models) {
     this.belongsTo(models.Products, {
       as: 'products',
-      foreignKey: 'id_product',
+      foreignKey: 'idProduct',
     });
     this.belongsTo(models.Vehicles, {
-      as: 'vehiculos',
-      foreignKey: 'id_vehicle',
+      as: 'vehicles',
+      foreignKey: 'idVehicle',
     });
   }
 

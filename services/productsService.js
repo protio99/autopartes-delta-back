@@ -19,7 +19,23 @@ class ProductsService {
     const newVehicleToProduct = await models.ProductsVehicles.create(data);
     return newVehicleToProduct;
   }
-
+  async updateVehiclesOfProduct(idOfProductSelected, newArrayData) {
+    console.log(idOfProductSelected)
+    console.log(newArrayData)
+    const products = await models.ProductsVehicles.findAll({
+      where: {
+        idProduct : idOfProductSelected
+      }
+    });
+    console.log(products)
+    await products.forEach(vehicleOfProduct => {
+      vehicleOfProduct.destroy();  
+      
+    });
+    await newArrayData.forEach(elementData => {
+      models.ProductsVehicles.create(elementData);      
+    });
+  }
 
    async find(query) {
     // const options = {
@@ -54,11 +70,28 @@ class ProductsService {
     return rta;
 
   }
+  async findVehiclesOfAProduct(productId) {
+    const options = {
+      include: [ {
+            association: 'vehicles',
+            include: ['brands_vehicles']
+          }],
+        where: {
+          idProduct: productId},
+      };
+    const vehiclesOfAProduct = await models.ProductsVehicles.findAll(options);
+    return vehiclesOfAProduct;
 
+  }
+  async findAllVehiclesOfAProduct() {
+    const vehiclesOfAProduct = await models.ProductsVehicles.findAll({include:['vehicles']});
+    return vehiclesOfAProduct;
+
+  }
   async findById(id) {
     const product = await models.Products.findByPk(id,
       {
-        include: ['products_vehicles']
+        include: ['category']
       }
       );
     if(!product){

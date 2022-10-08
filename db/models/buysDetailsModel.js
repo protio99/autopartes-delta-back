@@ -14,7 +14,7 @@ const buysDetailsSchema = {
   },
   idBuy: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING(30),
     unique: false,
     field: 'id_buy',
     references: {
@@ -39,23 +39,39 @@ const buysDetailsSchema = {
   amount: {
     allowNull: false,
     type: DataTypes.INTEGER,
-    unique: false,
   },
-  price: {
+  netPrice: {
     allowNull: false,
     type: DataTypes.FLOAT,
-    unique: false,
+    field: 'net_price',
   },
-  iva: {
+  shippingPrice: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    field: 'shipping_price',
+  },
+  discountsPercentage: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    field: 'discounts_percentage',
+  },
+  ivaPercentage: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
+    field: 'iva_percentage',
+
+  },
+  profitPercentage: {
     allowNull: false,
     type: DataTypes.FLOAT,
-    unique: false,
+    field: 'profit_percentage',
   },
-  othersTaxes: {
+  salePrice: {
     allowNull: false,
     type: DataTypes.FLOAT,
-    unique: false,
-  },
+    field: 'sale_price',
+  }
+
 };
 
 class BuysDetails extends Model {
