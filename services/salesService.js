@@ -16,12 +16,17 @@ class SalesService {
   }
 
 
-   async find() {
-  
+   async find() { 
     const rta = await models.Sales.findAll();
     return rta;
 
   }
+
+  async asocciateProducts(data) {
+    const newProducts = await models.SalesDetails.create(data);
+    return newProducts;
+  }
+
 
   async findById(id) {
     const sale = await models.Sales.findByPk(id);

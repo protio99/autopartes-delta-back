@@ -16,9 +16,10 @@ class RolesPermissionsService {
   }
 
 
-   async find() {
-  
-    const rta = await models.RolesPermissions.findAll();
+   async find() { 
+    const rta = await models.RolesPermissions.findAll({
+      include: ['permissions']
+    });
     return rta;
 
   }

@@ -45,18 +45,7 @@ const salesDetailsSchema = {
     allowNull: false,
     type: DataTypes.FLOAT,
     unique: false,
-  },
-  iva: {
-    allowNull: false,
-    type: DataTypes.FLOAT,
-    unique: false,
-  },
-  otherTaxes: {
-    allowNull: false,
-    type: DataTypes.FLOAT,
-    unique: false,
-    field: 'other_taxes',
-  },
+  }
 };
 
 class SalesDetails extends Model {

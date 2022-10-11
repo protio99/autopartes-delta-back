@@ -5,11 +5,24 @@ const {
   createRoleSchema,
   updateRoleSchema,
   getRoleSchema,
+  getRoleByNameSchema
 } = require('../schema/roleSchema');
 const router = express.Router();
 
 const service = new RolesService();
-
+router.get(
+  '/find-by-name/:name',
+  validatorHandler(getRoleByNameSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { name } = req.params;
+      const role = await service.findByName(name);
+      res.json(role);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 router.get('/', async (req, res) => {
   const roles = await service.find();
   res.json(roles);
@@ -29,6 +42,7 @@ router.get(
   }
 );
 
+
 router.post(
   '/create',
   validatorHandler(createRoleSchema, 'body'),
@@ -44,7 +58,7 @@ router.post(
   }
 );
 
-router.patch(
+router.put(
   '/update/:id',
   validatorHandler(getRoleSchema, 'params'),
   validatorHandler(updateRoleSchema, 'body'),

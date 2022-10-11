@@ -5,6 +5,7 @@ const {
   createSaleSchema,
   updateSaleSchema,
   getSaleSchema,
+  saleProductsDetails
 } = require('../schema/saleSchema');
 const router = express.Router();
 
@@ -44,6 +45,20 @@ router.post(
   }
 );
 
+router.post(
+  '/associate-products-to-sale',
+  validatorHandler(saleProductsDetails, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newSale = await service.asocciateProducts(body);
+      res.status(201).json(newSale);
+      
+    } catch (error) {
+        next(error);
+    }
+  }
+);
 router.patch(
   '/update/:id',
   validatorHandler(getSaleSchema, 'params'),

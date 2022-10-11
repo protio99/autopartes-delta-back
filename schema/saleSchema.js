@@ -8,8 +8,13 @@ const statusSale = Joi.string().min(3).max(50);
 const statusPayment = Joi.string().min(3).max(50);
 const totalPurchase = Joi.number().positive();
 
+const idSale = Joi.number().integer().positive();
+const idProduct = Joi.string().min(0).max(50);
+const amount = Joi.number().integer().positive();
+const price = Joi.number().positive();
+
 const createSaleSchema = Joi.object({
-  idClient: idClient.required(),
+  idClient,
   saleDate: saleDate.required(),
   statusSale: statusSale.required(),
   statusPayment: statusPayment.required(),
@@ -28,8 +33,17 @@ const getSaleSchema = Joi.object({
   id: id.required(),
 });
 
+const saleProductsDetails = Joi.object({
+  idSale: idSale.required(),
+  idProduct: idProduct.required(),
+  amount: amount.required(),
+  price: price.required(),
+
+});
+
 module.exports = {
   createSaleSchema,
   updateSaleSchema,
   getSaleSchema,
+  saleProductsDetails
 };

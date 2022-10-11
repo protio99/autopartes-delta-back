@@ -1,18 +1,18 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer().positive();
-const idRole = Joi.number().integer().positive();
-const idPermission = Joi.number().integer().positive();
+const idRol = Joi.number().integer().positive();
+const idPermissions = Joi.number().integer().positive();
 
 const createRolePermissionSchema = Joi.object({
-  idRole: idRole.required(),
-  idPermission: idPermission.required(),
+  idRol: idRol.required(),
+  idPermissions: idPermissions.required(),
 
 });
 
 const updateRolePermissionSchema = Joi.object({
-  idRole,
-  idPermission,
+  idRol,
+  idPermissions,
 });
 
 const getRolePermissionSchema = Joi.object({

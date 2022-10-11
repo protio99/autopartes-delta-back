@@ -3,12 +3,12 @@ const Joi = require('joi')
 
 const id = Joi.number().integer().positive();
 const name = Joi.string().min(3).max(50);
-const creationDate = Joi.date().format('YYYY-MM-DD').utc();
 const status = Joi.boolean();
 
 const createRoleSchema = Joi.object({
+  id,
   name: name.required(),
-  status: status.required(),
+  status,
 });
 
 const updateRoleSchema = Joi.object({
@@ -19,9 +19,13 @@ const updateRoleSchema = Joi.object({
 const getRoleSchema = Joi.object({
   id: id.required(),
 });
+const getRoleByNameSchema = Joi.object({
+  name: name.required(),
+});
 
 module.exports = {
   createRoleSchema,
   updateRoleSchema,
   getRoleSchema,
+  getRoleByNameSchema
 };

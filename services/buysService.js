@@ -22,11 +22,26 @@ class BuysService {
 
 
    async find() {
-  
-    const rta = await models.Buys.findAll();
+    const options = {
+      include: ['provider']   
+    };
+    const rta = await models.Buys.findAll(options);
     return rta;
 
   }
+
+  async getBuyDetailById(buyId) {
+    const options = {
+      include: ['products'],
+      where: {
+        idBuy: buyId
+      } 
+    };
+    const rta = await models.BuysDetails.findAll(options);
+    return rta;
+
+  }
+
 
   async findById(id) {
     const buy = await models.Buys.findByPk(id);

@@ -13,7 +13,7 @@ const rolesSchema = {
   name: {
     allowNull: false,
     type: DataTypes.STRING(50),
-    unique: false,
+    unique: true,
   },
   createdAt: {
     allowNull: false,

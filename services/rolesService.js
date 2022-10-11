@@ -22,7 +22,19 @@ class RolesService {
     return rta;
 
   }
+  async findByName(rolName) { 
+    const rta = await models.Roles.findAll({
+      where:{
+        name: rolName
+      }
+    });
+    if (!rta) {
+      throw boom.notFound('role not found')
+      
+    }
+    return rta;
 
+  }
   async findById(id) {
     const role = await models.Roles.findByPk(id);
     if(!role){

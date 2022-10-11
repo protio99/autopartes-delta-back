@@ -16,9 +16,10 @@ class PermissionsService {
   }
 
 
-   async find() {
-  
-    const rta = await models.Permissions.findAll();
+   async find() { 
+    const rta = await models.Permissions.findAll({
+      include: ['modules_permissions']
+    });
     return rta;
 
   }

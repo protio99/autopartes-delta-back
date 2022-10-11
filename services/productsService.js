@@ -20,14 +20,12 @@ class ProductsService {
     return newVehicleToProduct;
   }
   async updateVehiclesOfProduct(idOfProductSelected, newArrayData) {
-    console.log(idOfProductSelected)
-    console.log(newArrayData)
     const products = await models.ProductsVehicles.findAll({
       where: {
         idProduct : idOfProductSelected
       }
     });
-    console.log(products)
+  
     await products.forEach(vehicleOfProduct => {
       vehicleOfProduct.destroy();  
       
@@ -103,6 +101,18 @@ class ProductsService {
   async update(id, newData) {
     const product = await this.findById(id);
     const rta = await product.update(newData);  
+    return rta;
+  }
+
+  async updateFromBuy(id, newData) {
+    const product = await this.findById(id);
+    console.log("New data objet", newData)
+    const newAmount = product.amount + newData.amount;
+    const rta = await product.update({
+      amount: newAmount,
+      iva: newData.iva,
+      price: newData.price
+    });  
     return rta;
   }
 

@@ -29,11 +29,17 @@ const createProductSchema = Joi.object({
 });
 
 const updateProductSchema = Joi.object({
-  idCategory: idCategory,
-  description: description,
-  state: state,
-  photo: photo,
-  name: name,
+  idCategory,
+  description,
+  state,
+  photo,
+  name,
+  amount,
+  price,
+  iva
+});
+
+const updateProductFromBuySchema = Joi.object({
   amount,
   price,
   iva
@@ -73,5 +79,6 @@ module.exports = {
   queryProductSchema,
   addVehicleToProductSchema,
   getVehicleOfAProductSchema,
-  updateVehiclesOfProduct
+  updateVehiclesOfProduct,
+  updateProductFromBuySchema
 };

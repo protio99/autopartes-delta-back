@@ -134,7 +134,7 @@ module.exports = {
       name: {
         allowNull: false,
         type: DataTypes.STRING(50),
-        unique: false,
+        unique: true,
       },
       createdAt: {
         allowNull: false,
@@ -707,18 +707,7 @@ module.exports = {
         allowNull: false,
         type: DataTypes.FLOAT,
         unique: false,
-      },
-      iva: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        unique: false,
-      },
-      otherTaxes: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        unique: false,
-        field: 'other_taxes',
-      },
+      }
     });
     await queryInterface.createTable(ORDERS_TABLE, {
       id: {

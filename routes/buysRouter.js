@@ -5,16 +5,28 @@ const {
   createBuySchema,
   updateBuySchema,
   getBuySchema,
-  buyDetails
+  buyDetails,
+  getBuyDetails
 } = require('../schema/buySchema');
 const router = express.Router();
 
 const service = new BuysService();
 
-router.get('/', async (req, res) => {
-  const buys = await service.find();
-  res.json(buys);
-});
+
+
+router.get(
+  '/get-buy-details/:idBuy',
+  validatorHandler(getBuyDetails, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idBuy } = req.params;
+      const buy = await service.getBuyDetailById(idBuy);
+      res.json(buy);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.get(
   '/:id',
@@ -29,6 +41,11 @@ router.get(
     }
   }
 );
+
+router.get('/', async (req, res) => {
+  const buys = await service.find();
+  res.json(buys);
+});
 
 router.post(
   '/create',
