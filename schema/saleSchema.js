@@ -33,6 +33,10 @@ const getSaleSchema = Joi.object({
   id: id.required(),
 });
 
+const getSaleDetails = Joi.object({
+  idSale : idSale.required(),
+})
+
 const saleProductsDetails = Joi.object({
   idSale: idSale.required(),
   idProduct: idProduct.required(),
@@ -45,5 +49,6 @@ module.exports = {
   createSaleSchema,
   updateSaleSchema,
   getSaleSchema,
-  saleProductsDetails
+  saleProductsDetails,
+  getSaleDetails
 };

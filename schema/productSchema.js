@@ -45,6 +45,10 @@ const updateProductFromBuySchema = Joi.object({
   iva
 });
 
+const discountProductSchema = Joi.object({
+  amount: amount.required()
+});
+
 const getProductSchema = Joi.object({
   id: id.required(),
 });
@@ -80,5 +84,6 @@ module.exports = {
   addVehicleToProductSchema,
   getVehicleOfAProductSchema,
   updateVehiclesOfProduct,
-  updateProductFromBuySchema
+  updateProductFromBuySchema,
+  discountProductSchema
 };

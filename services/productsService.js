@@ -116,6 +116,16 @@ class ProductsService {
     return rta;
   }
 
+  async discountProduct(id, newData) {
+    const product = await this.findById(id);
+    console.log("New data objet", newData)
+    const newAmount = product.amount - newData.amount;
+    const rta = await product.update({
+      amount: newAmount
+    });  
+    return rta;
+  }
+
   async delete(id) {
     const product = await this.findById(id);
     await product.destroy();  

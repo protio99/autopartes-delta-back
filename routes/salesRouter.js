@@ -5,7 +5,8 @@ const {
   createSaleSchema,
   updateSaleSchema,
   getSaleSchema,
-  saleProductsDetails
+  saleProductsDetails,
+  getSaleDetails
 } = require('../schema/saleSchema');
 const router = express.Router();
 
@@ -41,6 +42,20 @@ router.post(
       
     } catch (error) {
         next(error);
+    }
+  }
+);
+
+router.get(
+  '/get-sale-details/:idSale',
+  validatorHandler(getSaleDetails, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idSale } = req.params;
+      const buy = await service.getSaleDetailById(idSale);
+      res.json(buy);
+    } catch (error) {
+      next(error);
     }
   }
 );
