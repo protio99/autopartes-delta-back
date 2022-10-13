@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const { CATEGORIES_TABLE } = require('./categoriesModel');
+const { PRODUCTS_BRANDS_TABLE } = require('./productsBrandsModel');
 
 const PRODUCTS_TABLE = 'products';
 //DEFINE LA ESTRUCTURA DE LA BD
@@ -22,10 +23,17 @@ const productsSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   },
-  photo: {
-    type: DataTypes.STRING(200),
+  idBrand: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
     unique: false,
-    defaultValue: 'enlace no proporcionado',
+    field: 'id_brand',
+    references: {
+      model: PRODUCTS_BRANDS_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
   },
   name: {
     allowNull: false,
@@ -65,6 +73,10 @@ class Products extends Model {
       as: 'category',
       foreignKey: 'idCategory',
     });
+    this.belongsTo(models.ProductsBrands, {
+      as: 'brand',
+      foreignKey: 'idBrand',
+    });
 
     // this.belongsToMany(models.Vehicles, {
     //   as: 'products_vehicles',
@@ -72,6 +84,10 @@ class Products extends Model {
     //   foreignKey: 'idProduct',
     //   otherKey: 'idVehicle',
     // });
+    this.hasMany(models.ImagesProducts, {
+      as: 'images_products',
+      foreignKey: 'idProduct',
+    });
     this.hasMany(models.SalesDetails, {
       as: 'sale_detail',
       foreignKey: 'idProduct',

@@ -25,6 +25,8 @@ const { VEHICLES_TABLE } = require('./../models/vehiclesModel');
 const { BRANDS_TABLE } = require('./../models/brandsModel');
 const { USERS_HELP_TABLE } = require('./../models/usersHelpModel');
 const { PRODUCTS_VEHICLES_TABLE } = require('../models/productsVehiclesModel');
+const { PRODUCTS_BRANDS_TABLE } = require('./../models/productsBrandsModel');
+const {IMAGES_PRODUCTS_TABLE} = require("./../models/imagesProductsModel")
 
 module.exports = {
   async up(queryInterface) {
@@ -42,6 +44,19 @@ module.exports = {
       },
     });
     await queryInterface.createTable(BRANDS_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING(50),
+        unique: true,
+      },
+    });
+    await queryInterface.createTable(PRODUCTS_BRANDS_TABLE, {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -231,10 +246,17 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      photo: {
+      idBrand: {
         allowNull: false,
-        type: DataTypes.STRING(200),
+        type: DataTypes.INTEGER,
         unique: false,
+        field: 'id_brand',
+        references: {
+          model: PRODUCTS_BRANDS_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       name: {
         allowNull: false,
@@ -266,6 +288,30 @@ module.exports = {
         type: DataTypes.FLOAT,
         unique: false,
       },
+    });
+    await queryInterface.createTable(IMAGES_PRODUCTS_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+    },
+    idProduct: {
+        allowNull: false,
+        type: DataTypes.STRING(25),
+        unique: false,
+        field: 'id_product',
+        references: {
+          model: PRODUCTS_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+    url: {
+        allowNull: false,
+        type: DataTypes.STRING(200),
+    }
     });
     await queryInterface.createTable(PRODUCTS_VEHICLES_TABLE, {
       id: {
@@ -882,6 +928,7 @@ module.exports = {
   async down(queryInterface) {
     await queryInterface.dropTable(CATEGORIES_TABLE);
     await queryInterface.dropTable(BRANDS_TABLE);
+    await queryInterface.dropTable(PRODUCTS_BRANDS_TABLE);
     await queryInterface.dropTable(MODULES_TABLE);
     await queryInterface.dropTable(USERS_HELP_TABLE);
     await queryInterface.dropTable(PERMISSIONS_TABLE);
@@ -889,6 +936,8 @@ module.exports = {
     await queryInterface.dropTable(ROLES_PERMISSIONS_TABLE);
     await queryInterface.dropTable(VEHICLES_TABLE);
     await queryInterface.dropTable(PRODUCTS_TABLE);
+    await queryInterface.dropTable(IMAGES_PRODUCTS_TABLE);
+    await queryInterface.dropTable(PRODUCTS_VEHICLES_TABLE);
     await queryInterface.dropTable(PROVIDERS_TABLE);
     await queryInterface.dropTable(USERS_TABLE);
     await queryInterface.dropTable(CLIENTS_TABLE);
