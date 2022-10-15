@@ -8,8 +8,8 @@ class ImagesProductsService {
   
   }
 
-  async create(data) {
-    const newImagesProducts = await models.ImagesProducts.create(data);
+  async create(idProduct, url) {
+    const newImagesProducts = await models.ImagesProducts.create({idProduct,url});
     return newImagesProducts;
   }
 

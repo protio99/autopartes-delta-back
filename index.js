@@ -8,6 +8,7 @@ const {
 } = require('./middlewares/errorHandler');
 const cors = require('cors');
 
+
 const app = express();
 const port = 5000;
 app.use(express.json());
@@ -24,6 +25,7 @@ const options = {
   }
 }
 
+app.use('/public', express.static(__dirname + '/public'));  
 app.use(cors(options));
 
 app.get('/' ,(req, res) => {
