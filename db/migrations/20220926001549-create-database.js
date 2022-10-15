@@ -542,31 +542,32 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+        field: 'id_client',
       },
       saleDate: {
         allowNull: false,
         type: DataTypes.DATEONLY,
         defaultValue: DataTypes.DATEONLY,
         unique: false,
-        fiel: 'sale_date',
+        field: 'sale_date',
       },
       statusSale: {
         allowNull: false,
         type: DataTypes.STRING,
         unique: false,
-        fiel: 'status_sale',
+        field: 'status_sale',
       },
       statusPayment: {
         allowNull: false,
         type: DataTypes.STRING,
         unique: false,
-        fiel: 'status_payment',
+        field: 'status_payment',
       },
       totalPurchase: {
         allowNull: false,
         type: DataTypes.FLOAT,
         unique: false,
-        fiel: 'total_purchase',
+        field: 'total_purchase',
       },
     });
 

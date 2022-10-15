@@ -27,6 +27,18 @@ class SalesService {
     return newProducts;
   }
 
+  async getSaleDetailById(saleId) {
+    const options = {
+      include: ['products'],
+      where: {
+        idSale: saleId
+      } 
+    };
+    const rta = await models.SalesDetails.findAll(options);
+    return rta;
+
+  }
+
 
   async findById(id) {
     const sale = await models.Sales.findByPk(id);
