@@ -77,13 +77,6 @@ class Products extends Model {
       as: 'brand',
       foreignKey: 'idBrand',
     });
-
-    // this.belongsToMany(models.Vehicles, {
-    //   as: 'products_vehicles',
-    //   through: models.ProductsVehicles,
-    //   foreignKey: 'idProduct',
-    //   otherKey: 'idVehicle',
-    // });
     this.hasMany(models.ImagesProducts, {
       as: 'images_products',
       foreignKey: 'idProduct',
