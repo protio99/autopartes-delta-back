@@ -45,7 +45,7 @@ class ProductsService {
     // };
     const options = {
         include: ['category'],
-        attributes: { exclude: ['Products.idProduct'] },
+        attributes: ['id', 'idCategory', 'idBrand', 'name', 'amount', 'price', 'description', 'state', 'iva' ],
         where: {},
       };
     const {limit, offset, price, priceMin, priceMax} = query;

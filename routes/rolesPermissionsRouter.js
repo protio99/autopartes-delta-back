@@ -5,6 +5,7 @@ const {
   createRolePermissionSchema,
   updateRolePermissionSchema,
   getRolePermissionSchema,
+  getPermissionsOfRolSchema
 } = require('./../schema/rolePermissionSchema');
 const router = express.Router();
 
@@ -28,6 +29,21 @@ router.get(
     }
   }
 );
+
+router.get(
+  '/get-permissions-of-rol/:idRol',
+  validatorHandler(getPermissionsOfRolSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idRol } = req.params;
+      const permissionsOfRol = await service.findPermissionsOfRolSelected(idRol);
+      res.json(permissionsOfRol);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 
 router.post(
   '/create',

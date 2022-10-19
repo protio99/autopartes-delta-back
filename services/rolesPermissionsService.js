@@ -43,6 +43,25 @@ class RolesPermissionsService {
     await rolePermission.destroy();  
     return {id};
   }
+
+  async findPermissionsOfRolSelected(idRol){
+    const options ={
+      include: [
+        {
+          association: 'permissions',
+          include: ['modules_permissions']
+        }
+      ],
+
+      where:{
+        idRol: idRol
+      }
+    };
+    const permissionsOfRol = await models.RolesPermissions.findAll(options)
+    return permissionsOfRol
+  }
 }
+
+
 
 module.exports = RolesPermissionsService;

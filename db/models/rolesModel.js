@@ -36,12 +36,17 @@ class Roles extends Model {
       as: 'users_roles',
       foreignKey: 'idRol',
     });
-    this.belongsToMany(models.Permissions, {
+    // this.belongsToMany(models.Permissions, {
+    //   as: 'roles_permissions',
+    //   through: models.RolesPermissions,
+    //   foreignKey: 'idRol',
+    //   otherKey: 'idPermissions',
+    // });
+    this.hasMany(models.RolesPermissions, {
       as: 'roles_permissions',
-      through: models.RolesPermissions,
       foreignKey: 'idRol',
-      otherKey: 'idPermissions',
     });
+
   }
 
   static config(sequelize) {

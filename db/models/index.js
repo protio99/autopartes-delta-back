@@ -67,6 +67,7 @@ function setupModels(sequelize) {
     Quotation.associate(sequelize.models)
     QuotationsDetails.associate(sequelize.models)
     Roles.associate(sequelize.models)
+    RolesPermissions.associate(sequelize.models)
     Sales.associate(sequelize.models)
     SalesDetails.associate(sequelize.models)
     Users.associate(sequelize.models)

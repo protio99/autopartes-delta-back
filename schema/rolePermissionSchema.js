@@ -15,6 +15,11 @@ const updateRolePermissionSchema = Joi.object({
   idPermissions,
 });
 
+const getPermissionsOfRolSchema = Joi.object({
+  idRol: idRol.required()
+
+});
+
 const getRolePermissionSchema = Joi.object({
   id: id.required(),
 });
@@ -23,4 +28,5 @@ module.exports = {
   createRolePermissionSchema,
   updateRolePermissionSchema,
   getRolePermissionSchema,
+  getPermissionsOfRolSchema
 };

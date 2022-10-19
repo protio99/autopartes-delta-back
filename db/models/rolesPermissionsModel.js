@@ -41,12 +41,23 @@ const rolesPermissionsSchema = {
 
 class RolesPermissions extends Model{
     static associate(models){
+        
+        // this.belongsTo(models.Permissions, {
+        //     as:'permissions',
+        //     foreignKey: 'idPermissions'});
+        
+        //     this.belongsTo(models.Roles, {
+        //     as:'roles',
+        //     foreignKey: 'idRol'})
         this.belongsTo(models.Permissions, {
-            as:'permissions',
-            foreignKey: 'idPermissions'});
-        this.belongsTo(models.Roles, {
-            as:'roles',
-            foreignKey: 'idRol'})
+            as: 'permissions',
+            foreignKey: 'idPermissions',
+          });
+          this.belongsTo(models.Roles, {
+            as: 'roles',
+            foreignKey: 'idRol',
+          });
+        
     }
 
     static config(sequelize){
