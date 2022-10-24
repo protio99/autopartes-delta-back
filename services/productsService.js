@@ -44,8 +44,8 @@ class ProductsService {
     //   where: {},
     // };
     const options = {
-        include: ['category'],
-        attributes: ['id', 'idCategory', 'idBrand', 'name', 'amount', 'price', 'description', 'state', 'iva' ],
+        include: ['category', 'brand'],
+        attributes: {exclude: ['idProduct']},
         where: {},
       };
     const {limit, offset, price, priceMin, priceMax} = query;
@@ -90,7 +90,9 @@ class ProductsService {
   async findById(id) {
     const product = await models.Products.findByPk(id,
       {
-        include: ['category']
+        include: ['category'],
+        attributes: {exclude: ['idProduct']},
+
       }
       );
     if(!product){

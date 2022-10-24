@@ -29,7 +29,12 @@ class SalesService {
 
   async getSaleDetailById(saleId) {
     const options = {
-      include: ['products'],
+      include: {
+        association: 'products',
+        attributes: ['id', 'idCategory', 'idBrand', 'name', 'amount', 'price', 'description', 'state', 'iva' ]
+        // attributes:  { exclude: ['idProduct'] }
+
+      },
       where: {
         idSale: saleId
       } 

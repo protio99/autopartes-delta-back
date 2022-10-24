@@ -15,7 +15,6 @@ const salesDetailsSchema = {
   idSale: {
     allowNull: false,
     type: DataTypes.INTEGER,
-    unique: true,
     field: 'id_sale',
     references: {
       model: SALES_TABLE,

@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const id = Joi.string().min(1).max(25);
 const idCategory = Joi.number().integer().positive();
+const idBrand = Joi.number().integer().positive();
 const photo = Joi.string().min(3).max(200);
 const name = Joi.string().min(3).max(50);
 const amount = Joi.number();
@@ -18,6 +19,7 @@ const offset = Joi.number().integer();
 const createProductSchema = Joi.object({
   id: id.required(),
   idCategory: idCategory.required(),
+  idBrand: idBrand.required(),
   description: description.required(),
   state,
   photo,
