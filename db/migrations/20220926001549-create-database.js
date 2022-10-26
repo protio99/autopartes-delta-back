@@ -45,16 +45,22 @@ module.exports = {
     });
     await queryInterface.createTable(BRANDS_TABLE, {
       id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: DataTypes.INTEGER
       },
       name: {
-        allowNull: false,
-        type: DataTypes.STRING(50),
-        unique: true,
+          allowNull: false,
+          type: DataTypes.STRING(50),
+          unique: true,
       },
+      status: {
+          allowNull: false,
+          type: DataTypes.BOOLEAN,
+          unique: false,
+          defaultValue: true,
+        }
     });
     await queryInterface.createTable(PRODUCTS_BRANDS_TABLE, {
       id: {
