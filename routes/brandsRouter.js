@@ -5,6 +5,7 @@ const {
   createBrandSchema,
   updateBrandSchema,
   getBrandSchema,
+  getVehiclesWhereBrand
 } = require('../schema/brandSchema');
 const router = express.Router();
 
@@ -29,6 +30,20 @@ router.get(
   }
 );
 
+router.get(
+  '/get-vehicles-where-brand/:idBrand',
+  validatorHandler(getVehiclesWhereBrand, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idBrand } = req.params;
+      const vehicles = await service.findVehiclesWhereBrand(idBrand);
+      res.json(vehicles);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.post(
   '/create',
   validatorHandler(createBrandSchema, 'body'),
@@ -40,6 +55,23 @@ router.post(
       
     } catch (error) {
         next(error);
+    }
+  }
+);
+
+
+router.put(
+  '/change-status-of-brand/:id',
+  validatorHandler(getBrandSchema, 'params'),
+  validatorHandler(updateBrandSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const Brand = await service.changeStatusOfBrand(id, body);
+      res.json(Brand);
+    } catch (error) {
+      next(error);
     }
   }
 );

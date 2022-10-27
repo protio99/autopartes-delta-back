@@ -232,6 +232,11 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      status: {
+        type: DataTypes.BOOLEAN,
+        unique: false,
+        defaultValue: 1,
+      },
     });
     await queryInterface.createTable(PRODUCTS_TABLE, {
       id: {

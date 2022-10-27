@@ -23,6 +23,34 @@ class BrandsService {
 
   }
 
+  async findVehiclesWhereBrand(idBrand) {
+  
+    const rta = await models.Vehicles.findAll(
+      {
+        where : {
+          idBrand: idBrand
+        }
+      }
+    );
+    return rta;
+
+  }
+
+  async changeStatusOfBrand(id, status) {
+    const brand = await this.findById(id);
+    const vehiclesWhereBrand = await this.findVehiclesWhereBrand(id)
+    if (vehiclesWhereBrand) {
+      const rta = await brand.update(status);
+      await vehiclesWhereBrand.forEach((vehicle) =>{
+        const rtaVehicles =  vehicle.update(status); 
+        return rtaVehicles 
+      })  
+
+      return rta;
+      
+    }
+  }
+
   async findById(id) {
     const brand = await models.Brands.findByPk(id);
     if(!brand){

@@ -32,6 +32,11 @@ const vehiclesSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   },
+  status: {
+    type: DataTypes.BOOLEAN,
+    unique: false,
+    defaultValue: 1,
+  },
 };
 
 class Vehicles extends Model {

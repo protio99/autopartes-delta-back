@@ -58,7 +58,7 @@ const productsSchema = {
   state: {
     type: DataTypes.BOOLEAN,
     unique: false,
-    defaultValue: 0,
+    defaultValue: 1,
   },
   iva: {
     type: DataTypes.FLOAT,
