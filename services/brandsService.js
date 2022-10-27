@@ -24,7 +24,6 @@ class BrandsService {
   }
 
   async findVehiclesWhereBrand(idBrand) {
-  
     const rta = await models.Vehicles.findAll(
       {
         where : {
@@ -33,16 +32,17 @@ class BrandsService {
       }
     );
     return rta;
-
   }
 
-  async changeStatusOfBrand(id, status) {
-    const brand = await this.findById(id);
+  async changeStatusOfBrand(id, data) {
     const vehiclesWhereBrand = await this.findVehiclesWhereBrand(id)
+    const rta = await models.Brands.update( 
+      { status: data.status },
+      { where: { id: id } });
     if (vehiclesWhereBrand) {
-      const rta = await brand.update(status);
       await vehiclesWhereBrand.forEach((vehicle) =>{
-        const rtaVehicles =  vehicle.update(status); 
+        const rtaVehicles =  models.Vehicles.update({ status: data.status },
+          { where: { id: vehicle.id } }); 
         return rtaVehicles 
       })  
 

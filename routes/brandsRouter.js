@@ -5,7 +5,8 @@ const {
   createBrandSchema,
   updateBrandSchema,
   getBrandSchema,
-  getVehiclesWhereBrand
+  getVehiclesWhereBrand,
+  changeStatusBrandSchema
 } = require('../schema/brandSchema');
 const router = express.Router();
 
@@ -63,7 +64,7 @@ router.post(
 router.put(
   '/change-status-of-brand/:id',
   validatorHandler(getBrandSchema, 'params'),
-  validatorHandler(updateBrandSchema, 'body'),
+  validatorHandler(changeStatusBrandSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
