@@ -40,6 +40,32 @@ class VehiclesService {
     return rta;
   }
 
+  async verifyStatusOfBrand(idVehicle){
+    const vehicle = await this.findById(idVehicle);
+    const brand = await models.Brands.findAll({
+      where: {
+        id: vehicle.idBrand,
+      },
+    });
+   return brand
+    // let response = brand.status ? true : false
+    // return [response, brand];
+  }
+
+  async changeStatusVehicle(idVehicle, data){
+    let brand = await this.verifyStatusOfBrand(idVehicle)
+    if (brand[0].status === true) {
+      const rta = await models.Vehicles.update(
+        { status: data.status },
+        { where: { id: idVehicle } }
+      );
+      return rta      
+    } else{
+      return null
+    }
+
+  }
+
   async delete(id) {
     const vehicle = await this.findById(id);
     await vehicle.destroy();  

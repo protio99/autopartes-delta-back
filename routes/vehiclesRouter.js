@@ -5,6 +5,7 @@ const {
   createVehicleSchema,
   updateVehicleSchema,
   getVehicleSchema,
+  changeStatusVehicleSchema
 } = require('../schema/vehicleSchema');
 const router = express.Router();
 
@@ -22,6 +23,23 @@ router.get(
     try {
       const { id } = req.params;
       const vehicle = await service.findById(id);
+      res.json(vehicle);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.put(
+  '/change-status-of-vehicle/:id',
+  validatorHandler(getVehicleSchema, 'params'),
+  validatorHandler(changeStatusVehicleSchema
+    , 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const vehicle = await service.changeStatusVehicle(id, body);
       res.json(vehicle);
     } catch (error) {
       next(error);
