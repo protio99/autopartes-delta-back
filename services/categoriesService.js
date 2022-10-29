@@ -1,5 +1,3 @@
-
-//Boom es una libreria que ayuda a manejar los middleware HttpErrors de una forma mas sencilla
 const boom = require('@hapi/boom');
 const {models} = require('./../librerias/sequelize')
 
@@ -22,11 +20,44 @@ class CategoriesService {
     return rta;
 
   }
+  async findProductsWhereCategory(idCategory) {
+    const rta = await models.Products.findAll({
+      attributes:{
+        exclude: ['idProduct']
+      },
+      where: {
+        idCategory: idCategory,
+      },
+    });
+    return rta;
+  }
+
+  async changeStatusOfCategory(idCategory, data){
+    let products = await this.findProductsWhereCategory(idCategory)
+      const rta = await models.Categories.update(
+        { status: data.status },
+        { where: { id: idCategory } }      
+      );
+      ;
+      if (data.status === false) {
+        (await products).forEach((product) =>{
+          const idProduct = product.id
+          const response = models.Products.update(
+            { state: data.status },
+            { where: { id: idProduct } }      
+          );
+          return response
+  
+        })
+        
+      }
+      return rta      
+    
+
+  }
 
   async findById(id) {
-    const category = await models.Categories.findByPk(id, {
-      include: ['products_categories']
-    });
+    const category = await models.Categories.findByPk(id);
     if(!category){
       throw boom.notFound('category not found')
     }

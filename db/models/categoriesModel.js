@@ -14,7 +14,12 @@ const categoriesSchema = {
         allowNull: false,
         type: DataTypes.STRING,
         unique: true,
-    }
+    },
+    status: {
+        type: DataTypes.BOOLEAN,
+        unique: false,
+        defaultValue: 1,
+      }
 }
 
 class Categories extends Model{

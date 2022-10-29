@@ -32,17 +32,22 @@ module.exports = {
   async up(queryInterface) {
     await queryInterface.createTable(CATEGORIES_TABLE, {
       id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: DataTypes.INTEGER
       },
       name: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
+          allowNull: false,
+          type: DataTypes.STRING,
+          unique: true,
       },
-    });
+      status: {
+          type: DataTypes.BOOLEAN,
+          unique: false,
+          defaultValue: 1,
+        }
+  });
     await queryInterface.createTable(BRANDS_TABLE, {
       id: {
           allowNull: false,

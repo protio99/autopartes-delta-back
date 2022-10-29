@@ -5,6 +5,8 @@ const name = Joi.string().min(3).max(50);
 const model = Joi.string().min(3).max(50);
 const idBrand = Joi.number().integer().positive();
 const status = Joi.boolean();
+const idVehicle = Joi.number().integer().positive();
+
 
 const createVehicleSchema = Joi.object({
   name: name.required(),
@@ -26,10 +28,14 @@ const changeStatusVehicleSchema = Joi.object({
 const getVehicleSchema = Joi.object({
   id: id.required(),
 });
+const getProductsWhereVehicle = Joi.object({
+  idVehicle: idVehicle.required(),
+});
 
 module.exports = {
   createVehicleSchema,
   updateVehicleSchema,
   getVehicleSchema,
-  changeStatusVehicleSchema
+  changeStatusVehicleSchema,
+  getProductsWhereVehicle
 };

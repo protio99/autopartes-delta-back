@@ -5,7 +5,8 @@ const {
   createVehicleSchema,
   updateVehicleSchema,
   getVehicleSchema,
-  changeStatusVehicleSchema
+  changeStatusVehicleSchema,
+  getProductsWhereVehicle
 } = require('../schema/vehicleSchema');
 const router = express.Router();
 
@@ -24,6 +25,19 @@ router.get(
       const { id } = req.params;
       const vehicle = await service.findById(id);
       res.json(vehicle);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.get(
+  '/get-products-where-vehicle/:idVehicle',
+  validatorHandler(getProductsWhereVehicle, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idVehicle } = req.params;
+      const products = await service.findProductsWhereVehicle(idVehicle);
+      res.json(products);
     } catch (error) {
       next(error);
     }

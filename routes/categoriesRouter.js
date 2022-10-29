@@ -7,6 +7,8 @@ const {
   createCategorySchema,
   updateCategorySchema,
   getCategorySchema,
+  getProductsWhereCategory,
+  changeStatusCategorySchema
 } = require('./../schema/categorySchema');
 const router = express.Router();
 
@@ -42,6 +44,35 @@ router.post(
       
     } catch (error) {
         next(error);
+    }
+  }
+);
+router.get(
+  '/get-products-where-category/:idCategory',
+  validatorHandler(getProductsWhereCategory, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idCategory } = req.params;
+      const vehicles = await service.findProductsWhereCategory(idCategory);
+      res.json(vehicles);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.put(
+  '/change-status-of-category/:id',
+  validatorHandler(getCategorySchema, 'params'),
+  validatorHandler(changeStatusCategorySchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const category = await service.changeStatusOfCategory(id, body);
+      res.json(category);
+    } catch (error) {
+      next(error);
     }
   }
 );
