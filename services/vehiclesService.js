@@ -49,21 +49,33 @@ class VehiclesService {
     });
     return products;
   }
-  async findProductsWhereVehicle(idVehicle) {
-    const products = this.getProductsWhereIdVehicle(idVehicle);
-    let arrayOfProducts = []
-    (await products).forEach((product) => {
-      const idProduct = product.idProduct;
-      const response = models.Products.findAll({
-        attributes:{
-          exclude: ['idProduct']
-        },
-        where: {
-          id: idProduct,
-        },
-      });
-      arrayOfProducts.push(response)
+  async findAllProducts(idProduct){
+    const response =  await models.Products.findAll({
+      attributes: {
+        exclude: ['idProduct'],
+      },
+      where: {
+        id: idProduct,
+      },
     });
+    console.log(response)
+    return response.dataValues
+  }
+  async findProductsWhereVehicle(idVehicle) {
+    // const products = this.getProductsWhereIdVehicle(idVehicle);
+    const products = await models.ProductsVehicles.findAll({
+      where: {
+        idVehicle: idVehicle,
+      },
+    });
+    let products2 = new Array()
+    let arrayOfProducts =  products.map((product) => {
+      const idProduct = product.idProduct;
+      let product2 = this.findAllProducts(idProduct)
+      products.push(product2)
+      return this.findAllProducts(idProduct);
+    });
+    console.log("hola soy un array", products2)
     return arrayOfProducts;
   }
 

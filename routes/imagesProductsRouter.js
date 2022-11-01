@@ -2,11 +2,11 @@ const express = require('express');
 const ImagesProductsService = require('../services/imagesProductsService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
-  
   updateImagensProductsSchema,
   getImegesProductsSchema,
 } = require('../schema/imagesProductsSchema');
 const router = express.Router();
+
 const multer = require('multer');
 let path = require('path');
 
@@ -31,47 +31,43 @@ router.get(
   }
 );
 
-
-
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-      cb(null, 'public/images');
+  destination: function (req, file, cb) {
+    cb(null, 'public/images');
   },
-  filename: function(req, file, cb) {   
-    const url = getImageName(req.body.idProduct, file)
-
-      cb(null,url);
-  }
+  filename: function (req, file, cb) {
+    const url = getImageName(req.params.idProduct, file);
+    cb(null, url);
+  },
 });
 
 const fileFilter = (req, file, cb) => {
   const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-  if(allowedFileTypes.includes(file.mimetype)) {
-      cb(null, true);
+  if (allowedFileTypes.includes(file.mimetype)) {
+    cb(null, true);
   } else {
-      cb(null, false);
+    cb(null, false);
   }
-}
-
-
+};
 
 function getImageName(idProduct, file) {
-  file
-  const extension = path.extname(file.originalname)
-  return `product_${idProduct}${extension}`
+  const extension = path.extname(file.originalname);
+  return `product_${idProduct}${extension}`;
 }
+
 let upload = multer({ storage, fileFilter });
+
 router.post(
-  '/create',
+  '/create/:idProduct',
   upload.single('photo'),
   async (req, res, next) => {
     try {
-      const url = "/public/images/"+getImageName(req.body.idProduct, req.file)
-      console.log(req.body.idProduct, url)
-      const newImageProduct = await service.create(req.body.idProduct, url);
+      const { idProduct } = req.params;
+      const url = '/public/images/' + getImageName(idProduct, req.file);
+      const newImageProduct = await service.create(idProduct, url);
       res.status(201).json(newImageProduct);
     } catch (error) {
-        next(error);
+      next(error);
     }
   }
 );
