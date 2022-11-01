@@ -49,7 +49,7 @@ class VehiclesService {
     });
     return products;
   }
-  async findAllProducts(idProduct){
+  async findProduct(idProduct){
     const response =  await models.Products.findAll({
       attributes: {
         exclude: ['idProduct'],
@@ -58,8 +58,7 @@ class VehiclesService {
         id: idProduct,
       },
     });
-    console.log(response)
-    return response.dataValues
+    return response[0]
   }
   async findProductsWhereVehicle(idVehicle) {
     // const products = this.getProductsWhereIdVehicle(idVehicle);
@@ -68,14 +67,14 @@ class VehiclesService {
         idVehicle: idVehicle,
       },
     });
-    let products2 = new Array()
-    let arrayOfProducts =  products.map((product) => {
-      const idProduct = product.idProduct;
-      let product2 = this.findAllProducts(idProduct)
-      products.push(product2)
-      return this.findAllProducts(idProduct);
-    });
-    console.log("hola soy un array", products2)
+    let arrayOfProducts = []
+    for (const p of products) {
+      
+      const idProduct = p.idProduct; 
+      const product =  await this.findProduct(idProduct); 
+      arrayOfProducts.push(product)
+    }
+   
     return arrayOfProducts;
   }
 

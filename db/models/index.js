@@ -47,7 +47,7 @@ function setupModels(sequelize) {
     OrdersDetails.init(ordersDetailsSchema, OrdersDetails.config(sequelize));
     ProductsVehicles.init(productsVehiclesSchema, ProductsVehicles.config(sequelize));
     ProductsBrands.init(productsBrandsSchema, ProductsBrands.config(sequelize));
-    ImagesProducts.init(productsBrandsSchema, ImagesProducts.config(sequelize));
+    ImagesProducts.init(imagesProductsSchema, ImagesProducts.config(sequelize));
 
     //Asociaciones de llaves foraneas
 

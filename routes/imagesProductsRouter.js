@@ -60,14 +60,14 @@ let upload = multer({ storage, fileFilter });
 router.post(
   '/create/:idProduct',
   upload.single('photo'),
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const { idProduct } = req.params;
       const url = '/public/images/' + getImageName(idProduct, req.file);
       const newImageProduct = await service.create(idProduct, url);
       res.status(201).json(newImageProduct);
     } catch (error) {
-      next(error);
+      res.status(500).json(error)
     }
   }
 );

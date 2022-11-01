@@ -9,8 +9,12 @@ class ImagesProductsService {
   }
 
   async create(idProduct, url) {
-    console.log("dsdsd",idProduct,url );
-    const newImagesProducts = await models.ImagesProducts.create({idProduct,url});
+    console.log(idProduct, url)
+    const data = {
+      idProduct: idProduct,
+      url: url
+    }
+    const newImagesProducts = await models.ImagesProducts.create(data);
     return newImagesProducts;
   }
 
