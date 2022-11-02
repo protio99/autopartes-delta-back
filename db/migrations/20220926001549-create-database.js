@@ -74,6 +74,12 @@ module.exports = {
         type: DataTypes.STRING(50),
         unique: true,
       },
+      status: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+        defaultValue: true,
+      }
     });
     await queryInterface.createTable(MODULES_TABLE, {
       id: {

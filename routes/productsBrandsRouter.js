@@ -5,6 +5,8 @@ const {
   createProductsBrandsSchema,
   updateProductsBrandsSchema,
   getProductsBrandsSchema,
+  getProductsWhereBrand,
+  changeStatusBrandSchema
 } = require('../schema/productsBrandsSchema');
 const router = express.Router();
 
@@ -29,6 +31,21 @@ router.get(
   }
 );
 
+router.get(
+  '/get-products-where-brand/:idBrand',
+  validatorHandler(getProductsWhereBrand, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idBrand } = req.params;
+      const products = await service.findProductsWhereBrand(idBrand);
+      res.json(products);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
 router.post(
   '/create',
   validatorHandler(createProductsBrandsSchema, 'body'),
@@ -40,6 +57,22 @@ router.post(
       
     } catch (error) {
         next(error);
+    }
+  }
+);
+
+router.put(
+  '/change-status-of-brand/:id',
+  validatorHandler(getProductsBrandsSchema, 'params'),
+  validatorHandler(changeStatusBrandSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const Brand = await service.changeStatusOfBrand(id, body);
+      res.json(Brand);
+    } catch (error) {
+      next(error);
     }
   }
 );
