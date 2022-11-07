@@ -10,6 +10,7 @@ const router = express.Router();
 router.post('/login',
 passport.authenticate('local',{session: false}),
   async (req, res, next) => {
+  
     try {
       const user = req.user;
       const payload = {

@@ -4,6 +4,7 @@ const validatorHandler = require('../middlewares/validatorHandler');
 const {
   updateImagensProductsSchema,
   getImegesProductsSchema,
+  findByIdProductSchema
 } = require('../schema/imagesProductsSchema');
 const router = express.Router();
 
@@ -25,6 +26,20 @@ router.get(
       const { id } = req.params;
       const ImagesProduct = await service.findById(id);
       res.json(ImagesProduct);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  '/find-by-idProduct/:idProduct',
+  validatorHandler(findByIdProductSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idProduct } = req.params;
+      const ImageProduct = await service.findByProductId(idProduct);
+      res.json(ImageProduct);
     } catch (error) {
       next(error);
     }

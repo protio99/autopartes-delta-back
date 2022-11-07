@@ -12,9 +12,9 @@ const cors = require('cors');
 const app = express();
 const port = 5000;
 app.use(express.json());
-// require('./utils/auth');
+require('./utils/auth');
 
-const whitelist = ['http://localhost:3000'];
+const whitelist = ['http://localhost:3000', 'http://localhost:8081'];
 const options = {
   origin: (origin, callback) =>{
     if(whitelist.includes(origin)){

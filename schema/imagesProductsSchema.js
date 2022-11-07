@@ -17,9 +17,13 @@ const updateImagensProductsSchema = Joi.object({
 const getImegesProductsSchema = Joi.object({
   id: id.required(),
 });
+const findByIdProductSchema = Joi.object({
+  idProduct: idProduct.required(),
+});
 
 module.exports = {
   createImagesProductsSchema,
   updateImagensProductsSchema,
   getImegesProductsSchema,
+  findByIdProductSchema
 };

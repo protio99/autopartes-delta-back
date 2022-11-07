@@ -9,7 +9,6 @@ class ImagesProductsService {
   }
 
   async create(idProduct, url) {
-    console.log(idProduct, url)
     const data = {
       idProduct: idProduct,
       url: url
@@ -22,6 +21,17 @@ class ImagesProductsService {
    async find() {
   
     const rta = await models.ImagesProducts.findAll();
+    return rta;
+
+  }
+
+  async findByProductId(idProduct) {
+  
+    const rta = await models.ImagesProducts.findAll({
+      where: {
+        idProduct: idProduct
+      }
+    });
     return rta;
 
   }
