@@ -14,6 +14,7 @@ class UsersService {
   async create(data) {
     const hash = await bcrypt.hash(data.password,10);
     const newUser = await models.Users.create({
+      attributes: {exclude: ['roles_users'] },
       ...data,
       password:hash
     });
@@ -24,7 +25,12 @@ class UsersService {
 
   async find() {
   
-    const rta = await models.Users.findAll();
+    const rta = await models.Users.findAll(
+      // {
+      // include:['roles_users'] 
+      // }
+     
+    );
     return rta;
 
   }
@@ -48,6 +54,7 @@ class UsersService {
   async update(id, newData) {
     const user = await this.findById(id);
     const rta = await user.update(newData);  
+    
     return rta;
   }
 

@@ -35,35 +35,6 @@ const buysSchema = {
     unique: false,
     field: 'total_purchase',
   },
-  shippingPrice: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    field: 'shipping_price',
-  },
-   ivaPercentage: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    unique: false,
-    field: 'iva_percentage',
-
-  },
-  totalIva: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    unique: false,
-    field: 'total_iva',
-
-  },
-  discountsPercentage: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    field: 'discounts_percentage',
-  },
-  totalDiscounts: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    field: 'total_discounts',
-  },
   status: {
     allowNull: false,
     type: DataTypes.BOOLEAN,

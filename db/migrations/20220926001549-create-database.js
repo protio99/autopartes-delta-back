@@ -535,6 +535,11 @@ module.exports = {
         type: DataTypes.STRING(500),
         unique: false,
       },
+      status: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+      },
     });
     await queryInterface.createTable(SALES_TABLE, {
       id: {
@@ -612,33 +617,6 @@ module.exports = {
         unique: false,
         field: 'total_purchase',
       },
-      shippingPrice: {
-        allowNull: true,
-        type: DataTypes.FLOAT,
-        field: 'shipping_price',
-      },
-      ivaPercentage: {
-        allowNull: true,
-        type: DataTypes.FLOAT,
-        unique: false,
-        field: 'iva_percentage',
-      },
-      totalIva: {
-        allowNull: true,
-        type: DataTypes.FLOAT,
-        unique: false,
-        field: 'total_iva',
-      },
-      discountsPercentage: {
-        allowNull: true,
-        type: DataTypes.FLOAT,
-        field: 'discounts_percentage',
-      },
-      totalDiscounts: {
-        allowNull: true,
-        type: DataTypes.FLOAT,
-        field: 'total_discounts',
-      },
       status: {
         allowNull: false,
         type: DataTypes.BOOLEAN,
@@ -698,21 +676,6 @@ module.exports = {
         allowNull: false,
         type: DataTypes.FLOAT,
         field: 'net_price',
-      },
-      shippingPrice: {
-        allowNull: true,
-        type: DataTypes.FLOAT,
-        field: 'shipping_price',
-      },
-      discountsPercentage: {
-        allowNull: true,
-        type: DataTypes.FLOAT,
-        field: 'discounts_percentage',
-      },
-      ivaPercentage: {
-        allowNull: true,
-        type: DataTypes.FLOAT,
-        field: 'iva_percentage',
       },
       profitPercentage: {
         allowNull: false,
