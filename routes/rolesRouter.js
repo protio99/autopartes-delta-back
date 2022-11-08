@@ -1,5 +1,6 @@
 const express = require('express');
 const RolesService = require('../services/rolesService');
+const passport = require('passport');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
   createRoleSchema,
@@ -18,6 +19,20 @@ router.get(
       const { name } = req.params;
       const role = await service.findByName(name);
       res.json(role);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.get(
+  '/permissions',
+  passport.authenticate('jwt', {session: false}),
+  
+  async (req, res, next) => {
+    try {
+      const idRol = req.user.role
+       const permissions = await service.permissionsByIdRol(idRol);
+      res.json(permissions);
     } catch (error) {
       next(error);
     }

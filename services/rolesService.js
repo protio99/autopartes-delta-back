@@ -22,6 +22,19 @@ class RolesService {
     return rta;
 
   }
+  async permissionsByIdRol(idRol) { 
+    const rta = await models.RolesPermissions.findAll({
+      where:{
+        idRol: idRol
+      }
+    });
+    if (!rta) {
+      throw boom.notFound('role not found')
+      
+    }
+    return rta;
+
+  }
   async findByName(rolName) { 
     const rta = await models.Roles.findAll({
       where:{
