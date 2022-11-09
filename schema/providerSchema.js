@@ -1,4 +1,5 @@
-const Joi = require('joi');
+const Joi = require('joi')
+.extend(require('@joi/date'));
 
 const id = Joi.number().integer().positive();
 const nit =Joi.string().min(0).max(100);
@@ -8,6 +9,7 @@ const telephone = Joi.string().min(3).max(50);
 const adress = Joi.string().min(3).max(100);
 const email = Joi.string().min(3).max(100);
 const country = Joi.string().min(3).max(50);
+const status = Joi.bool();
 
 const createProviderSchema = Joi.object({
   nit: nit.required(),
@@ -17,6 +19,7 @@ const createProviderSchema = Joi.object({
   adress: adress.required(),
   email: email.required(),
   country: country.required(),
+  status: status.required(),
 
 });
 
@@ -27,7 +30,8 @@ const updateProviderSchema = Joi.object({
   telephone,
   adress,
   email,
-  country
+  country,
+  status,
 });
 
 const getProviderSchema = Joi.object({

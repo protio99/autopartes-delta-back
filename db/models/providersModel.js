@@ -46,7 +46,14 @@ const providersSchema = {
         allowNull: false,
         type: DataTypes.STRING,
         unique: false,
-    }
+    },
+    status: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+        defaultValue: true,
+      }
+
 }
 
 class Providers extends Model{
