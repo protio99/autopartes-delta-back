@@ -14,7 +14,13 @@ const productsBrandsSchema = {
         allowNull: false,
         type: DataTypes.STRING(50),
         unique: true,
-    }
+    },
+    status: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+        defaultValue: true,
+      }
 }
 
 class ProductsBrands extends Model{

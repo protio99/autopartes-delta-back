@@ -21,6 +21,37 @@ class ProductsBrandsService {
 
   }
 
+  async findProductsWhereBrand(idBrand) {
+    const rta = await models.Products.findAll(
+      
+      {
+        attributes:{
+          exclude: ['idProduct']
+        },
+        where : {
+          idBrand: idBrand
+        }
+      }
+    );
+    return rta;
+  }
+
+  async changeStatusOfBrand(id, data) {
+    const productsWhereBrand = await this.findProductsWhereBrand(id)
+    const rta = await models.ProductsBrands.update( 
+      { status: data.status },
+      { where: { id: id } });
+    if (data.status === false) {
+      await productsWhereBrand.forEach((Products) =>{
+        const rtaProducts =  models.Products.update({ state: data.status },
+          { where: { id: Products.id } }); 
+        return rtaProducts 
+      })  
+
+      return rta;
+      
+   }
+  }
   async findById(id) {
     const productsbrands = await models.ProductsBrands.findByPk(id);
     if(!productsbrands){
