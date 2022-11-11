@@ -3,17 +3,39 @@
 const boom = require('@hapi/boom');
 const {models} = require('../librerias/sequelize')
 const { Op } = require('sequelize');
+const CategoriesService = require('./categoriesService')
+const ProductsBrandsService = require('./productsBrandsService')
 
-
-
+const _categoriesService = new CategoriesService()
+const _productsService = new ProductsBrandsService()
 class ProductsService {
   constructor() {
   
   }
 
   async create(data) {
-    const newProduct = await models.Products.create(data);
-    return newProduct;
+    
+    const brandId = data.idBrand
+    const categoryId =data.idCategory
+
+    let categoryData = await _categoriesService.findById(brandId)
+    let brandData = await _productsService.findById(categoryId)
+   
+
+    if (!categoryData.status || !brandData.status) {
+        let newData = {
+          ...data,
+          state: false
+        }
+        const newProduct = await models.Products.create(newData);
+        return newProduct;      
+    }else if (categoryData.status && brandData.status) {
+        const newProduct = await models.Products.create(data);
+        return newProduct;
+    }
+
+
+
   }
   async addVehicleToProduct(data) {
     const newVehicleToProduct = await models.ProductsVehicles.create(data);
@@ -85,16 +107,13 @@ class ProductsService {
 
   async verifyChangeStatusProduct(productId){
     const vehiclesWhereProduct = await models.ProductsVehicles.findAll({
+      include: ['vehicles'],
       where: {
         idProduct: productId
       }})
-    const verifyVehicles = vehiclesWhereProduct.map((vehicle) => {
-      if (vehicle.status) {
-        return vehicle.status
-        
-      }else{
-        return false
-      }
+    const verifyVehicles = vehiclesWhereProduct.filter((produtVehicle) => {
+      
+      return produtVehicle.vehicles.status === false
     })
     const product = await this.findById(productId)
     const statusBrand = product.brand.status
@@ -107,7 +126,7 @@ class ProductsService {
       return false
       
     }
-    else if (!verifyVehicles.includes(false)) {
+    else if (verifyVehicles.length === vehiclesWhereProduct.length) {
       return false
       
     }else{
