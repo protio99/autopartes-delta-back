@@ -82,6 +82,59 @@ class ProductsService {
     return vehiclesOfAProduct;
 
   }
+
+  async verifyChangeStatusProduct(productId){
+    const vehiclesWhereProduct = await models.ProductsVehicles.findAll({
+      where: {
+        idProduct: productId
+      }})
+    const verifyVehicles = vehiclesWhereProduct.map((vehicle) => {
+      if (vehicle.status) {
+        return vehicle.status
+        
+      }else{
+        return false
+      }
+    })
+    const product = await this.findById(productId)
+    const statusBrand = product.brand.status
+    const statusCategory = product.category.status
+ 
+    if (!statusBrand) {
+      return false
+      
+    } else if (!statusCategory) {
+      return false
+      
+    }
+    else if (!verifyVehicles.includes(false)) {
+      return false
+      
+    }else{
+      return true
+    }
+    
+  }
+
+  async changeStatusOfProduct(productId, data) {
+  
+    const validation = await this.verifyChangeStatusProduct(productId)
+    //Validacion para activar el producto validation=true, data.status=true (porque se va a activar el producto) y el estado actual product.status debe ser igual a false
+    if (validation) {
+      const response = models.Products.update(
+        { state: data.status },
+        { where: { id: productId } }
+      );
+      return response
+      
+    //Desactivar producto
+    }else{
+      return null
+    }
+
+  }
+
+  
   async findAllVehiclesOfAProduct() {
     const vehiclesOfAProduct = await models.ProductsVehicles.findAll({include:['vehicles']});
     return vehiclesOfAProduct;
@@ -90,7 +143,7 @@ class ProductsService {
   async findById(id) {
     const product = await models.Products.findByPk(id,
       {
-        include: ['category'],
+        include: ['category', 'brand'],
         attributes: {exclude: ['idProduct']},
 
       }
@@ -109,7 +162,6 @@ class ProductsService {
 
   async updateFromBuy(id, newData) {
     const product = await this.findById(id);
-    console.log("New data objet", newData)
     const newAmount = product.amount + newData.amount;
     const rta = await product.update({
       amount: newAmount,
@@ -121,7 +173,6 @@ class ProductsService {
 
   async discountProduct(id, newData) {
     const product = await this.findById(id);
-    console.log("New data objet", newData)
     const newAmount = product.amount - newData.amount;
     const rta = await product.update({
       amount: newAmount
@@ -135,5 +186,5 @@ class ProductsService {
     return {id};
   }
 }
-
+  
 module.exports = ProductsService;

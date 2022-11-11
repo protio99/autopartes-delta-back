@@ -9,7 +9,8 @@ const {
   addVehicleToProductSchema,
   getVehicleOfAProductSchema,
   updateProductFromBuySchema,
-  discountProductSchema
+  discountProductSchema,
+  changeStatusProductSchema
 } = require('../schema/productSchema');
 const router = express.Router();
 
@@ -104,6 +105,22 @@ router.put(
       const { id } = req.params;
       const body = req.body;
       const product = await service.update(id, body);
+      res.json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.put(
+  '/update-status-of-product/:id',
+  validatorHandler(getProductSchema, 'params'),
+  validatorHandler(changeStatusProductSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const product = await service.changeStatusOfProduct(id, body);
       res.json(product);
     } catch (error) {
       next(error);

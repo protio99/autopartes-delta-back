@@ -13,6 +13,7 @@ const limit = Joi.number().integer();
 const idVehicle = Joi.number().integer().positive();
 const idProduct = Joi.string().min(1).max(25);
 const offset = Joi.number().integer();
+const status = Joi.boolean();
 // const priceMin = Joi.number().positive();
 // const priceMax = Joi.number().positive();
 
@@ -77,6 +78,11 @@ const addVehicleToProductSchema = Joi.object({
   idProduct: idProduct.required(),
   idVehicle: idVehicle.required(),
 });
+const changeStatusProductSchema = Joi.object({
+  status: status.required(),
+
+
+});
 
 module.exports = {
   createProductSchema,
@@ -87,5 +93,6 @@ module.exports = {
   getVehicleOfAProductSchema,
   updateVehiclesOfProduct,
   updateProductFromBuySchema,
-  discountProductSchema
+  discountProductSchema,
+  changeStatusProductSchema
 };
