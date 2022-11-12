@@ -86,6 +86,7 @@ class VehiclesService {
         { where: { id: idVehicle } }
       );
       const products = this.getProductsWhereIdVehicle(idVehicle);
+      
       if (data.status === false) {
         (await products).forEach((product) => {
           const idProduct = product.idProduct;
