@@ -448,6 +448,11 @@ module.exports = {
         type: DataTypes.STRING,
         unique: false,
       },
+      recoveryToken: {
+        allowNull: true,
+        type: DataTypes.STRING,
+        field: 'recovery_token'
+      },
       status: {
         allowNull: false,
         type: DataTypes.BOOLEAN,

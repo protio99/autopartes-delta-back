@@ -11,7 +11,8 @@ const config = {
     apiKey: process.env.API_KEY,
     jwtSecret: process.env.JWT_SECRET,
     userMail: process.env.USER_MAIL,
-    userMailPassword: process.env.USER_MAIL_PASSWORD
+    userMailPassword: process.env.USER_MAIL_PASSWORD,
+    userBaseURL: process.env.USER_BASE_URL 
 }
 
 

@@ -8,6 +8,7 @@ const nodemailer = require('nodemailer');
 
 const userMail = config.userMail
 const userMailPassword = config.userMailPassword
+const recoveryPasswordURL = config.userBaseURL + '/ResetPasswordConfirmation'
 
 class AuthService {
   async getUser(email, password){
@@ -37,11 +38,8 @@ class AuthService {
       };
   }
 
-  async sendMail(email){
-    const user = await service.findByEmail(email)
-    if (!user) {
-       throw boom.unauthorized();       
-    }
+  async sendMail(infoMail){
+  
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
@@ -51,13 +49,53 @@ class AuthService {
             pass: userMailPassword
         }
       });
-      await transporter.sendMail({
-        from: userMail, // sender address
-        to: user.email, // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>", // html body
-      });
+      await transporter.sendMail(infoMail);
+      return {message: "Email enviado exitosamente"}
+  }
+
+  async sendRecovery(email){
+    const user = await service.findByEmail(email)
+    if (!user) {
+       throw boom.unauthorized();       
+    }
+    const payload = {
+      sub: user.id
+    }
+    const token = jwt.sign(payload,config.jwtSecret, {expiresIn: '15min'})
+    const link = `${recoveryPasswordURL}/${token}`
+    await service.update(user.id, {
+      recoveryToken: token
+    })
+    const mail = {
+      from: userMail, // sender address
+      to: user.email, // list of receivers
+      subject: "Recuperación de contraseña MC Partes", // Subject line
+      text: "Hello world?", // plain text body
+      html: `<b>Ingresa a este enlace para restablecer la contraseña =>  ${link}</b>`, // html body
+    }
+
+    const rta = await this.sendMail(mail)
+    return rta
+  }
+
+  async changePassword(token, newPassword){
+    try {
+      const payload = jwt.verify(token, config.jwtSecret)
+      const user = await service.findById(payload.sub)
+    if (user.recoveryToken !== token) {
+        throw boom.unauthorized();    
+     
+    }
+    const hash = await bcrypt.hash(newPassword, 10);
+    await service.update(user.id, {
+      recoveryToken: null,
+      password: hash
+    })
+    return {message: 'Constraseña modificada exitosamente'}
+    } catch (error) {
+      throw boom.unauthorized();
+     
+    }
   }
 }
 
