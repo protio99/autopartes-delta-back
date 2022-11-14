@@ -9,9 +9,7 @@ const ProductsBrandsService = require('./productsBrandsService')
 const _categoriesService = new CategoriesService()
 const _productsService = new ProductsBrandsService()
 class ProductsService {
-  constructor() {
-  
-  }
+
 
   async create(data) {
     
@@ -66,7 +64,7 @@ class ProductsService {
     //   where: {},
     // };
     const options = {
-        include: ['category', 'brand'],
+        include: ['category', 'brand', "images_products"],
         attributes: {exclude: ['idProduct']},
         where: {},
       };
@@ -88,7 +86,7 @@ class ProductsService {
     }
 
     const rta = await models.Products.findAll(options);
-    return rta;
+    return  rta
 
   }
   async findVehiclesOfAProduct(productId) {
@@ -162,7 +160,7 @@ class ProductsService {
   async findById(id) {
     const product = await models.Products.findByPk(id,
       {
-        include: ['category', 'brand'],
+        include: ['category', 'brand', "images_products"],
         attributes: {exclude: ['idProduct']},
 
       }
