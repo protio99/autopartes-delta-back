@@ -27,6 +27,17 @@ validatorHandler(queryProductSchema, 'query'),
     next(error)
   }
 });
+router.get('/products-store',
+validatorHandler(queryProductSchema, 'query'),
+ async (req, res, next) => {
+  try {
+    const products = await service.findStore();
+    res.json(products);
+    
+  } catch (error) {
+    next(error)
+  }
+});
 router.get('/find-vehicles-of-a-product',
  async (req, res, next) => {
   try {

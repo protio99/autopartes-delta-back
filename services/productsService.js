@@ -89,6 +89,26 @@ class ProductsService {
     return  rta
 
   }
+
+  async findStore() {
+    const options = {
+        include: ['category', 'brand', "images_products"],
+        attributes: {exclude: ['idProduct']},
+        where: {
+          [Op.or]: [{  price: {
+            [Op.gt]: 0
+          }}, { amount: {
+            [Op.gt]: 0
+          }, state:{
+            [Op.not]: false
+          } }]
+         
+        },
+      };
+    const rta = await models.Products.findAll(options);
+    return  rta
+
+  }
   async findVehiclesOfAProduct(productId) {
     const options = {
       include: [ {
