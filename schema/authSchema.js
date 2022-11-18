@@ -13,13 +13,19 @@ const resetPasswordSchema = Joi.object({
   newPassword: newPassword.required(),
 });
 
+const verifyTokenSchema = Joi.object({
+  token: token.required(),
+
+});
+
 
 
 
 
 module.exports = {
   recoveryPasswordSchema,
-  resetPasswordSchema
+  resetPasswordSchema,
+  verifyTokenSchema
   
  
 };

@@ -12,7 +12,8 @@ const createQuotationSchema = Joi.object({
 });
 
 const updateQuotationSchema = Joi.object({
-  idUser,
+  idUser : idUser.required()
+  
 });
 
 const getQuotationSchema = Joi.object({

@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 const userMail = config.userMail
 const userMailPassword = config.userMailPassword
 const recoveryPasswordURL = config.userBaseURL + '/ResetPasswordConfirmation'
+const { models } = require('../librerias/sequelize');
 
 class AuthService {
   async getUser(email, password){
@@ -76,6 +77,12 @@ class AuthService {
 
     const rta = await this.sendMail(mail)
     return rta
+  }
+  async getUserInfo(token){
+    const payload = jwt.verify(token,config.jwtSecret )
+    const userId = payload.sub
+    const user = await models.Users.findByPk(userId)
+    return user
   }
 
   async changePassword(token, newPassword){

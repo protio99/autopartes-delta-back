@@ -75,6 +75,10 @@ class Users extends Model {
       as: 'clients',
       foreignKey: 'idUser',
     });
+    this.hasMany(model.QuotationsDetails, {
+      as: 'quotation_detail',
+      foreignKey: 'idUser',
+    });
   }
 
   static config(sequelize) {

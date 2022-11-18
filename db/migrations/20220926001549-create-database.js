@@ -885,8 +885,7 @@ module.exports = {
         field: 'other_taxes',
       },
     });
-
-    await queryInterface.createTable(QUOTATION_TABLE, {
+    await queryInterface.createTable(QUOTATIONS_DETAILS_TABLE, {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -899,37 +898,15 @@ module.exports = {
         unique: false,
         field: 'id_user',
         references: {
-          model: USERS_TABLE,
-          key: 'id',
+            model: USERS_TABLE,
+            key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-      quotationDate: {
-        allowNull: false,
-        type: DataTypes.DATEONLY,
-        defaultValue: DataTypes.DATEONLY,
-        unique: false,
-        fiel: 'quotation_date',
-      },
-
-      total: {
-        allowNull: false,
-        type: DataTypes.FLOAT,
-        unique: false,
-      },
-    });
-    await queryInterface.createTable(QUOTATIONS_DETAILS_TABLE, {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
+        onDelete: 'CASCADE'
+    },
       idProduct: {
-        allowNull: false,
+        allowNull: false, 
         type: DataTypes.STRING(25),
-        unique: false,
         field: 'id_product',
         references: {
           model: PRODUCTS_TABLE,
@@ -938,19 +915,6 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      idQuotation: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        unique: false,
-        field: 'id_quotation',
-        references: {
-          model: QUOTATION_TABLE,
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-
       amount: {
         allowNull: false,
         type: DataTypes.INTEGER,
