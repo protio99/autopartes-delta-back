@@ -31,7 +31,19 @@ router.get(
     }
   }
 );
-
+router.get(
+  '/quotations-detail/:idUser',
+  validatorHandler(getQuotationSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idUser } = req.params;
+      const order = await service.getQuotationByIdUser(idUser);
+      res.json(order);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 router.post(
   '/create',
   validatorHandler(createQuotationSchema, 'body'),

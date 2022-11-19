@@ -5,7 +5,7 @@ const AuthService = require('./../services/authService')
 const {
   recoveryPasswordSchema,
   resetPasswordSchema,
-  verifyTokenSchema
+  // verifyTokenSchema
   
 } = require('../schema/authSchema');
 
@@ -41,10 +41,10 @@ validatorHandler(recoveryPasswordSchema, 'body'),
 );
 router.post(
   '/get-user',
-  validatorHandler(verifyTokenSchema, 'body'),
+  
   async (req, res, next) => {
     try {
-      const token = req.body;
+      const {token} = req.body;
       const user = await service.getUserInfo(token);
       res.status(201).json(user);
       

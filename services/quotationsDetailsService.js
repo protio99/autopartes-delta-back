@@ -12,7 +12,7 @@ class QuotationsDetailsService {
 
   async create(idUser, data) {
     const quotation = {
-      idProduct: data.idProduct,
+      idProduct: data.id,
       idUser: idUser,
       amount: data.amount
     }
@@ -24,16 +24,15 @@ class QuotationsDetailsService {
     const quotationsUser = this.getQuotationByIdUser(idUser)
     if (quotationsUser) {
       this.delete(idUser).then(()=>{
-        quotationData.map((quotation) =>{
-          this.create(idUser, quotation)
+        Object.entries(quotationData).forEach(([key,value]) =>{
+          this.create(idUser, value)
         })
       })
-
-
     }
-
+    
 
   }
+  
   async delete(id) {
     await models.QuotationsDetails.destroy({
       where: {
@@ -49,7 +48,12 @@ class QuotationsDetailsService {
 
   async getQuotationByIdUser(idUser){
     const rta = await models.QuotationsDetails.findAll({
-      include: ['user','products'],
+      include: ['user', {
+        model: models.Products,
+        as: 'products',
+        attributes: ['price']
+        }],
+      // attributes: { exclude: ['products.idProduct'] },
       where: {
         idUser: idUser
       }
