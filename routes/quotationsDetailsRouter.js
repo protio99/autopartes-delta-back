@@ -1,10 +1,10 @@
 const express = require('express');
 const QuotationsService = require('../services/quotationsDetailsService');
+const passport = require('passport');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
   createQuotationSchema,
   updateQuotationSchema,
-  getQuotationSchema,
   // addProductQuotationSchema,
   
 
@@ -17,26 +17,12 @@ router.get('/', async (req, res) => {
   const orders = await service.find();
   res.json(orders);
 });
-
 router.get(
-  '/:id',
-  validatorHandler(getQuotationSchema, 'params'),
+  '/quotations-detail',
+  passport.authenticate('jwt', {session: false}),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const order = await service.findById(id);
-      res.json(order);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-router.get(
-  '/quotations-detail/:idUser',
-  validatorHandler(getQuotationSchema, 'params'),
-  async (req, res, next) => {
-    try {
-      const { idUser } = req.params;
+      const  idUser  = req.user.sub;
       const order = await service.getQuotationByIdUser(idUser);
       res.json(order);
     } catch (error) {
@@ -44,6 +30,7 @@ router.get(
     }
   }
 );
+
 router.post(
   '/create',
   validatorHandler(createQuotationSchema, 'body'),

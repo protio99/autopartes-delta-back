@@ -24,7 +24,7 @@ class QuotationsDetailsService {
     const quotationsUser = this.getQuotationByIdUser(idUser)
     if (quotationsUser) {
       this.delete(idUser).then(()=>{
-        Object.entries(quotationData).forEach(([key,value]) =>{
+        Object.values(quotationData).forEach((value) =>{
           this.create(idUser, value)
         })
       })
@@ -41,10 +41,6 @@ class QuotationsDetailsService {
     });  
     return {id};
   }
-  // async addProduct(data) {
-  //   const newProduct = await models.ProductsQuotations.create(data);
-  //   return newProduct;
-  // }
 
   async getQuotationByIdUser(idUser){
     const rta = await models.QuotationsDetails.findAll({
@@ -53,7 +49,6 @@ class QuotationsDetailsService {
         as: 'products',
         attributes: ['price']
         }],
-      // attributes: { exclude: ['products.idProduct'] },
       where: {
         idUser: idUser
       }
@@ -61,9 +56,7 @@ class QuotationsDetailsService {
     return rta
   }
   
-
    async find() {
-  
     const rta = await models.QuotationsDetails.findAll({
       include: ['user','products']
     });
