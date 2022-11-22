@@ -60,7 +60,7 @@ router.post(
   }
 );
 
-router.patch(
+router.put(
   '/update/:id',
   validatorHandler(getRolePermissionSchema, 'params'),
   validatorHandler(updateRolePermissionSchema, 'body'),
@@ -75,6 +75,7 @@ router.patch(
     }
   }
 );
+
 
 router.delete('/delete/:id', async (req, res, next) => {
   try {
