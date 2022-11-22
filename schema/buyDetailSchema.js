@@ -5,10 +5,6 @@ const idBuy = Joi.number().integer().positive();
 const idProduct = Joi.string().min(3).max(40);
 const amount= Joi.number().integer().positive();
 const netPrice= Joi.number().positive();
-const shippingPrice= Joi.number().positive();
-const discountsPercentage= Joi.number().positive();
-const ivaPercentage= Joi.number().positive();
-const otherTaxesPercentage= Joi.number().positive();
 const profitPercentage= Joi.number().positive();
 const salePrice= Joi.number().positive();
 
@@ -17,10 +13,6 @@ const createBuyDetailSchema = Joi.object({
   idProduct: idProduct.required(),
   amount: amount.required(),
   netPrice: netPrice.required(),
-  shippingPrice,
-  discountsPercentage,
-  ivaPercentage,
-  otherTaxesPercentage,
   profitPercentage: profitPercentage.required(),
   salePrice: salePrice.required(),
  
@@ -31,6 +23,7 @@ const updateBuyDetailSchema = Joi.object({
   idProduct,
   amount,
   netPrice,
+  
 
 });
 

@@ -32,7 +32,16 @@ class BuysService {
 
   async getBuyDetailById(buyId) {
     const options = {
-      include: ['products'],
+      include: [{
+        association: 'products',
+        attributes: {exclude: ['idProduct']},
+        // exclude: ['idProduct']
+        // include: ['id','idCategory','idBrand','name','amount','price','description','state','iva']
+      }],
+      // include: ['products']
+    //   attributes: {exclude: ['idProduct'],
+    //   include: ['id','idCategory','idBrand','name','amount','price','description','state','iva']
+    // },
       where: {
         idBuy: buyId
       } 

@@ -7,4 +7,4 @@ const hash = await bcrypt.hash(pass,10);
 console.log(hash)
 }    
 
-hash();
+hash(); 

@@ -13,6 +13,7 @@ const city = Joi.string().min(3).max(100);
 const neightboorhood = Joi.string().min(3).max(100);
 const address = Joi.string().min(3).max(200);
 const indications = Joi.string().min(0).max(500);
+const status = Joi.boolean();
 
 const createClientSchema = Joi.object({
   idUser,
@@ -27,7 +28,9 @@ const createClientSchema = Joi.object({
   city: city.required(),
   neightboorhood: neightboorhood.required(),
   address: address.required(),
+  status: status.required(),
   indications
+
   
 });
 
@@ -44,7 +47,9 @@ const updateClientSchema = Joi.object({
   city: city,
   neightboorhood: neightboorhood,
   address: address,
-  indications : indications
+  indications : indications,
+  status,
+
 });
 
 const getClientSchema = Joi.object({

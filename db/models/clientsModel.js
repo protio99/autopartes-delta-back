@@ -84,6 +84,11 @@ const clientsSchema = {
     type: DataTypes.STRING(500),
     unique: false,
   },
+  status: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    unique: false,
+  },
 };
 
 class Clients extends Model {
