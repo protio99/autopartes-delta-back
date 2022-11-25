@@ -6,7 +6,7 @@ const {
   updateSaleSchema,
   getSaleSchema,
   saleProductsDetails,
-  getSaleDetails
+  getSaleDetails,
 } = require('../schema/saleSchema');
 const router = express.Router();
 
@@ -39,9 +39,39 @@ router.post(
       const body = req.body;
       const newSale = await service.create(body);
       res.status(201).json(newSale);
-      
     } catch (error) {
-        next(error);
+      next(error);
+    }
+  }
+);
+
+router.post(
+  '/create-sale',
+  // validatorHandler(createSaleSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { personalInfo, shippingInfo, cart } = req.body;
+      const newSale = await service.createFromWebSite(
+        personalInfo,
+        shippingInfo,
+        cart
+      );
+      res.status(201).json(newSale);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.post(
+  '/buy-confirmation',
+  // validatorHandler(recoveryPasswordSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const rta = await service.sendBuyConfirmation(email);
+      res.json(rta);
+    } catch (error) {
+      next(error);
     }
   }
 );
@@ -68,9 +98,8 @@ router.post(
       const body = req.body;
       const newSale = await service.asocciateProducts(body);
       res.status(201).json(newSale);
-      
     } catch (error) {
-        next(error);
+      next(error);
     }
   }
 );

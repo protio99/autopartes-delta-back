@@ -5,20 +5,19 @@ const { models } = require('../librerias/sequelize');
 class ClientsService {
   constructor() {}
 
-  async createClient(personalInfo, shippingInfo, userId) {
+  async createClient(personalInfo, shippingInfo) {
     const client = {
-      idUser: userId ? userId : null,
       name: personalInfo.name,
       lastname: personalInfo.lastname,
       documentType: personalInfo.documentType,
-      document: personalInfo.document,
+      document: personalInfo.documentNumber,
       telephone: personalInfo.telephone,
       email: personalInfo.email,
       address: shippingInfo.address,
       country: shippingInfo.country,
       department: shippingInfo.department,
       city: shippingInfo.city,
-      neightboorhood: shippingInfo.neightboorhood,
+      neightboorhood: shippingInfo.neighborhood,
       indications: shippingInfo.indications,
     };
 

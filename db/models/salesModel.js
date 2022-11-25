@@ -48,6 +48,12 @@ const salesSchema = {
     unique: false,
     field: 'total_purchase',
   },
+  typeSale: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    unique: false,
+    field: 'type_sale',
+  },
 };
 
 class Sales extends Model {
