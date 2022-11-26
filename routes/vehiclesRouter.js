@@ -6,7 +6,7 @@ const {
   updateVehicleSchema,
   getVehicleSchema,
   changeStatusVehicleSchema,
-  getProductsWhereVehicle
+  getProductsWhereVehicle,
 } = require('../schema/vehicleSchema');
 const router = express.Router();
 
@@ -43,12 +43,24 @@ router.get(
     }
   }
 );
+router.get(
+  '/get-vehicles-where-product/:idProduct',
+  // validatorHandler(getProductsWhereVehicle, 'params'),
+  async (req, res, next) => {
+    try {
+      const { idProduct } = req.params;
+      const products = await service.findVehiclesWhereProduct(idProduct);
+      res.json(products);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.put(
   '/change-status-of-vehicle/:id',
   validatorHandler(getVehicleSchema, 'params'),
-  validatorHandler(changeStatusVehicleSchema
-    , 'body'),
+  validatorHandler(changeStatusVehicleSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -69,9 +81,8 @@ router.post(
       const body = req.body;
       const newVehicle = await service.create(body);
       res.status(201).json(newVehicle);
-      
     } catch (error) {
-        next(error);
+      next(error);
     }
   }
 );

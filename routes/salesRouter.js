@@ -8,6 +8,7 @@ const {
   saleProductsDetails,
   getSaleDetails,
 } = require('../schema/saleSchema');
+const passport = require('passport');
 const router = express.Router();
 
 const service = new SalesService();
@@ -57,6 +58,25 @@ router.post(
         cart
       );
       res.status(201).json(newSale);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.post(
+  '/create-sale-token',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const idUser = req.user.sub;
+      const { personalInfo, shippingInfo, cart } = req.body;
+      const permissions = await service.createFromWebSiteWithToken(
+        personalInfo,
+        shippingInfo,
+        cart,
+        idUser
+      );
+      res.json(permissions);
     } catch (error) {
       next(error);
     }

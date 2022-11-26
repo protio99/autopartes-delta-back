@@ -53,6 +53,45 @@ class SalesService {
       await models.SalesDetails.create(data);
     }
   }
+  async createFromWebSiteWithToken(personalInfo, shippingInfo, cart, userId) {
+    const newClient = await _clientsService.createClientWithToken(
+      personalInfo,
+      shippingInfo,
+      userId
+    );
+
+    if (!newClient) {
+      throw boom.badRequest(
+        'error al crear el cliente desde el servicio de ventas'
+      );
+    }
+    let total = 0;
+    for (const product in cart) {
+      if (Object.hasOwnProperty.call(cart, product)) {
+        const element = cart[product];
+        total += element.price;
+      }
+    }
+    const sale = {
+      idClient: newClient.dataValues.id,
+      saleDate: this.formatDate(new Date()),
+      statusSale: 'Activo',
+      statusPayment: 'Pagado',
+      totalPurchase: total,
+      typeSale: 1,
+    };
+
+    const newSale = await this.create(sale);
+    for (const product in cart) {
+      const data = {
+        idSale: newSale.dataValues.id,
+        idProduct: product,
+        amount: cart[product].amount,
+        price: cart[product].price,
+      };
+      await models.SalesDetails.create(data);
+    }
+  }
 
   formatDate(date) {
     // Get year, month, and day part from the date

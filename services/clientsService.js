@@ -24,6 +24,38 @@ class ClientsService {
     const newClient = await models.Clients.create(client);
     return newClient;
   }
+  async createClientWithToken(personalInfo, shippingInfo, userId) {
+    const client = {
+      idUser: userId,
+      name: personalInfo.name,
+      lastname: personalInfo.lastname,
+      documentType: personalInfo.documentType,
+      document: personalInfo.documentNumber,
+      telephone: personalInfo.telephone,
+      email: personalInfo.email,
+      address: shippingInfo.address,
+      country: shippingInfo.country,
+      department: shippingInfo.department,
+      city: shippingInfo.city,
+      neightboorhood: shippingInfo.neighborhood,
+      indications: shippingInfo.indications,
+    };
+
+    const newClient = await models.Clients.create(client);
+    return newClient;
+  }
+
+  async verifyPreviousBuys(idUser) {
+    const clientInfo = await models.Clients.findAll({
+      limit: 1,
+      where: {
+        idUser: idUser,
+      },
+      order: [['id', 'DESC']],
+    });
+
+    return clientInfo;
+  }
 
   async create(data) {
     const newClient = await models.Clients.create(data);

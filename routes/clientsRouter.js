@@ -7,14 +7,26 @@ const {
   getClientSchema,
 } = require('../schema/clientSchema');
 const router = express.Router();
-
+const passport = require('passport');
 const service = new ClientsService();
-
 router.get('/', async (req, res) => {
   const clients = await service.find();
   res.json(clients);
 });
 
+router.get(
+  '/verify-buys',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const idUser = req.user.sub;
+      const client = await service.verifyPreviousBuys(idUser);
+      res.json(client);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 router.get(
   '/:id',
   validatorHandler(getClientSchema, 'params'),
@@ -37,9 +49,8 @@ router.post(
       const body = req.body;
       const newClient = await service.create(body);
       res.status(201).json(newClient);
-      
     } catch (error) {
-        next(error);
+      next(error);
     }
   }
 );
