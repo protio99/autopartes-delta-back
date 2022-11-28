@@ -6,7 +6,7 @@ const {
   createRoleSchema,
   updateRoleSchema,
   getRoleSchema,
-  getRoleByNameSchema
+  getRoleByNameSchema,
 } = require('../schema/roleSchema');
 const router = express.Router();
 
@@ -26,12 +26,12 @@ router.get(
 );
 router.get(
   '/permissions',
-  passport.authenticate('jwt', {session: false}),
-  
+  passport.authenticate('jwt', { session: false }),
+
   async (req, res, next) => {
     try {
-      const idRol = req.user.role
-       const permissions = await service.permissionsByIdRol(idRol);
+      const idRol = req.user.role;
+      const permissions = await service.permissionsByIdRol(idRol);
       res.json(permissions);
     } catch (error) {
       next(error);
@@ -57,18 +57,17 @@ router.get(
   }
 );
 
-
 router.post(
   '/create',
-  validatorHandler(createRoleSchema, 'body'),
+  // validatorHandler(createRoleSchema, 'body'),
   async (req, res, next) => {
     try {
-      const body = req.body;
-      const newRole = await service.create(body);
+      const { name, selectedModules } = req.body;
+
+      const newRole = await service.create(name, selectedModules);
       res.status(201).json(newRole);
-      
     } catch (error) {
-        next(error);
+      next(error);
     }
   }
 );

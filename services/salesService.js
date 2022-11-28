@@ -69,7 +69,6 @@ class SalesService {
   }
 
   async getPreviousSaleById(idSale) {
-    console.log('////////////', idSale);
     const buys = await models.SalesDetails.findAll({
       include: [
         {

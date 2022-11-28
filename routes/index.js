@@ -5,7 +5,6 @@ const categoriesRouter = require('./categoriesRouter.js');
 const clientsRouter = require('./clientsRouter.js');
 const modulesRouter = require('./modulesRouter.js');
 const quotationsDetailsRouter = require('./quotationsDetailsRouter');
-const permissionsRouter = require('./permissionsRouter.js');
 const productsRouter = require('./productsRouter.js');
 const productsSalesRouter = require('./productsSalesRouter.js');
 const providersRouter = require('./providersRouter.js');
@@ -20,7 +19,6 @@ const productsBrandsRouter = require('./productsBrandsRouter');
 const imagesProductsRouter = require('./imagesProductsRouter');
 
 function routerApi(app) {
-
   app.use('/brands', brandsRouter);
   app.use('/buysDetails', buysDetailsRouter);
   app.use('/buys', buysRouter);
@@ -28,7 +26,6 @@ function routerApi(app) {
   app.use('/clients', clientsRouter);
   app.use('/modules', modulesRouter);
   app.use('/quotationsDetails', quotationsDetailsRouter);
-  app.use('/permissions', permissionsRouter);
   app.use('/products', productsRouter);
   app.use('/productsSales', productsSalesRouter);
   app.use('/providers', providersRouter);
