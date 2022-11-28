@@ -8,14 +8,11 @@ class RolesService {
   constructor() {}
 
   async create(name, modulesSelected) {
-    console.log('name////////////////', name);
-    console.log('modulos///////////////////', modulesSelected);
     const data = {
       name: name,
     };
     const newRol = await models.Roles.create(data);
     const idRol = newRol.dataValues.id;
-    console.log('nuevo rol----------', newRol);
 
     modulesSelected.forEach(async (module) => {
       const data = {
