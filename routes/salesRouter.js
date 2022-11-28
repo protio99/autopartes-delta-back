@@ -19,12 +19,26 @@ router.get('/', async (req, res) => {
 });
 
 router.get(
-  '/:id',
-  validatorHandler(getSaleSchema, 'params'),
+  '/get-previous-sales',
+  passport.authenticate('jwt', { session: false }),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const sale = await service.findById(id);
+      const idUser = req.user.sub;
+      const sale = await service.getPreviousSales(idUser);
+      res.json(sale);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  '/get-previous-sales-by-id/:idSale',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const { idSale } = req.params;
+      const sale = await service.getPreviousSaleById(idSale);
       res.json(sale);
     } catch (error) {
       next(error);
@@ -148,5 +162,19 @@ router.delete('/delete/:id', async (req, res, next) => {
     next(error);
   }
 });
+
+router.get(
+  '/:id',
+  validatorHandler(getSaleSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const sale = await service.findById(id);
+      res.json(sale);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;

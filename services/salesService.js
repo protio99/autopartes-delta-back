@@ -53,6 +53,38 @@ class SalesService {
       await models.SalesDetails.create(data);
     }
   }
+  async getPreviousSales(userId) {
+    const buys = await models.Clients.findAll({
+      include: [
+        {
+          association: 'sales',
+          include: ['buy_detail'],
+        },
+      ],
+      where: {
+        idUser: userId,
+      },
+    });
+    return buys;
+  }
+
+  async getPreviousSaleById(idSale) {
+    console.log('////////////', idSale);
+    const buys = await models.SalesDetails.findAll({
+      include: [
+        {
+          association: 'products',
+          attributes: { exclude: ['idProduct'] },
+          include: ['brand', 'category', 'images_products'],
+        },
+      ],
+      where: {
+        idSale: idSale,
+      },
+    });
+    return buys;
+  }
+
   async createFromWebSiteWithToken(personalInfo, shippingInfo, cart, userId) {
     const newClient = await _clientsService.createClientWithToken(
       personalInfo,

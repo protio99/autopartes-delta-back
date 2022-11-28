@@ -57,6 +57,18 @@ class ClientsService {
     return clientInfo;
   }
 
+  // async previousBuys(idUser) {
+  //   const clientInfo = await models.Clients.findAll({
+  //     limit: 1,
+  //     where: {
+  //       idUser: idUser,
+  //     },
+  //     order: [['id', 'DESC']],
+  //   });
+
+  //   return clientInfo;
+  // }
+
   async create(data) {
     const newClient = await models.Clients.create(data);
     return newClient;
