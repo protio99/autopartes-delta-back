@@ -18,7 +18,9 @@ class VehiclesService {
   }
 
   async findById(id) {
-    const vehicle = await models.Vehicles.findByPk(id);
+    const vehicle = await models.Vehicles.findByPk(id, {
+      include: ['brands_vehicles'],
+    });
     if (!vehicle) {
       throw boom.notFound('vehicle not found');
     }
@@ -31,14 +33,14 @@ class VehiclesService {
     return rta;
   }
 
-  async verifyStatusOfBrand(idVehicle) {
+  async getBrandByVehicle(idVehicle) {
     const vehicle = await this.findById(idVehicle);
-    const brand = await models.Brands.findAll({
+    const brands = await models.Brands.findAll({
       where: {
         id: vehicle.idBrand,
       },
     });
-    return brand;
+    return brands[0];
   }
 
   async getProductsWhereIdVehicle(idVehicle) {
@@ -49,8 +51,8 @@ class VehiclesService {
     });
     return products;
   }
-  async findProduct(idProduct){
-    const response =  await models.Products.findAll({
+  async findProduct(idProduct) {
+    const response = await models.Products.findAll({
       attributes: {
         exclude: ['idProduct'],
       },
@@ -58,7 +60,7 @@ class VehiclesService {
         id: idProduct,
       },
     });
-    return response[0]
+    return response[0];
   }
   async findProductsWhereVehicle(idVehicle) {
     // const products = this.getProductsWhereIdVehicle(idVehicle);
@@ -67,40 +69,53 @@ class VehiclesService {
         idVehicle: idVehicle,
       },
     });
-    let arrayOfProducts = []
+    let arrayOfProducts = [];
     for (const p of products) {
-      
-      const idProduct = p.idProduct; 
-      const product =  await this.findProduct(idProduct); 
-      arrayOfProducts.push(product)
+      const idProduct = p.idProduct;
+      const product = await this.findProduct(idProduct);
+      arrayOfProducts.push(product);
     }
-   
+
     return arrayOfProducts;
+  }
+  async findVehiclesWhereProduct(idProduct) {
+    const vehicles = await models.ProductsVehicles.findAll({
+      where: {
+        idProduct: idProduct,
+      },
+    });
+    let arrayOfVehicles = [];
+    for (const p of vehicles) {
+      const idVehicle = p.idVehicle;
+      const vehicle = await this.findById(idVehicle);
+      arrayOfVehicles.push(vehicle);
+    }
+
+    return arrayOfVehicles;
   }
 
   async changeStatusVehicle(idVehicle, data) {
-    let brand = await this.verifyStatusOfBrand(idVehicle);
-    if (brand[0].status === true) {
-      const rta = await models.Vehicles.update(
-        { status: data.status },
-        { where: { id: idVehicle } }
-      );
-      const products = this.getProductsWhereIdVehicle(idVehicle);
-      
-      if (data.status === false) {
-        (await products).forEach((product) => {
-          const idProduct = product.idProduct;
-          const response = models.Products.update(
-            { state: data.status },
-            { where: { id: idProduct } }
-          );
-          return response;
-        });
-      }
-      return rta;
-    } else {
+    let brand = await this.getBrandByVehicle(idVehicle);
+    if (brand.status === false && data.status === true) {
       return null;
     }
+    const rta = await models.Vehicles.update(
+      { status: data.status },
+      { where: { id: idVehicle } }
+    );
+    const products = this.getProductsWhereIdVehicle(idVehicle);
+
+    if (data.status === false) {
+      (await products).forEach((product) => {
+        const idProduct = product.idProduct;
+        const response = models.Products.update(
+          { state: data.status },
+          { where: { id: idProduct } }
+        );
+        return response;
+      });
+    }
+    return rta;
   }
 
   async delete(id) {

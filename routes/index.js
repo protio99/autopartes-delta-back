@@ -4,11 +4,9 @@ const buysRouter = require('./buysRouter.js');
 const categoriesRouter = require('./categoriesRouter.js');
 const clientsRouter = require('./clientsRouter.js');
 const modulesRouter = require('./modulesRouter.js');
-const quotationRouter = require('./quotationRouter');
-const permissionsRouter = require('./permissionsRouter.js');
+const quotationsDetailsRouter = require('./quotationsDetailsRouter');
 const productsRouter = require('./productsRouter.js');
 const productsSalesRouter = require('./productsSalesRouter.js');
-// const productsVehiclesRouter = require('./productsVehiclesRouter.js');
 const providersRouter = require('./providersRouter.js');
 const rolesPermissionsRouter = require('./rolesPermissionsRouter.js');
 const rolesRouter = require('./rolesRouter.js');
@@ -23,18 +21,15 @@ const filesBuysRouter = require('./filesBuysRouter');
 
 
 function routerApi(app) {
-
   app.use('/brands', brandsRouter);
   app.use('/buysDetails', buysDetailsRouter);
   app.use('/buys', buysRouter);
   app.use('/categories', categoriesRouter);
   app.use('/clients', clientsRouter);
   app.use('/modules', modulesRouter);
-  app.use('/quotations', quotationRouter);
-  app.use('/permissions', permissionsRouter);
+  app.use('/quotationsDetails', quotationsDetailsRouter);
   app.use('/products', productsRouter);
   app.use('/productsSales', productsSalesRouter);
-  // app.use('/productsVehicles', productsVehiclesRouter);
   app.use('/providers', providersRouter);
   app.use('/rolesPermissions', rolesPermissionsRouter);
   app.use('/roles', rolesRouter);

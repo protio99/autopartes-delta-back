@@ -31,6 +31,7 @@ router.get(
   }
 );
 
+
 router.get(
   '/get-vehicles-where-brand/:idBrand',
   validatorHandler(getVehiclesWhereBrand, 'params'),

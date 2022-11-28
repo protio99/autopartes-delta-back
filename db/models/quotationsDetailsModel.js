@@ -1,8 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const { PRODUCTS_TABLE } = require('./productsModel');
-const { QUOTATION_TABLE } = require('./quotationModel');
 const QUOTATIONS_DETAILS_TABLE = 'quotations_details';
-
+const { USERS_TABLE } = require('./../models/usersModel');
 //DEFINE LA ESTRUCTURA DE LA BD
 const quotationsDetailsSchema = {
   id: {
@@ -11,6 +10,18 @@ const quotationsDetailsSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
+  idUser: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    unique: false,
+    field: 'id_user',
+    references: {
+        model: USERS_TABLE,
+        key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
+},
   idProduct: {
     allowNull: false, 
     type: DataTypes.STRING(25),
@@ -22,19 +33,6 @@ const quotationsDetailsSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   },
-  idQuotation: {
-    allowNull: false,
-    type: DataTypes.INTEGER,
-    unique: false,
-    field: 'id_quotation',
-    references: {
-      model: QUOTATION_TABLE,
-      key: 'id',
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-  },
-
   amount: {
     allowNull: false,
     type: DataTypes.INTEGER,
@@ -47,10 +45,11 @@ class QuotationsDetails extends Model {
       as: 'products',
       foreignKey: 'idProduct',
     });
-    this.belongsTo(models.Quotation, {
-      as: 'quotation',
-      foreignKey: 'idQuotation',
+    this.belongsTo(models.Users, {
+      as: 'user',
+      foreignKey: 'idUser',
     });
+   
   }
 
   static config(sequelize) {

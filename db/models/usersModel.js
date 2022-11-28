@@ -32,6 +32,11 @@ const usersSchema = {
     type: DataTypes.STRING,
     unique: false,
   },
+  recoveryToken: {
+    allowNull: true,
+    type: DataTypes.STRING,
+    field: 'recovery_token'
+  },
   status: {
     allowNull: false,
     type: DataTypes.BOOLEAN,
@@ -68,6 +73,10 @@ class Users extends Model {
     });
     this.hasOne(model.Clients, {
       as: 'clients',
+      foreignKey: 'idUser',
+    });
+    this.hasMany(model.QuotationsDetails, {
+      as: 'quotation_detail',
       foreignKey: 'idUser',
     });
   }
