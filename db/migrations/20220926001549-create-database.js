@@ -12,6 +12,7 @@ const { SALES_TABLE } = require('./../models/salesModel');
 const { PROVIDERS_TABLE } = require('../models/providersModel');
 const { BUYS_TABLE } = require('../models/buysModel');
 const { BUYS_DETAILS_TABLE } = require('../models/buysDetailsModel');
+const {FILE_BUYS_TABLE} = require("./../models/fileBuysModel")
 const { PRODUCTS_TABLE } = require('../models/productsModel');
 const { SALES_DETAILS_TABLE } = require('../models/salesDetailsModel');
 const { ORDERS_TABLE } = require('../models/ordersModel');
@@ -19,6 +20,7 @@ const { ORDERS_DETAILS_TABLE } = require('../models/ordersDetailsModel');
 const {
   QUOTATIONS_DETAILS_TABLE,
 } = require('../models/quotationsDetailsModel');
+
 const { QUOTATION_TABLE } = require('../models/quotationModel');
 const { CATEGORIES_TABLE } = require('./../models/categoriesModel');
 const { VEHICLES_TABLE } = require('./../models/vehiclesModel');
@@ -27,6 +29,7 @@ const { USERS_HELP_TABLE } = require('./../models/usersHelpModel');
 const { PRODUCTS_VEHICLES_TABLE } = require('../models/productsVehiclesModel');
 const { PRODUCTS_BRANDS_TABLE } = require('./../models/productsBrandsModel');
 const {IMAGES_PRODUCTS_TABLE} = require("./../models/imagesProductsModel")
+
 
 module.exports = {
   async up(queryInterface) {
@@ -335,6 +338,8 @@ module.exports = {
         type: DataTypes.STRING(200),
     }
     });
+    
+    
     await queryInterface.createTable(PRODUCTS_VEHICLES_TABLE, {
       id: {
         allowNull: false,
@@ -653,6 +658,34 @@ module.exports = {
         field: 'created_at',
         unique: false,
       },
+      reason: {
+        allowNull: true,
+        type: DataTypes.STRING(500),
+        unique: false,
+      }
+    });
+    await queryInterface.createTable(FILE_BUYS_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+    },
+    idBuy: {
+        allowNull: false,
+        type: DataTypes.STRING(30),
+        field: 'id_buy',
+        references: {
+          model: BUYS_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+    url: {
+        allowNull: false,
+        type: DataTypes.STRING(200),
+    }
     });
     await queryInterface.createTable(BUYS_DETAILS_TABLE, {
       id: {
@@ -935,6 +968,7 @@ module.exports = {
     await queryInterface.dropTable(SALES_TABLE);
     await queryInterface.dropTable(BUYS_TABLE);
     await queryInterface.dropTable(BUYS_DETAILS_TABLE);
+    await queryInterface.dropTable(FILE_BUYS_TABLE);
     await queryInterface.dropTable(SALES_DETAILS_TABLE);
     await queryInterface.dropTable(ORDERS_TABLE);
     await queryInterface.dropTable(ORDERS_DETAILS_TABLE);

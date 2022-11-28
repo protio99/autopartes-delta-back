@@ -54,6 +54,11 @@ const buysSchema = {
     field: 'created_at',
     unique: false,
   },
+  reason: {
+    allowNull: true,
+    type: DataTypes.STRING(500),
+    unique: false,
+  }
 };
 
 class Buys extends Model {
@@ -64,6 +69,10 @@ class Buys extends Model {
     });
     this.hasMany(models.BuysDetails, {
       as: 'buy_detail',
+      foreignKey: 'idBuy',
+    });
+    this.hasMany(models.FilesBuys, {
+      as: 'files_buys',
       foreignKey: 'idBuy',
     });
   }

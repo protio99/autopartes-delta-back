@@ -23,6 +23,8 @@ const {OrdersDetails, ordersDetailsSchema} = require('./ordersDetailsModel');
 const {ProductsVehicles, productsVehiclesSchema} = require('./productsVehiclesModel');
 const {ProductsBrands, productsBrandsSchema} = require('./productsBrandsModel');
 const {ImagesProducts, imagesProductsSchema} = require('./imagesProductsModel');
+const {FilesBuys, filesBuysSchema} = require('./fileBuysModel');
+
 
 function setupModels(sequelize) {
     Categories.init(categoriesSchema, Categories.config(sequelize));
@@ -48,6 +50,8 @@ function setupModels(sequelize) {
     ProductsVehicles.init(productsVehiclesSchema, ProductsVehicles.config(sequelize));
     ProductsBrands.init(productsBrandsSchema, ProductsBrands.config(sequelize));
     ImagesProducts.init(imagesProductsSchema, ImagesProducts.config(sequelize));
+    FilesBuys.init(filesBuysSchema, FilesBuys.config(sequelize));
+    
 
     //Asociaciones de llaves foraneas
 
@@ -74,6 +78,8 @@ function setupModels(sequelize) {
     ProductsVehicles.associate(sequelize.models)
     ProductsBrands.associate(sequelize.models)
     ImagesProducts.associate(sequelize.models);
+    FilesBuys.associate(sequelize.models);
+
 }
 
 module.exports = setupModels;

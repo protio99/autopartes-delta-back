@@ -26,9 +26,10 @@ class UsersService {
   async find() {
   
     const rta = await models.Users.findAll(
-      // {
-      // include:['roles_users'] 
-      // }
+      
+      {
+      include:['roles_users'] 
+      }
      
     );
     return rta;
