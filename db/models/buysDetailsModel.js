@@ -45,22 +45,6 @@ const buysDetailsSchema = {
     type: DataTypes.FLOAT,
     field: 'net_price',
   },
-  shippingPrice: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    field: 'shipping_price',
-  },
-  discountsPercentage: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    field: 'discounts_percentage',
-  },
-  ivaPercentage: {
-    allowNull: true,
-    type: DataTypes.FLOAT,
-    field: 'iva_percentage',
-
-  },
   profitPercentage: {
     allowNull: false,
     type: DataTypes.FLOAT,
