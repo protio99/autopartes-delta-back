@@ -6,6 +6,7 @@ const datePurchase = Joi.date().format('YYYY-MM-DD').utc();
 const totalPurchase= Joi.number().positive();
 const status= Joi.boolean();
 const invoiceUrl= Joi.string().min(3).max(40);
+const reason = Joi.string().min(0).max(500);
 
 // const idDetail = Joi.number().integer().positive();
 const idBuy = Joi.string().min(1).max(30);
@@ -29,7 +30,8 @@ const updatePurchaseBuySchema = Joi.object({
  idProvider,
  datePurchase,
  totalPurchase,
- status
+ status,
+ reason
 });
 
 const getBuySchema = Joi.object({

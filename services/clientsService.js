@@ -78,7 +78,10 @@ class ClientsService {
   }
 
   async find() {
-    const rta = await models.Clients.findAll();
+    const rta = await models.Clients.findAll({
+      include: ['users'],
+
+    });
     return rta;
   }
 

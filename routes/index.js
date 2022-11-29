@@ -17,6 +17,8 @@ const vehiclesRouter = require('./vehiclesRouter.js');
 const authRouter = require('./authRouter');
 const productsBrandsRouter = require('./productsBrandsRouter');
 const imagesProductsRouter = require('./imagesProductsRouter');
+const filesBuysRouter = require('./filesBuysRouter');
+
 
 function routerApi(app) {
   app.use('/brands', brandsRouter);
@@ -38,6 +40,9 @@ function routerApi(app) {
   app.use('/auth', authRouter);
   app.use('/productsBrands', productsBrandsRouter);
   app.use('/imagesProducts', imagesProductsRouter);
+  app.use('/filesBuys', filesBuysRouter);
+
+  
 }
 
 module.exports = routerApi;
