@@ -25,6 +25,7 @@ class ClientsService {
     return newClient;
   }
   async createClientWithToken(personalInfo, shippingInfo, userId) {
+    console.log(personalInfo, shippingInfo, userId);
     const client = {
       idUser: userId,
       name: personalInfo.name,
@@ -38,10 +39,12 @@ class ClientsService {
       department: shippingInfo.department,
       city: shippingInfo.city,
       neightboorhood: shippingInfo.neighborhood,
-      indications: shippingInfo.indications,
+      indications: null,
+      status: true,
     };
-
+    console.log('clienteeee', client);
     const newClient = await models.Clients.create(client);
+    console.log('cliente/////', newClient);
     return newClient;
   }
 

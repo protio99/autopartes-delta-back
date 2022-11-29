@@ -90,7 +90,7 @@ class SalesService {
       shippingInfo,
       userId
     );
-
+    console.log(newClient);
     if (!newClient) {
       throw boom.badRequest(
         'error al crear el cliente desde el servicio de ventas'
