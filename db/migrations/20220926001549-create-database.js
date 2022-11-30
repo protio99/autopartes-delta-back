@@ -11,7 +11,7 @@ const { SALES_TABLE } = require('./../models/salesModel');
 const { PROVIDERS_TABLE } = require('../models/providersModel');
 const { BUYS_TABLE } = require('../models/buysModel');
 const { BUYS_DETAILS_TABLE } = require('../models/buysDetailsModel');
-const {FILE_BUYS_TABLE} = require("./../models/fileBuysModel")
+const { FILE_BUYS_TABLE } = require('./../models/fileBuysModel');
 const { PRODUCTS_TABLE } = require('../models/productsModel');
 const { SALES_DETAILS_TABLE } = require('../models/salesDetailsModel');
 const { ORDERS_TABLE } = require('../models/ordersModel');
@@ -28,7 +28,6 @@ const { USERS_HELP_TABLE } = require('./../models/usersHelpModel');
 const { PRODUCTS_VEHICLES_TABLE } = require('../models/productsVehiclesModel');
 const { PRODUCTS_BRANDS_TABLE } = require('./../models/productsBrandsModel');
 const { IMAGES_PRODUCTS_TABLE } = require('./../models/imagesProductsModel');
-
 
 module.exports = {
   async up(queryInterface) {
@@ -273,7 +272,7 @@ module.exports = {
       },
       description: {
         allowNull: false,
-        type: DataTypes.STRING(500),
+        type: DataTypes.STRING(5000),
         unique: false,
       },
       state: {
@@ -311,8 +310,7 @@ module.exports = {
         type: DataTypes.STRING(200),
       },
     });
-    
-    
+
     await queryInterface.createTable(PRODUCTS_VEHICLES_TABLE, {
       id: {
         allowNull: false,
@@ -640,16 +638,16 @@ module.exports = {
         allowNull: true,
         type: DataTypes.STRING(500),
         unique: false,
-      }
+      },
     });
     await queryInterface.createTable(FILE_BUYS_TABLE, {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER
-    },
-    idBuy: {
+        type: DataTypes.INTEGER,
+      },
+      idBuy: {
         allowNull: false,
         type: DataTypes.STRING(30),
         field: 'id_buy',
@@ -660,10 +658,10 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-    url: {
+      url: {
         allowNull: false,
         type: DataTypes.STRING(200),
-    }
+      },
     });
     await queryInterface.createTable(BUYS_DETAILS_TABLE, {
       id: {

@@ -66,12 +66,12 @@ router.post(
   async (req, res, next) => {
     try {
       const { personalInfo, shippingInfo, cart } = req.body;
-      const newSale = await service.createFromWebSite(
+      const response = await service.createFromWebSite(
         personalInfo,
         shippingInfo,
         cart
       );
-      res.status(201).json(newSale);
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }

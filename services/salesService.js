@@ -2,11 +2,18 @@
 const boom = require('@hapi/boom');
 const { models } = require('../librerias/sequelize');
 const ClientsService = require('./clientsService');
+const ProductsService = require('./productsService');
 const config = require('./../config/config');
 const userMail = config.userMail;
 const userMailPassword = config.userMailPassword;
 const nodemailer = require('nodemailer');
 const _clientsService = new ClientsService();
+const _productsService = new ProductsService();
+// SDK de Mercado Pago
+const mercadopago = require('mercadopago');
+mercadopago.configure({
+  access_token: config.accessToken,
+});
 class SalesService {
   constructor() {}
 
@@ -26,18 +33,31 @@ class SalesService {
         'error al crear el cliente desde el servicio de ventas'
       );
     }
+    let items = [];
     let total = 0;
     for (const product in cart) {
       if (Object.hasOwnProperty.call(cart, product)) {
         const element = cart[product];
-        total += element.price;
+        total += element.price * element.amount;
+        items = [
+          ...items,
+          {
+            title: element.name,
+            unit_price: element.price,
+            quantity: element.amount,
+          },
+        ];
       }
     }
+
+    const response = await mercadopago.preferences.create({
+      items: items,
+    });
     const sale = {
       idClient: newClient.dataValues.id,
       saleDate: this.formatDate(new Date()),
       statusSale: 'Activo',
-      statusPayment: 'Pagado',
+      statusPayment: 'Pendiente',
       totalPurchase: total,
       typeSale: 1,
     };
@@ -51,8 +71,13 @@ class SalesService {
         price: cart[product].price,
       };
       await models.SalesDetails.create(data);
+      await _productsService.discountProduct(data.idProduct, data);
     }
+    return {
+      redirect: response.body.init_point,
+    };
   }
+
   async getPreviousSales(userId) {
     const buys = await models.Clients.findAll({
       include: [
@@ -90,19 +115,31 @@ class SalesService {
       shippingInfo,
       userId
     );
-    console.log(newClient);
     if (!newClient) {
       throw boom.badRequest(
         'error al crear el cliente desde el servicio de ventas'
       );
     }
+    let items = [];
     let total = 0;
     for (const product in cart) {
       if (Object.hasOwnProperty.call(cart, product)) {
         const element = cart[product];
-        total += element.price;
+        total += element.price * element.amount;
+        items = [
+          ...items,
+          {
+            title: element.name,
+            unit_price: element.price,
+            quantity: element.amount,
+          },
+        ];
       }
     }
+
+    const response = await mercadopago.preferences.create({
+      items: items,
+    });
     const sale = {
       idClient: newClient.dataValues.id,
       saleDate: this.formatDate(new Date()),
@@ -121,7 +158,12 @@ class SalesService {
         price: cart[product].price,
       };
       await models.SalesDetails.create(data);
+      await _productsService.discountProduct(data.idProduct, data);
     }
+
+    return {
+      redirect: response.body.init_point,
+    };
   }
 
   formatDate(date) {
