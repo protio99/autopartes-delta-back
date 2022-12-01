@@ -9,6 +9,7 @@ const userMailPassword = config.userMailPassword;
 const nodemailer = require('nodemailer');
 const _clientsService = new ClientsService();
 const _productsService = new ProductsService();
+const sequelize = require('sequelize');
 // SDK de Mercado Pago
 const mercadopago = require('mercadopago');
 mercadopago.configure({
@@ -107,6 +108,16 @@ class SalesService {
       },
     });
     return buys;
+  }
+  async getTopThree() {
+    const topThreeProducts = await models.SalesDetails.findAll({
+      attributes: [
+        'idProduct',
+        [sequelize.fn('sum', sequelize.col('amount')), 'total_amount'],
+      ],
+      group: ['idProduct'],
+    });
+    return topThreeProducts;
   }
 
   async createFromWebSiteWithToken(personalInfo, shippingInfo, cart, userId) {
@@ -263,4 +274,7 @@ class SalesService {
   }
 }
 
+const _salesService = new SalesService();
+const rta = _salesService.getTopThree();
+console.log('////////////////////////////////', rta);
 module.exports = SalesService;

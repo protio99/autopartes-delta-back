@@ -31,7 +31,14 @@ router.get(
     }
   }
 );
-
+router.get('/get-top-three', async (req, res, next) => {
+  try {
+    const sale = await service.getTopThree();
+    res.json(sale);
+  } catch (error) {
+    next(error);
+  }
+});
 router.get(
   '/get-previous-sales-by-id/:idSale',
   passport.authenticate('jwt', { session: false }),
