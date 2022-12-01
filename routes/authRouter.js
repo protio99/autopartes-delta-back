@@ -68,6 +68,23 @@ validatorHandler(resetPasswordSchema, 'body'),
   }
 );
 
+router.post('/change-password-user-loged',
+// validatorHandler(resetPasswordSchema, 'body'),
+passport.authenticate('jwt', { session: false }),
+
+  async (req, res, next) => {
+  
+    try {
+      const idUser = req.user.sub
+      const {currentPassword,newPassword,} = req.body;
+      const rta = await service.changePasswordUserLoged(idUser, currentPassword, newPassword)
+      res.json(rta)   
+    } catch (error) {
+        next(error);
+    }
+  }
+);
+
 
 
 module.exports = router;

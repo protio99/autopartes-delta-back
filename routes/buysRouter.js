@@ -3,7 +3,7 @@ const BuysService = require('../services/buysService');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {
   createBuySchema,
-  updateBuySchema,
+  updatePurchaseBuySchema,
   getBuySchema,
   buyDetails,
   getBuyDetails
@@ -76,10 +76,10 @@ router.post(
   }
 );
 
-router.patch(
+router.put(
   '/update/:id',
   validatorHandler(getBuySchema, 'params'),
-  validatorHandler(updateBuySchema, 'body'),
+  validatorHandler(updatePurchaseBuySchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

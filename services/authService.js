@@ -98,6 +98,25 @@ class AuthService {
     }
   }
 
+  async changePasswordUserLoged(idUser, currentPassword, newPassword) {
+  
+      const user = await service.findById(idUser);
+      if (!user) {
+        throw boom.unauthorized("El usuario no se encuentra registrado en la base de datos");
+      }
+      const passwordDB = user.dataValues.password;
+      const isMatch = await bcrypt.compare(currentPassword,passwordDB);
+      if (!isMatch) {
+        console.log("Entre al isMatch false");
+        throw boom.badRequest("Las contraseñas no coinciden");
+      }
+      const hash = await bcrypt.hash(newPassword, 10);
+      await service.update(user.id, {
+        password: hash,
+      });
+      return { message: 'Constraseña modificada exitosamente' };
+   }
+
 
   
 }
