@@ -23,7 +23,6 @@ class AuthService {
     delete user.dataValues.password;
     return user;
   }
-
   signToken(user) {
     const payload = {
       sub: user.id,
@@ -98,6 +97,9 @@ class AuthService {
       throw boom.unauthorized();
     }
   }
+
+
+  
 }
 
 module.exports = AuthService;

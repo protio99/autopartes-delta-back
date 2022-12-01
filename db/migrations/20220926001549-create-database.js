@@ -623,12 +623,6 @@ module.exports = {
         unique: false,
         defaultValue: true,
       },
-      invoiceUrl: {
-        allowNull: true,
-        type: DataTypes.STRING,
-        unique: false,
-        field: 'invoice_url',
-      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATEONLY,

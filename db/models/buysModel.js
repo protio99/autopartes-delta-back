@@ -41,12 +41,6 @@ const buysSchema = {
     unique: false,
     defaultValue: true,
   },
-  invoiceUrl: {
-    allowNull: true,
-    type: DataTypes.STRING,
-    unique: false,
-    field: 'invoice_url',
-  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATEONLY,
@@ -69,10 +63,6 @@ class Buys extends Model {
     });
     this.hasMany(models.BuysDetails, {
       as: 'buy_detail',
-      foreignKey: 'idBuy',
-    });
-    this.hasMany(models.FilesBuys, {
-      as: 'files_buys',
       foreignKey: 'idBuy',
     });
   }

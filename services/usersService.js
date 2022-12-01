@@ -22,6 +22,14 @@ class UsersService {
     return newUser;
   }
 
+  async comparePassword(password, realPassword) {
+    const isMatch = await bcrypt.compare(password, realPassword);
+    if (!isMatch) {
+      throw boom.unauthorized();
+    }else{
+      return true;
+    }
+  }
 
   async find() {
   
@@ -64,6 +72,7 @@ class UsersService {
     await user.destroy();  
     return {id};
   }
+  
 }
 
 module.exports = UsersService;

@@ -7,6 +7,7 @@ const {
   getUserSchema,
 } = require('../schema/userSchema');
 const router = express.Router();
+const passport = require('passport');
 
 const service = new UsersService();
 
@@ -14,6 +15,35 @@ router.get('/', async (req, res) => {
   const users = await service.find();
   res.json(users);
 });
+
+router.get(
+  '/get-previous-user',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const idUser = req.user.sub;
+      const user = await service.findById(idUser);
+      res.json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  '/post-real-password',
+  async (req, res, next) => {
+    try {
+      const password = req.body.password;
+      const realPassword = req.body.realPassword;
+      //comprobar
+      const answer = await service.comparePassword(password, realPassword);
+      res.json(answer);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.get(
   '/:id',
