@@ -80,4 +80,14 @@ router.post(
   }
 );
 
+router.post('/verify-token', async (req, res, next) => {
+  try {
+    const { token } = req.body;
+    const rta = await service.verifyToken(token);
+    res.json(rta);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

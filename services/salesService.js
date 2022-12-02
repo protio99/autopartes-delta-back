@@ -116,8 +116,19 @@ class SalesService {
         [sequelize.fn('sum', sequelize.col('amount')), 'total_amount'],
       ],
       group: ['idProduct'],
+      order: [[sequelize.col('total_amount'), 'DESC']],
+      limit: 3,
     });
-    return topThreeProducts;
+
+    const products = await Promise.all(
+      topThreeProducts.map(async (product) => {
+        const idProduct = product.dataValues.idProduct;
+        const getProduct = await _productsService.findById(idProduct);
+        return getProduct;
+      })
+    );
+
+    return products;
   }
 
   async createFromWebSiteWithToken(personalInfo, shippingInfo, cart, userId) {
@@ -274,7 +285,4 @@ class SalesService {
   }
 }
 
-const _salesService = new SalesService();
-const rta = _salesService.getTopThree();
-console.log('////////////////////////////////', rta);
 module.exports = SalesService;

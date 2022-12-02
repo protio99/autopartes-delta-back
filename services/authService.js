@@ -92,6 +92,7 @@ class AuthService {
     const rta = await this.sendMail(mail);
     return rta;
   }
+
   async getUserInfo(token) {
     const payload = jwt.verify(token, config.jwtSecret);
     const userId = payload.sub;
@@ -115,6 +116,18 @@ class AuthService {
     } catch (error) {
       throw boom.unauthorized();
     }
+  }
+
+  async verifyToken(token) {
+    const payload = jwt.verify(token, config.jwtSecret);
+    const user = await service.findById(payload.sub);
+    if (!user) {
+      throw boom.unauthorized();
+    }
+    if (!payload) {
+      throw boom.unauthorized();
+    }
+    return { message: 'Constraseña modificada exitosamente' };
   }
 }
 
