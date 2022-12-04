@@ -27,7 +27,6 @@ const buysSchema = {
     type: DataTypes.DATEONLY,
     field: 'date_purchase',
     unique: false,
-    
   },
   totalPurchase: {
     allowNull: false,
@@ -58,7 +57,7 @@ const buysSchema = {
     allowNull: true,
     type: DataTypes.STRING(500),
     unique: false,
-  }
+  },
 };
 
 class Buys extends Model {
