@@ -60,5 +60,18 @@ router.post(
     }
   }
 );
+router.post(
+  '/registered-users-per-day',
+
+  async (req, res, next) => {
+    try {
+      const { usersDate } = req.body;
+      const user = await service.getRegisteredUsersPerDay(usersDate);
+      res.status(201).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;

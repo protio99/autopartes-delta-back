@@ -89,6 +89,15 @@ class DashboardService {
     );
     return [results];
   }
+  async getRegisteredUsersPerDay(date) {
+    const { formattedDate } = this.formatDate(date);
+    const [results] = await sequelize.query(
+      `SELECT created_at, COUNT(created_at) AS 'users_amount' 
+      FROM users 
+      WHERE created_at = '${formattedDate}';`
+    );
+    return [results];
+  }
 }
 
 module.exports = DashboardService;
