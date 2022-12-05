@@ -80,7 +80,15 @@ class ProductsService {
 
   async findStore() {
     const options = {
-      include: ['category', 'brand', 'images_products'],
+      include: [
+        'category',
+        'brand',
+        'images_products',
+        {
+          association: 'products_vehicles',
+          include: ['vehicles'],
+        },
+      ],
       attributes: { exclude: ['idProduct'] },
       where: {
         [Op.or]: [

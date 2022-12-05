@@ -26,6 +26,7 @@
     "faker": "^5.5.3",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
+    "mercadopago": "^1.5.14",
     "multer": "*",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",

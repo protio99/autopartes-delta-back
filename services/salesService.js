@@ -2,15 +2,25 @@
 const boom = require('@hapi/boom');
 const { models } = require('../librerias/sequelize');
 const ClientsService = require('./clientsService');
+const ProductsService = require('./productsService');
 const config = require('./../config/config');
 const userMail = config.userMail;
 const userMailPassword = config.userMailPassword;
 const nodemailer = require('nodemailer');
 const _clientsService = new ClientsService();
+const _productsService = new ProductsService();
+const sequelize = require('sequelize');
+const bcrypt = require('bcrypt');
+// SDK de Mercado Pago
+const mercadopago = require('mercadopago');
+mercadopago.configure({
+  access_token: config.accessToken,
+});
 class SalesService {
   constructor() {}
 
   async create(data) {
+    console.log('.............', data);
     const newSale = await models.Sales.create(data);
     return newSale;
   }
@@ -26,19 +36,33 @@ class SalesService {
         'error al crear el cliente desde el servicio de ventas'
       );
     }
+    let items = [];
     let total = 0;
     for (const product in cart) {
       if (Object.hasOwnProperty.call(cart, product)) {
         const element = cart[product];
-        total += element.price;
+        total += element.price * element.amount;
+        items = [
+          ...items,
+          {
+            title: element.name,
+            unit_price: element.price,
+            quantity: element.amount,
+          },
+        ];
       }
     }
+
+    const response = await mercadopago.preferences.create({
+      items: items,
+    });
     const sale = {
       idClient: newClient.dataValues.id,
       saleDate: this.formatDate(new Date()),
-      statusSale: 'Activo',
-      statusPayment: 'Pagado',
+      // statusSale: 'Activo',
+      // statusPayment: 'Pendiente',
       totalPurchase: total,
+      annulSale: 1,
       typeSale: 1,
     };
 
@@ -51,8 +75,13 @@ class SalesService {
         price: cart[product].price,
       };
       await models.SalesDetails.create(data);
+      await _productsService.discountProduct(data.idProduct, data);
     }
+    return {
+      redirect: response.body.init_point,
+    };
   }
+
   async getPreviousSales(userId) {
     const buys = await models.Clients.findAll({
       include: [
@@ -83,6 +112,27 @@ class SalesService {
     });
     return buys;
   }
+  async getTopThree() {
+    const topThreeProducts = await models.SalesDetails.findAll({
+      attributes: [
+        'idProduct',
+        [sequelize.fn('sum', sequelize.col('amount')), 'total_amount'],
+      ],
+      group: ['idProduct'],
+      order: [[sequelize.col('total_amount'), 'DESC']],
+      limit: 3,
+    });
+
+    const products = await Promise.all(
+      topThreeProducts.map(async (product) => {
+        const idProduct = product.dataValues.idProduct;
+        const getProduct = await _productsService.findById(idProduct);
+        return getProduct;
+      })
+    );
+
+    return products;
+  }
 
   async createFromWebSiteWithToken(personalInfo, shippingInfo, cart, userId) {
     const newClient = await _clientsService.createClientWithToken(
@@ -90,19 +140,31 @@ class SalesService {
       shippingInfo,
       userId
     );
-
     if (!newClient) {
       throw boom.badRequest(
         'error al crear el cliente desde el servicio de ventas'
       );
     }
+    let items = [];
     let total = 0;
     for (const product in cart) {
       if (Object.hasOwnProperty.call(cart, product)) {
         const element = cart[product];
-        total += element.price;
+        total += element.price * element.amount;
+        items = [
+          ...items,
+          {
+            title: element.name,
+            unit_price: element.price,
+            quantity: element.amount,
+          },
+        ];
       }
     }
+
+    const response = await mercadopago.preferences.create({
+      items: items,
+    });
     const sale = {
       idClient: newClient.dataValues.id,
       saleDate: this.formatDate(new Date()),
@@ -121,7 +183,12 @@ class SalesService {
         price: cart[product].price,
       };
       await models.SalesDetails.create(data);
+      await _productsService.discountProduct(data.idProduct, data);
     }
+
+    return {
+      redirect: response.body.init_point,
+    };
   }
 
   formatDate(date) {
@@ -218,6 +285,39 @@ class SalesService {
     const sale = await this.findById(id);
     await sale.destroy();
     return { id };
+  }
+
+  async changeStatusPayment(id) {
+    const sale = await this.findById(id);
+    const rta = await sale.update({
+      statusPayment: 'Pagado',
+    });
+    return rta;
+  }
+
+  async changeStatusSale(id) {
+    const sale = await this.findById(id);
+    const rta = await sale.update({
+      statusSale: 'Terminado',
+    });
+    return rta;
+  }
+  async cancelSale(id, password, idSale) {
+    const user = await models.Users.findByPk(id);
+    if (!user) {
+      throw boom.notFound('user not found');
+    }
+    const userPassword = user.dataValues.password;
+    const isMatch = await bcrypt.compare(password, userPassword);
+
+    if (!isMatch) {
+      throw boom.unauthorized('Clave incorrecta');
+    }
+    const sale = await this.findById(idSale);
+    const rta = await sale.update({
+      statusSale: 'Anulada',
+    });
+    return rta;
   }
 }
 

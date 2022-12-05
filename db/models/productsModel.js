@@ -52,7 +52,7 @@ const productsSchema = {
   },
   description: {
     allowNull: false,
-    type: DataTypes.STRING(500),
+    type: DataTypes.STRING(5000),
     unique: false,
   },
   state: {
@@ -101,7 +101,6 @@ class Products extends Model {
       as: 'products_vehicles',
       foreignKey: 'idProduct',
     });
-    
   }
 
   static config(sequelize) {

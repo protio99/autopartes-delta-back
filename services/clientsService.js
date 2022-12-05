@@ -19,6 +19,7 @@ class ClientsService {
       city: shippingInfo.city,
       neightboorhood: shippingInfo.neighborhood,
       indications: shippingInfo.indications,
+      status: true,
     };
 
     const newClient = await models.Clients.create(client);
@@ -39,6 +40,7 @@ class ClientsService {
       city: shippingInfo.city,
       neightboorhood: shippingInfo.neighborhood,
       indications: shippingInfo.indications,
+      status: true,
     };
 
     const newClient = await models.Clients.create(client);
@@ -77,7 +79,6 @@ class ClientsService {
   async find() {
     const rta = await models.Clients.findAll({
       include: ['users'],
-
     });
     return rta;
   }

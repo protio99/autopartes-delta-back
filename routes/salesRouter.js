@@ -31,7 +31,14 @@ router.get(
     }
   }
 );
-
+router.get('/get-top-three', async (req, res, next) => {
+  try {
+    const sale = await service.getTopThree();
+    res.json(sale);
+  } catch (error) {
+    next(error);
+  }
+});
 router.get(
   '/get-previous-sales-by-id/:idSale',
   passport.authenticate('jwt', { session: false }),
@@ -66,12 +73,12 @@ router.post(
   async (req, res, next) => {
     try {
       const { personalInfo, shippingInfo, cart } = req.body;
-      const newSale = await service.createFromWebSite(
+      const response = await service.createFromWebSite(
         personalInfo,
         shippingInfo,
         cart
       );
-      res.status(201).json(newSale);
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }
@@ -137,6 +144,39 @@ router.post(
     }
   }
 );
+
+router.post('/change-status-payment', async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const newSale = await service.changeStatusPayment(id);
+    res.status(201).json(newSale);
+  } catch (error) {
+    next(error);
+  }
+});
+router.post(
+  '/cancel-sale',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const { password, idSale } = req.body;
+      const id = req.user.sub;
+      const permissions = await service.cancelSale(id, password, idSale);
+      res.json(permissions);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.post('/change-status-sale', async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const newSale = await service.changeStatusSale(id);
+    res.status(201).json(newSale);
+  } catch (error) {
+    next(error);
+  }
+});
 router.patch(
   '/update/:id',
   validatorHandler(getSaleSchema, 'params'),
