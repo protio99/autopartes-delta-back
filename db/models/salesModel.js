@@ -54,6 +54,12 @@ const salesSchema = {
     unique: false,
     field: 'type_sale',
   },
+  reason: {
+    allowNull: true,
+    type: DataTypes.STRING(500),
+    unique: false,
+    defaultValue: null,
+  },
 };
 
 class Sales extends Model {

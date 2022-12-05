@@ -10,6 +10,7 @@ const nodemailer = require('nodemailer');
 const _clientsService = new ClientsService();
 const _productsService = new ProductsService();
 const sequelize = require('sequelize');
+const bcrypt = require('bcrypt');
 // SDK de Mercado Pago
 const mercadopago = require('mercadopago');
 mercadopago.configure({
@@ -19,6 +20,7 @@ class SalesService {
   constructor() {}
 
   async create(data) {
+    console.log('.............', data);
     const newSale = await models.Sales.create(data);
     return newSale;
   }
@@ -57,9 +59,10 @@ class SalesService {
     const sale = {
       idClient: newClient.dataValues.id,
       saleDate: this.formatDate(new Date()),
-      statusSale: 'Activo',
-      statusPayment: 'Pendiente',
+      // statusSale: 'Activo',
+      // statusPayment: 'Pendiente',
       totalPurchase: total,
+      annulSale: 1,
       typeSale: 1,
     };
 
@@ -282,6 +285,39 @@ class SalesService {
     const sale = await this.findById(id);
     await sale.destroy();
     return { id };
+  }
+
+  async changeStatusPayment(id) {
+    const sale = await this.findById(id);
+    const rta = await sale.update({
+      statusPayment: 'Pagado',
+    });
+    return rta;
+  }
+
+  async changeStatusSale(id) {
+    const sale = await this.findById(id);
+    const rta = await sale.update({
+      statusSale: 'Terminado',
+    });
+    return rta;
+  }
+  async cancelSale(id, password, idSale) {
+    const user = await models.Users.findByPk(id);
+    if (!user) {
+      throw boom.notFound('user not found');
+    }
+    const userPassword = user.dataValues.password;
+    const isMatch = await bcrypt.compare(password, userPassword);
+
+    if (!isMatch) {
+      throw boom.unauthorized('Clave incorrecta');
+    }
+    const sale = await this.findById(idSale);
+    const rta = await sale.update({
+      statusSale: 'Anulada',
+    });
+    return rta;
   }
 }
 

@@ -583,6 +583,17 @@ module.exports = {
         unique: false,
         field: 'total_purchase',
       },
+      typeSale: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        unique: false,
+        field: 'type_sale',
+      },
+      reason: {
+        allowNull: true,
+        type: DataTypes.STRING(500),
+        unique: false,
+      },
     });
 
     await queryInterface.createTable(BUYS_TABLE, {

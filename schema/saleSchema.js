@@ -1,5 +1,4 @@
-const Joi = require('joi')
-    .extend(require('@joi/date'));
+const Joi = require('joi').extend(require('@joi/date'));
 
 const id = Joi.number().integer().positive();
 const idClient = Joi.number().integer().positive();
@@ -7,6 +6,8 @@ const saleDate = Joi.date().format('YYYY-MM-DD').utc();
 const statusSale = Joi.string().min(3).max(50);
 const statusPayment = Joi.string().min(3).max(50);
 const totalPurchase = Joi.number().positive();
+const typeSale = Joi.bool();
+const reason = Joi.string().min(0).max(500);
 
 const idSale = Joi.number().integer().positive();
 const idProduct = Joi.string().min(0).max(50);
@@ -19,6 +20,7 @@ const createSaleSchema = Joi.object({
   statusSale: statusSale.required(),
   statusPayment: statusPayment.required(),
   totalPurchase: totalPurchase.required(),
+  typeSale: typeSale.required(),
 });
 
 const updateSaleSchema = Joi.object({
@@ -27,6 +29,8 @@ const updateSaleSchema = Joi.object({
   statusSale: statusSale,
   statusPayment: statusPayment,
   totalPurchase: totalPurchase,
+  typeSale: typeSale,
+  reason,
 });
 
 const getSaleSchema = Joi.object({
@@ -34,15 +38,14 @@ const getSaleSchema = Joi.object({
 });
 
 const getSaleDetails = Joi.object({
-  idSale : idSale.required(),
-})
+  idSale: idSale.required(),
+});
 
 const saleProductsDetails = Joi.object({
   idSale: idSale.required(),
   idProduct: idProduct.required(),
   amount: amount.required(),
   price: price.required(),
-
 });
 
 module.exports = {
@@ -50,5 +53,5 @@ module.exports = {
   updateSaleSchema,
   getSaleSchema,
   saleProductsDetails,
-  getSaleDetails
+  getSaleDetails,
 };
