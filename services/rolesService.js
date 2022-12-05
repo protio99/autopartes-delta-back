@@ -24,6 +24,16 @@ class RolesService {
 
     return newRol;
   }
+  async update(id, newData) {
+    const role = await this.findById(id);
+    const rta = await role.update(newData);
+    return rta;
+  }
+  // async update(id, newData) {
+  //   const role = await this.findById(id);
+  //   const rta = await role.update(newData);
+  //   return rta;
+  // }
 
   async find() {
     const rta = await models.Roles.findAll();
@@ -59,11 +69,7 @@ class RolesService {
     return role;
   }
 
-  async update(id, newData) {
-    const role = await this.findById(id);
-    const rta = await role.update(newData);
-    return rta;
-  }
+
 
   async delete(id) {
     const role = await this.findById(id);

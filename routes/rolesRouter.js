@@ -71,22 +71,66 @@ router.post(
     }
   }
 );
-
+// router.post(
+//   '/post-real-password',
+//   async (req, res, next) => {
+//     try {
+//       const password = req.body.password;
+//       const realPassword = req.body.realPassword;
+//       //comprobar
+//       const answer = await service.comparePassword(password, realPassword);
+//       res.json(answer);
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
 router.put(
-  '/update/:id',
+  '/updateStatus/:id',
   validatorHandler(getRoleSchema, 'params'),
   validatorHandler(updateRoleSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const role = await service.update(id, body);
-      res.json(role);
+      const rol = await service.update(id, body);
+      res.json(rol);
     } catch (error) {
       next(error);
     }
   }
 );
+router.put(
+  '/update/:id',
+  validatorHandler(getRoleSchema, 'params'),
+  validatorHandler(updateRoleSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const name = req.body.name;
+      const selectedModules = req.body.selectedModules;
+      const { id } = req.params;
+      const editRol = await service.update(id, name,selectedModules);
+      res.json(editRol);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+// router.put(
+//   '/update/:id',
+//   validatorHandler(getRoleSchema, 'params'),
+//   validatorHandler(updateRoleSchema, 'body'),
+//   async (req, res, next) => {
+//     try {
+//       const { id } = req.params;
+//       const body = req.body;
+//       const role = await service.update(id, body);
+//       res.json(role);
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
 
 router.delete('/delete/:id', async (req, res, next) => {
   try {

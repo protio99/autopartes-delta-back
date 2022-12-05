@@ -94,7 +94,7 @@ const clientsSchema = {
 class Clients extends Model {
   static associate(models) {
     this.belongsTo(models.Users, {
-      foreignKey: 'id',
+      foreignKey: 'idUser',
       as: 'users',
     });
     this.hasOne(models.Sales, {

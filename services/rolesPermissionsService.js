@@ -25,9 +25,15 @@ class RolesPermissionsService {
     return rolePermission;
   }
 
-  async update(id, newData) {
+  // async update(id, newData) {
+  //   const rolePermission = await this.findById(id);
+  //   const rta = await rolePermission.update(newData);
+  //   return rta;
+  // }
+  
+  async update(id,data) {
     const rolePermission = await this.findById(id);
-    const rta = await rolePermission.update(newData);
+    const rta = await models.rolePermission.update(data);
     return rta;
   }
 
@@ -41,8 +47,8 @@ class RolesPermissionsService {
     const options = {
       include: [
         {
-          association: 'permissions',
-          include: ['modules_permissions'],
+          association: 'modules',
+          include: ['roles_permissions'],
         },
       ],
 
