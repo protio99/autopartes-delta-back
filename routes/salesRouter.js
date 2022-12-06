@@ -159,9 +159,28 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async (req, res, next) => {
     try {
-      const { password, idSale } = req.body;
+      const { password, idSale, cancelReason, productsDetailOfSale } = req.body;
       const id = req.user.sub;
-      const permissions = await service.cancelSale(id, password, idSale);
+      const permissions = await service.cancelSale(
+        id,
+        password,
+        idSale,
+        cancelReason,
+        productsDetailOfSale
+      );
+      res.json(permissions);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.post(
+  '/verify-rol',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const idRol = req.user.role;
+      const permissions = await service.verifyRol(idRol);
       res.json(permissions);
     } catch (error) {
       next(error);

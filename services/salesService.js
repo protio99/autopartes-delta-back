@@ -20,7 +20,6 @@ class SalesService {
   constructor() {}
 
   async create(data) {
-    console.log('.............', data);
     const newSale = await models.Sales.create(data);
     return newSale;
   }
@@ -59,13 +58,11 @@ class SalesService {
     const sale = {
       idClient: newClient.dataValues.id,
       saleDate: this.formatDate(new Date()),
-      // statusSale: 'Activo',
-      // statusPayment: 'Pendiente',
+      statusSale: 'Activo',
+      statusPayment: 'Pagado',
       totalPurchase: total,
-      annulSale: 1,
       typeSale: 1,
     };
-
     const newSale = await this.create(sale);
     for (const product in cart) {
       const data = {
@@ -75,7 +72,6 @@ class SalesService {
         price: cart[product].price,
       };
       await models.SalesDetails.create(data);
-      await _productsService.discountProduct(data.idProduct, data);
     }
     return {
       redirect: response.body.init_point,
@@ -302,7 +298,8 @@ class SalesService {
     });
     return rta;
   }
-  async cancelSale(id, password, idSale) {
+
+  async cancelSale(id, password, idSale, cancelReason, productsDetailOfSale) {
     const user = await models.Users.findByPk(id);
     if (!user) {
       throw boom.notFound('user not found');
@@ -313,11 +310,29 @@ class SalesService {
     if (!isMatch) {
       throw boom.unauthorized('Clave incorrecta');
     }
+    productsDetailOfSale.forEach(async (element) => {
+      const amountSale = element.amount;
+      const product = await models.Products.findByPk(element.idProduct, {
+        attributes: { exclude: ['idProduct'] },
+      });
+      const newAmountProduct = product.dataValues.amount + amountSale;
+      await product.update({
+        amount: newAmountProduct,
+      });
+    });
     const sale = await this.findById(idSale);
     const rta = await sale.update({
       statusSale: 'Anulada',
+      reason: cancelReason,
     });
     return rta;
+  }
+
+  async verifyRol(idRol) {
+    if (idRol === 1) {
+      return true;
+    }
+    return false;
   }
 }
 

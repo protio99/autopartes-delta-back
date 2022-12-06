@@ -6,13 +6,11 @@ const {
   updatePurchaseBuySchema,
   getBuySchema,
   buyDetails,
-  getBuyDetails
+  getBuyDetails,
 } = require('../schema/buySchema');
 const router = express.Router();
 
 const service = new BuysService();
-
-
 
 router.get(
   '/get-buy-details/:idBuy',
@@ -55,9 +53,8 @@ router.post(
       const body = req.body;
       const newBuy = await service.create(body);
       res.status(201).json(newBuy);
-      
     } catch (error) {
-        next(error);
+      next(error);
     }
   }
 );
@@ -69,9 +66,8 @@ router.post(
       const body = req.body;
       const newBuy = await service.asocciateProducts(body);
       res.status(201).json(newBuy);
-      
     } catch (error) {
-        next(error);
+      next(error);
     }
   }
 );
@@ -85,6 +81,24 @@ router.put(
       const { id } = req.params;
       const body = req.body;
       const buy = await service.update(id, body);
+      res.json(buy);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  '/cancel-buy/:id',
+  validatorHandler(getBuySchema, 'params'),
+  // validatorHandler(updatePurchaseBuySchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { reason, productsDetailOfBuy } = req.body;
+      // console.log('new data desde la ruta', newData);
+
+      const buy = await service.cancelBuy(id, reason, productsDetailOfBuy);
       res.json(buy);
     } catch (error) {
       next(error);
