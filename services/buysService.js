@@ -58,10 +58,10 @@ class BuysService {
     const rta = await buy.update(newData);
     return rta;
   }
-  async cancelBuy(id, reason, productsDetailOfBuy) {
-    console.log('reason', reason);
-    console.log('products', productsDetailOfBuy);
-    console.log('id', id);
+  async cancelBuy(id, reason, productsDetailOfBuy, idRol) {
+    if (idRol !== 1) {
+      throw boom.unauthorized('No tienes acceso a esta funcionalidad ');
+    }
     const buy = await this.findById(id);
     if (!reason) {
       throw boom.badData('Los datos recibidos de la compra son incorrectos');

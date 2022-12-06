@@ -9,7 +9,7 @@ const {
   getBuyDetails,
 } = require('../schema/buySchema');
 const router = express.Router();
-
+const passport = require('passport');
 const service = new BuysService();
 
 router.get(
@@ -91,14 +91,18 @@ router.put(
 router.post(
   '/cancel-buy/:id',
   validatorHandler(getBuySchema, 'params'),
-  // validatorHandler(updatePurchaseBuySchema, 'body'),
+  passport.authenticate('jwt', { session: false }),
   async (req, res, next) => {
     try {
       const { id } = req.params;
+      const idRol = req.user.role;
       const { reason, productsDetailOfBuy } = req.body;
-      // console.log('new data desde la ruta', newData);
-
-      const buy = await service.cancelBuy(id, reason, productsDetailOfBuy);
+      const buy = await service.cancelBuy(
+        id,
+        reason,
+        productsDetailOfBuy,
+        idRol
+      );
       res.json(buy);
     } catch (error) {
       next(error);

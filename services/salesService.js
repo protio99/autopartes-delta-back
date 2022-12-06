@@ -304,6 +304,9 @@ class SalesService {
     if (!user) {
       throw boom.notFound('user not found');
     }
+    if (user.id !== 1) {
+      throw boom.unauthorized('No tienes acceso a esta funcionalidad');
+    }
     const userPassword = user.dataValues.password;
     const isMatch = await bcrypt.compare(password, userPassword);
 

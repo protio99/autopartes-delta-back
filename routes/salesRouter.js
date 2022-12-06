@@ -10,7 +10,6 @@ const {
 } = require('../schema/saleSchema');
 const passport = require('passport');
 const router = express.Router();
-
 const service = new SalesService();
 
 router.get('/', async (req, res) => {
