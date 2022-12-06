@@ -1,4 +1,3 @@
-//Boom es una libreria que ayuda a manejar los middleware HttpErrors de una forma mas sencilla
 const boom = require('@hapi/boom');
 const { models } = require('../librerias/sequelize');
 const RolesPermissionsService = require('./rolesPermissionsService');
@@ -24,16 +23,29 @@ class RolesService {
 
     return newRol;
   }
-  async update(id, newData) {
+  async update(id, newData, selectedModules) {
     const role = await this.findById(id);
+    if (!role) {
+      throw boom.badData('Verifique los datos enviados del rol');
+    }
+    const currentPermissions = await models.RolesPermissions.findAll({
+      where: {
+        idRol: id,
+      },
+    });
+    currentPermissions.forEach(async (permission) => {
+      await permission.destroy();
+    });
+
+    selectedModules.forEach(async (newPermission) => {
+      await models.RolesPermissions.create({
+        idRol: id,
+        idModule: newPermission.id,
+      });
+    });
     const rta = await role.update(newData);
     return rta;
   }
-  // async update(id, newData) {
-  //   const role = await this.findById(id);
-  //   const rta = await role.update(newData);
-  //   return rta;
-  // }
 
   async find() {
     const rta = await models.Roles.findAll();
@@ -68,8 +80,6 @@ class RolesService {
     }
     return role;
   }
-
-
 
   async delete(id) {
     const role = await this.findById(id);
