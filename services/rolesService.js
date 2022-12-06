@@ -47,6 +47,26 @@ class RolesService {
     return rta;
   }
 
+  async updateStatus(id, newStatus) {
+    console.log('fdsdf', newStatus);
+    const rol = await models.Roles.findByPk(id);
+    if (!rol) {
+      throw boom.notFound('No se encontro un rol con ese id');
+    }
+    const user = await models.Users.findAll({
+      where: {
+        idRol: id,
+      },
+    });
+
+    if (user.length) {
+      throw boom.unauthorized('Este rol tiene usuarios asociados');
+    }
+    const rta = await rol.update({
+      status: newStatus,
+    });
+    return rta;
+  }
   async find() {
     const rta = await models.Roles.findAll();
     return rta;

@@ -71,15 +71,15 @@ router.post(
   }
 );
 
-router.put(
+router.post(
   '/updateStatus/:id',
-  validatorHandler(getRoleSchema, 'params'),
-  validatorHandler(updateRoleSchema, 'body'),
+  // validatorHandler(getRoleSchema, 'params'),
+  // validatorHandler(updateRoleSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const body = req.body;
-      const rol = await service.update(id, body);
+      const { newStatus } = req.body;
+      const rol = await service.updateStatus(id, newStatus);
       res.json(rol);
     } catch (error) {
       next(error);
