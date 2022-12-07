@@ -91,7 +91,7 @@ class ProductsService {
       ],
       attributes: { exclude: ['idProduct'] },
       where: {
-        [Op.or]: [
+        [Op.and]: [
           {
             price: {
               [Op.gt]: 0,
@@ -128,29 +128,30 @@ class ProductsService {
   }
 
   async verifyChangeStatusProduct(productId) {
+    const product = await this.findById(productId);
+    const statusBrand = product.brand.status;
+    if (!statusBrand) {
+      return false;
+    }
+    const statusCategory = product.category.status;
+
+    if (!statusCategory) {
+      return false;
+    }
+
     const vehiclesWhereProduct = await models.ProductsVehicles.findAll({
       include: ['vehicles'],
       where: {
         idProduct: productId,
       },
     });
-    // some method return a boolean value
     const thereAreSomeActiveVehicle = vehiclesWhereProduct.some(
+      // some method return a boolean value
       (produtVehicle) => {
         return produtVehicle.vehicles.status === true;
       }
     );
-    const product = await this.findById(productId);
-    const statusBrand = product.brand.status;
-    const statusCategory = product.category.status;
-
-    if (!statusBrand) {
-      return false;
-    }
-    if (!statusCategory) {
-      return false;
-    }
-    if (thereAreSomeActiveVehicle) {
+    if (!thereAreSomeActiveVehicle) {
       return false;
     }
     return true;

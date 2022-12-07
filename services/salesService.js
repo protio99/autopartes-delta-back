@@ -11,6 +11,7 @@ const _clientsService = new ClientsService();
 const _productsService = new ProductsService();
 const sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
+
 // SDK de Mercado Pago
 const mercadopago = require('mercadopago');
 mercadopago.configure({
@@ -114,6 +115,7 @@ class SalesService {
         'idProduct',
         [sequelize.fn('sum', sequelize.col('amount')), 'total_amount'],
       ],
+
       group: ['idProduct'],
       order: [[sequelize.col('total_amount'), 'DESC']],
       limit: 3,
@@ -126,8 +128,11 @@ class SalesService {
         return getProduct;
       })
     );
+    const productsFiltered = products.filter((product) => {
+      product.amount > 0 && product.state === true && product.price > 0;
+    });
 
-    return products;
+    return productsFiltered;
   }
 
   async createFromWebSiteWithToken(personalInfo, shippingInfo, cart, userId) {

@@ -41,6 +41,16 @@ class BrandsService {
     return rta;
   }
 
+  async getAllVehiclesByIDProduct(idProduct) {
+    const rta = await models.ProductsVehicles.findAll({
+      include: ['vehicles'],
+      where: {
+        idProduct,
+      },
+    });
+    return rta;
+  }
+
   async changeStatusOfBrand(id, data) {
     const vehiclesWhereBrand = await this.findVehiclesWhereBrand(id);
     const rta = await models.Brands.update(
@@ -48,23 +58,28 @@ class BrandsService {
       { where: { id: id } }
     );
     if (vehiclesWhereBrand && data.status === false) {
-      await vehiclesWhereBrand.forEach((vehicle) => {
-        // const productsVehicle = this.findProductsVehiclesWhere(vehicle.id);
+      await vehiclesWhereBrand.forEach(async (vehicle) => {
         const rtaVehicles = models.Vehicles.update(
           { status: data.status },
           { where: { id: vehicle.id } }
         );
-        // if (productsVehicle) {
-        //   productsVehicle.forEach((productVehicle) => {
-        //     const productId = productVehicle.idProduct;
-        //     const rtaProducts = models.Products.update(
-        //       { state: data.status },
-        //       { where: { id: productId } }
-        //     );
-        //     return rtaProducts;
-        //   });
-        // }
-        return  rtaVehicles;
+        const productsVehicle = await this.findProductsVehiclesWhere(
+          vehicle.id
+        );
+        if (productsVehicle) {
+          productsVehicle.forEach(async (productVehicle) => {
+            const productId = productVehicle.idProduct;
+            const vehicles = await this.getAllVehiclesByIDProduct(productId);
+            console.log('vehicles', vehicles);
+            if (!vehicles.some((v) => v.dataValues.vehicles.status === true)) {
+              models.Products.update(
+                { state: data.status },
+                { where: { id: productId } }
+              );
+            }
+          });
+        }
+        return rtaVehicles;
       });
 
       return rta;

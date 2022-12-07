@@ -23,7 +23,7 @@ class RolesService {
 
     return newRol;
   }
-  async update(id, newData, selectedModules) {
+  async update(id, name, selectedModules) {
     const role = await this.findById(id);
     if (!role) {
       throw boom.badData('Verifique los datos enviados del rol');
@@ -43,7 +43,7 @@ class RolesService {
         idModule: newPermission.id,
       });
     });
-    const rta = await role.update(newData);
+    const rta = await role.update({ name });
     return rta;
   }
 

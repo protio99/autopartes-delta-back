@@ -2,11 +2,7 @@ const express = require('express');
 const RolesService = require('../services/rolesService');
 const passport = require('passport');
 const validatorHandler = require('../middlewares/validatorHandler');
-const {
-  updateRoleSchema,
-  getRoleSchema,
-  getRoleByNameSchema,
-} = require('../schema/roleSchema');
+const { getRoleSchema, getRoleByNameSchema } = require('../schema/roleSchema');
 const router = express.Router();
 
 const service = new RolesService();
