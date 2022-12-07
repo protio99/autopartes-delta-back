@@ -70,6 +70,23 @@ class BuysService {
       throw boom.badData('No encontro la compra');
     }
 
+    const productsWithStock = await productsDetailOfBuy.reduce(
+      async (accum, element) => {
+        const amountBuy = element.amount;
+        const product = await models.Products.findByPk(element.idProduct, {
+          attributes: { exclude: ['idProduct'] },
+        });
+        if (product.dataValues.amount < amountBuy) {
+          return await accum;
+        }
+        return [...(await accum), element];
+      },
+      []
+    );
+
+    if (productsDetailOfBuy.length !== productsWithStock.length) {
+      throw boom.badData('without_stock');
+    }
     productsDetailOfBuy.forEach(async (element) => {
       const amountBuy = element.amount;
       const product = await models.Products.findByPk(element.idProduct, {

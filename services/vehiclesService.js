@@ -93,7 +93,15 @@ class VehiclesService {
 
     return arrayOfVehicles;
   }
-
+  async getAllVehiclesByIDProduct(idProduct) {
+    const rta = await models.ProductsVehicles.findAll({
+      include: ['vehicles'],
+      where: {
+        idProduct,
+      },
+    });
+    return rta;
+  }
   async changeStatusVehicle(idVehicle, data) {
     let brand = await this.getBrandByVehicle(idVehicle);
     if (brand.status === false && data.status === true) {
@@ -103,16 +111,20 @@ class VehiclesService {
       { status: data.status },
       { where: { id: idVehicle } }
     );
-    const products = this.getProductsWhereIdVehicle(idVehicle);
+    const products = await this.getProductsWhereIdVehicle(idVehicle);
 
     if (data.status === false) {
-      (await products).forEach((product) => {
-        const idProduct = product.idProduct;
-        const response = models.Products.update(
-          { state: data.status },
-          { where: { id: idProduct } }
+      products.forEach(async (product) => {
+        console.log('fafsdfsdfsd', product);
+        const vehicles = await this.getAllVehiclesByIDProduct(
+          product.dataValues.idProduct
         );
-        return response;
+        if (!vehicles.some((v) => v.dataValues.vehicles.status === true)) {
+          await models.Products.update(
+            { state: data.status },
+            { where: { id: product.dataValues.idProduct } }
+          );
+        }
       });
     }
     return rta;

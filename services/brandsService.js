@@ -70,7 +70,6 @@ class BrandsService {
           productsVehicle.forEach(async (productVehicle) => {
             const productId = productVehicle.idProduct;
             const vehicles = await this.getAllVehiclesByIDProduct(productId);
-            console.log('vehicles', vehicles);
             if (!vehicles.some((v) => v.dataValues.vehicles.status === true)) {
               models.Products.update(
                 { state: data.status },
