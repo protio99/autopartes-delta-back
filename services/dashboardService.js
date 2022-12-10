@@ -43,13 +43,14 @@ class DashboardService {
   async getTop10MostSeledProducts(topTenDate) {
     const { year, month } = this.formatDate(topTenDate);
     const [results] = await sequelize.query(
-      `SELECT p.id, p.name, p.price, p.amount AS 'stock', COUNT(sd.amount) AS 'sold_units', s.sale_date AS 'sale_date'
+      `
+      SELECT p.id, p.name, p.price, p.amount AS 'stock', COUNT(sd.amount) AS 'sold_units', MONTH(s.sale_date) AS 'month_date', YEAR(s.sale_date) AS 'year' 
       FROM products AS p 
       INNER JOIN sales_details AS sd ON p.id= sd.id_product 
       INNER JOIN sales AS s ON s.id = sd.id_sale 
-      WHERE MONTH(s.sale_date) = ${month} AND  YEAR(s.sale_date) = ${year}
-      GROUP BY p.id, s.sale_date
-      ORDER BY sold_units DESC
+      WHERE MONTH(s.sale_date) = ${month} AND YEAR(s.sale_date) = ${year} 
+      GROUP BY p.id, MONTH(s.sale_date),YEAR(s.sale_date) 
+      ORDER BY sold_units DESC 
       LIMIT 10;`
     );
     return [results];
@@ -57,13 +58,13 @@ class DashboardService {
   async getTop10LessSoldProducts(topTenDate) {
     const { year, month } = this.formatDate(topTenDate);
     const [results] = await sequelize.query(
-      `SELECT p.id, p.name, p.price, p.amount AS 'stock', COUNT(sd.amount) AS 'sold_units', s.sale_date AS 'sale_date'
+      `SELECT p.id, p.name, p.price, p.amount AS 'stock', COUNT(sd.amount) AS 'sold_units', MONTH(s.sale_date) AS 'month_date', YEAR(s.sale_date) AS 'year' 
       FROM products AS p 
       INNER JOIN sales_details AS sd ON p.id= sd.id_product 
       INNER JOIN sales AS s ON s.id = sd.id_sale 
-      WHERE MONTH(s.sale_date) = ${month} AND  YEAR(s.sale_date) = ${year}
-      GROUP BY p.id, s.sale_date
-      ORDER BY sold_units ASC
+      WHERE MONTH(s.sale_date) = ${month} AND YEAR(s.sale_date) = ${year} 
+      GROUP BY p.id, MONTH(s.sale_date),YEAR(s.sale_date) 
+      ORDER BY sold_units ASC 
       LIMIT 10;`
     );
     return [results];

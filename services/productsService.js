@@ -6,14 +6,14 @@ const CategoriesService = require('./categoriesService');
 const ProductsBrandsService = require('./productsBrandsService');
 
 const _categoriesService = new CategoriesService();
-const _productsService = new ProductsBrandsService();
+const _productsBrandService = new ProductsBrandsService();
 class ProductsService {
   async create(data) {
     const brandId = data.idBrand;
     const categoryId = data.idCategory;
 
-    let categoryData = await _categoriesService.findById(brandId);
-    let brandData = await _productsService.findById(categoryId);
+    let categoryData = await _categoriesService.findById(categoryId);
+    let brandData = await _productsBrandService.findById(brandId);
 
     if (!categoryData.status || !brandData.status) {
       let newData = {

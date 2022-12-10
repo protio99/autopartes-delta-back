@@ -4,7 +4,7 @@ const validatorHandler = require('../middlewares/validatorHandler');
 const {
   updateImagensProductsSchema,
   getImegesProductsSchema,
-  findByIdProductSchema
+  findByIdProductSchema,
 } = require('../schema/imagesProductsSchema');
 const router = express.Router();
 
@@ -72,20 +72,17 @@ function getImageName(idProduct, file) {
 
 let upload = multer({ storage, fileFilter });
 
-router.post(
-  '/create/:idProduct',
-  upload.single('photo'),
-  async (req, res) => {
-    try {
-      const { idProduct } = req.params;
-      const url = '/public/images/' + getImageName(idProduct, req.file);
-      const newImageProduct = await service.create(idProduct, url);
-      res.status(201).json(newImageProduct);
-    } catch (error) {
-      res.status(500).json(error)
-    }
+router.post('/create/:idProduct', upload.single('photo'), async (req, res) => {
+  try {
+    const { idProduct } = req.params;
+    const url = '/public/images/' + getImageName(idProduct, req.file);
+    const newImageProduct = await service.create(idProduct, url);
+    res.status(201).json(newImageProduct);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
   }
-);
+});
 
 router.put(
   '/update/:id',
