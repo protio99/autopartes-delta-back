@@ -166,6 +166,7 @@ class SalesService {
     const response = await mercadopago.preferences.create({
       items: items,
     });
+    console.log('Response de mercado pago', response);
     const sale = {
       idClient: newClient.dataValues.id,
       saleDate: this.formatDate(new Date()),

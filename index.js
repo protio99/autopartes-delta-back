@@ -4,31 +4,31 @@ const {
   logErrors,
   errorsHandler,
   boomErrorHandler,
-  ormErrorHandler
+  ormErrorHandler,
 } = require('./middlewares/errorHandler');
 const cors = require('cors');
-
+const config = require('./config/config');
 
 const app = express();
-const port = 5000;
+const port = config.port;
 app.use(express.json());
 require('./utils/auth');
 
 const whitelist = ['http://localhost:3000', 'http://localhost:8081'];
 const options = {
-  origin: (origin, callback) =>{
-    if(whitelist.includes(origin)){
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin)) {
       callback(null, true);
-    }else{
-      callback(new Error('No tienes acceso'))
+    } else {
+      callback(new Error('No tienes acceso'));
     }
-  }
-}
+  },
+};
 
-app.use('/public', express.static(__dirname + '/public'));  
+app.use('/public', express.static(__dirname + '/public'));
 app.use(cors(options));
 
-app.get('/' ,(req, res) => {
+app.get('/', (req, res) => {
   res.send('Hello world');
 });
 
@@ -39,7 +39,6 @@ app.post('/', (req, res) => {
 app.listen(port, () => {
   console.log('Connected to port 5000');
 });
-
 
 routerApi(app);
 app.use(logErrors);
